@@ -1,13 +1,18 @@
 import { createBrowserRouter, redirect } from "react-router";
 import { supabase } from "./supabase/client.ts";
-import Home from "./pages/Home.tsx";
-import Login from "./pages/Login.tsx";
-import Register from "./pages/Register.tsx";
-import Dashboard from "./pages/Dashboard.tsx";
-import ErrorPage from "./pages/ErrorPage.tsx";
-import NotFound from "./pages/NotFound.tsx";
 import RootLayout from "./layout/RouterLayout.tsx";
-import Client from "./pages/Client.tsx";
+import { lazy } from "react";
+
+const ResetPassword = lazy(() => import("./pages/ResetPassword.tsx"));
+const Login = lazy(() => import("./pages/Login.tsx"));
+const Register = lazy(() => import("./pages/Register.tsx"));
+const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
+const Home = lazy(() => import("./pages/Home.tsx"));
+const Client = lazy(() => import("./pages/Client.tsx"));
+const NotFound = lazy(() => import("./pages/NotFound.tsx"));
+const ErrorPage = lazy(() => import("./pages/ErrorPage.tsx"));
+
+
 
 const getUser = async () => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -82,9 +87,21 @@ export const Router = createBrowserRouter([
             {
                 path: "*",
                 element: <NotFound />,
-            }
-        ]
-    }
+            },
+            {
+                path: "/resetPassword",
+                element: <ResetPassword />,
+                errorElement: <ErrorPage />,
+                loader: async () => {
+                    const user = await getUser();
+                    if (user) {
+                        return redirect("/dashboard");
+                    }
+                    return user;
+                },
+            },
+        ],
+    },
 ],
     { basename: "/" }
 );
