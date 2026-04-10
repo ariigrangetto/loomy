@@ -7,7 +7,6 @@ const ResetPassword = lazy(() => import("./pages/ResetPassword.tsx"));
 const Login = lazy(() => import("./pages/Login.tsx"));
 const Register = lazy(() => import("./pages/Register.tsx"));
 const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
-const Home = lazy(() => import("./pages/Home.tsx"));
 const Client = lazy(() => import("./pages/Client.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const ErrorPage = lazy(() => import("./pages/ErrorPage.tsx"));
@@ -24,26 +23,13 @@ export const Router = createBrowserRouter([
         element: <RootLayout />,
         children: [
             {
-                path: "/",
-                element: <Home />,
-                errorElement: <ErrorPage />,
-                loader: async () => {
-                    const user = await getUser();
-                    if (!user) {
-                        return redirect("/login");
-                    }
-                    redirect("/dashboard");
-                    return user;
-                }
-            },
-            {
                 path: "/login",
                 element: <Login />,
                 errorElement: <ErrorPage />,
                 loader: async () => {
                     const user = await getUser();
                     if (user) {
-                        return redirect("/dashboard");
+                        return redirect("/");
                     }
                     return user;
                 }
@@ -55,13 +41,13 @@ export const Router = createBrowserRouter([
                 loader: async () => {
                     const user = await getUser();
                     if (user) {
-                        return redirect("/dashboard");
+                        return redirect("/");
                     }
                     return user;
                 }
             },
             {
-                path: "/dashboard",
+                path: "/",
                 element: <Dashboard />,
                 errorElement: <ErrorPage />,
                 loader: async () => {
@@ -95,7 +81,7 @@ export const Router = createBrowserRouter([
                 loader: async () => {
                     const user = await getUser();
                     if (user) {
-                        return redirect("/dashboard");
+                        return redirect("/");
                     }
                     return user;
                 },
