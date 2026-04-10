@@ -45,8 +45,8 @@ export default function Register() {
     return (
         <main className="min-h-screen flex flex-col items-center justify-center p-6 bg-[#f7f7f9] relative font-sans">
             <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center overflow-hidden">
-                <div className="absolute top-0 bottom-0 w-[1px] bg-white/80"></div>
-                <div className="absolute left-0 right-0 h-[1px] bg-white/80"></div>
+                <div className="absolute top-0 bottom-0 w-px bg-white/80"></div>
+                <div className="absolute left-0 right-0 h-px bg-white/80"></div>
             </div>
 
             <div className="relative z-10 w-full max-w-[420px]">
@@ -128,14 +128,14 @@ export default function Register() {
                             Join Loomy <span className="text-[16px] leading-none mb-[2px] font-light">&rarr;</span>
                         </button>
                     </form>
-                    
+
                     {error && (
                         <div className="mt-4 p-3 bg-red-50 border border-red-100 rounded-[12px] text-red-500 text-[13px] text-center font-medium">
                             {error}
                         </div>
                     )}
 
-                    <div className="mt-8 pt-8 border-t border-gray-50 text-center">
+                    <div className="pt-8 border-t border-gray-50 text-center">
                         <Link to="/login" className="text-[13px] text-gray-500 font-medium">
                             Already have an account? <span className="font-semibold text-[#6b58dc] hover:text-[#5a46c8] transition-colors ml-1">Log in</span>
                         </Link>
