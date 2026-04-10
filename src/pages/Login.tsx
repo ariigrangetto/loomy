@@ -42,8 +42,8 @@ export default function Login() {
     return (
         <main className="min-h-screen flex flex-col items-center justify-center p-6 bg-[#f7f7f9] relative font-sans">
             <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center overflow-hidden">
-                <div className="absolute top-0 bottom-0 w-[1px] bg-white/80"></div>
-                <div className="absolute left-0 right-0 h-[1px] bg-white/80"></div>
+                <div className="absolute top-0 bottom-0 w-px bg-white/80"></div>
+                <div className="absolute left-0 right-0 h-px bg-white/80"></div>
             </div>
 
             <div className="relative z-10 w-full max-w-[420px]">
@@ -60,6 +60,16 @@ export default function Login() {
                     </div>
 
                     <form className="flex flex-col gap-6" action="submit" onSubmit={handleSubmitForm}>
+                        <div className="flex justify-center m-auto w-full">
+                            <button className="flex items-center gap-5 border border-gray-200/30 rounded-lg px-4 py-3 cursor-pointer w-full">
+                                <img
+                                    src="https://www.svgrepo.com/show/475656/google-color.svg"
+                                    alt="Google"
+                                    className="w-5 h-5"
+                                />
+                                <span>Continue with Google</span>
+                            </button>
+                        </div>
                         <div className="flex flex-col gap-2">
                             <label className="text-[10px] font-bold text-[#4a4a5e] uppercase tracking-widest" htmlFor="email">Professional Email</label>
                             <input
@@ -110,7 +120,7 @@ export default function Login() {
                         </div>
                     )}
 
-                    <div className="mt-8 pt-8 border-t border-gray-50 text-center">
+                    <div className="pt-8 border-t border-gray-50 text-center">
                         <Link to="/register" className="text-[13px] text-gray-500 font-medium">
                             New to the platform? <span className="font-semibold text-[#6b58dc] hover:text-[#5a46c8] transition-colors ml-1">Join Loomy</span>
                         </Link>
