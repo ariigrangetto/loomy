@@ -16,19 +16,24 @@ export default function Register() {
     const [error, setErrorMessage] = useState<string>("");
     const { register } = useUser();
     const timeout = useRef<number | null>(null);
+    const [successfulMessage, setSuccessfulMessage] = useState<string>("");
 
     const handleSubmitForm = async (e: React.FormEvent) => {
         e.preventDefault();
         const error = await register(state.email, state.name, state.password, state.lastName);
         if (error) {
             setErrorMessage(error && "status" in error && (error as any).status === 400 ? "The email is not registered" : "Something went wrong. Please try again!");
+        } else {
+            setSuccessfulMessage("Email sent successfully. Please check your inbox to confirm your email.")
         }
+
 
         if (timeout.current) {
             clearTimeout(timeout.current);
         }
         timeout.current = setTimeout(() => {
             setErrorMessage("");
+            setSuccessfulMessage("");
         }, 3000);
 
     }
@@ -62,7 +67,18 @@ export default function Register() {
                     </div>
 
                     <form className="flex flex-col gap-6" action="submit" onSubmit={handleSubmitForm}>
+                        <div className="flex justify-center m-auto w-full">
+                            <button className="flex items-center gap-5 border border-gray-200/30 rounded-lg px-4 py-3 cursor-pointer w-full">
+                                <img
+                                    src="https://www.svgrepo.com/show/475656/google-color.svg"
+                                    alt="Google"
+                                    className="w-5 h-5"
+                                />
+                                <span>Continue with Google</span>
+                            </button>
+                        </div>
                         <div className="grid grid-cols-2 gap-4">
+
                             <div className="flex flex-col gap-2">
                                 <label className="text-[10px] font-bold text-[#4a4a5e] uppercase tracking-widest" htmlFor="name">First Name</label>
                                 <input
@@ -129,11 +145,21 @@ export default function Register() {
                         </button>
                     </form>
 
-                    {error && (
-                        <div className="mt-4 p-3 bg-red-50 border border-red-100 rounded-[12px] text-red-500 text-[13px] text-center font-medium">
-                            {error}
-                        </div>
-                    )}
+                    {
+                        error && (
+                            <div className="mt-4 p-3 bg-red-50 border border-red-100 rounded-[12px] text-red-500 text-[13px] text-center font-medium">
+                                {error}
+                            </div>
+                        )
+                    }
+
+                    {
+                        successfulMessage && (
+                            <div className="mt-4 p-3 bg-green-50 border border-green-100 rounded-[12px] text-green-500 text-[13px] text-center font-medium">
+                                {successfulMessage}
+                            </div>
+                        )
+                    }
 
                     <div className="pt-8 border-t border-gray-50 text-center">
                         <Link to="/login" className="text-[13px] text-gray-500 font-medium">
