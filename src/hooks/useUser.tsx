@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { UserContext } from "../context/userActions";
+import { UserContext } from "../context/userActions.tsx";
 
 export default function useUser() {
     const context = useContext(UserContext);
