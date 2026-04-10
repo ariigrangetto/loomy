@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import useUser from "../hooks/useUser.tsx";
+import { Link } from "react-router";
 
 
 interface State {
@@ -10,7 +11,6 @@ interface State {
 }
 
 export default function Register() {
-
     const [state, setState] = useState<State>({ email: "", password: "", name: "", lastName: "" })
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [error, setErrorMessage] = useState<string>("");
@@ -43,86 +43,108 @@ export default function Register() {
 
 
     return (
-        <main className="min-h-screen flex items-center justify-center p-6 bg-linear-to-br from-gray-900 via-[#1a1c29] to-black relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-                <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-purple-600/20 blur-[120px]"></div>
-                <div className="absolute bottom-[10%] -right-[10%] w-[40%] h-[60%] rounded-full bg-indigo-600/20 blur-[120px]"></div>
+        <main className="min-h-screen flex flex-col items-center justify-center p-6 bg-[#f7f7f9] relative font-sans">
+            <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center overflow-hidden">
+                <div className="absolute top-0 bottom-0 w-[1px] bg-white/80"></div>
+                <div className="absolute left-0 right-0 h-[1px] bg-white/80"></div>
             </div>
 
-            <div className="relative z-10 w-full max-w-md bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl p-8 sm:p-10 shadow-2xl transition-all">
+            <div className="relative z-10 w-full max-w-[420px]">
                 <div className="text-center mb-10">
-                    <h1 className="text-4xl font-bold text-white tracking-tight mb-3">Loomy</h1>
+                    <h1 className="text-[36px] font-extrabold text-[#1a1a2e] tracking-tight mb-2">Loomy</h1>
+                    <p className="text-[10px] font-bold text-gray-500 tracking-[0.25em] uppercase">The Digital Atelier</p>
                 </div>
 
-                <form className="flex flex-col gap-6" action="submit" onSubmit={handleSubmitForm}>
-                    <div className="flex flex-col gap-2.5">
-                        <label className="text-xs font-bold text-gray-300 uppercase tracking-widest ml-1" htmlFor="name">Name</label>
-                        <input
-                            id="name"
-                            className="w-full px-5 py-4 bg-black/40 border border-white/10 rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all shadow-inner"
-                            type="text"
-                            placeholder="Enter name..."
-                            name="name"
-                            onChange={handleBtn}
-                        />
-
-                        <label className="text-xs font-bold text-gray-300 uppercase tracking-widest ml-1" htmlFor="lastName">Last Name</label>
-                        <input
-                            id="lastName"
-                            className="w-full px-5 py-4 bg-black/40 border border-white/10 rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all shadow-inner"
-                            type="text"
-                            placeholder="Enter last name..."
-                            name="lastName"
-                            onChange={handleBtn}
-                        />
-
-                        <label className="text-xs font-bold text-gray-300 uppercase tracking-widest ml-1"
-                            htmlFor="email">Email</label>
-                        <input
-                            id="email"
-                            className="w-full px-5 py-4 bg-black/40 border border-white/10 rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all shadow-inner"
-                            type="text"
-                            placeholder="name@example.com"
-                            name="email"
-                            onChange={handleBtn}
-                        />
+                <div className="bg-white rounded-[16px] p-8 sm:p-10 shadow-[0_8px_40px_rgb(0,0,0,0.03)] border border-gray-100">
+                    <div className="mb-8">
+                        <h2 className="text-[22px] font-bold text-[#1a1a2e] mb-1.5">Create an account</h2>
+                        <p className="text-gray-500 text-[14px]">Join the professional suite.</p>
                     </div>
 
-                    <div className="flex flex-col gap-2.5">
-                        <label className="text-xs font-bold text-gray-300 uppercase tracking-widest ml-1" htmlFor="password">Password</label>
-                        <div className="relative flex items-center">
+                    <form className="flex flex-col gap-6" action="submit" onSubmit={handleSubmitForm}>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="flex flex-col gap-2">
+                                <label className="text-[10px] font-bold text-[#4a4a5e] uppercase tracking-widest" htmlFor="name">First Name</label>
+                                <input
+                                    id="name"
+                                    className="w-full px-4 py-3.5 bg-[#f3f4f6] border border-transparent rounded-[12px] text-gray-900 text-[14px] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/20 focus:bg-white focus:border-[#6b58dc]/30 transition-all"
+                                    type="text"
+                                    placeholder="Enter first name"
+                                    name="name"
+                                    onChange={handleBtn}
+                                />
+                            </div>
 
+                            <div className="flex flex-col gap-2">
+                                <label className="text-[10px] font-bold text-[#4a4a5e] uppercase tracking-widest" htmlFor="lastName">Last Name</label>
+                                <input
+                                    id="lastName"
+                                    className="w-full px-4 py-3.5 bg-[#f3f4f6] border border-transparent rounded-[12px] text-gray-900 text-[14px] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/20 focus:bg-white focus:border-[#6b58dc]/30 transition-all"
+                                    type="text"
+                                    placeholder="Enter last name"
+                                    name="lastName"
+                                    onChange={handleBtn}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col gap-2">
+                            <label className="text-[10px] font-bold text-[#4a4a5e] uppercase tracking-widest" htmlFor="email">Professional Email</label>
                             <input
-                                id="password"
-                                className="w-full pl-5 pr-20 py-4 bg-black/40 border border-white/10 rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all shadow-inner"
-                                type={showPassword ? "text" : "password"}
-                                placeholder="••••••••"
-                                name="password"
+                                id="email"
+                                className="w-full px-4 py-3.5 bg-[#f3f4f6] border border-transparent rounded-[12px] text-gray-900 text-[14px] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/20 focus:bg-white focus:border-[#6b58dc]/30 transition-all"
+                                type="text"
+                                placeholder="name@atelier.com"
+                                name="email"
                                 onChange={handleBtn}
                             />
-                            <button
-                                className="absolute right-5 text-sm font-semibold text-gray-400 hover:text-indigo-400 focus:outline-none transition-colors"
-                                type="button"
-                                onClick={() => setShowPassword(!showPassword)}
-                            >
-                                {showPassword ? "Hide" : "Show"}
-                            </button>
                         </div>
-                    </div>
 
-                    <button
-                        className="mt-2 w-full py-4 px-4 bg-white  text-[18px] hover:bg-gray-100 text-gray-900 font-semibold rounded-2xl transform transition-all active:scale-[0.98] outline-none cursor-pointer"
-                        type="submit"
-                    >
-                        Register
-                    </button>
-                </form>
-                <p className="text-center text-gray-400 flex justify-center gap-2 mt-10 p-5 text-sm">Already have an account? <a href="/login" className="text-white font-bold hover:underline">Login</a></p>
-                {error && (
-                    <div className="mt-6 p-4 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-500 text-sm text-center font-semibold">
-                        {error}
+                        <div className="flex flex-col gap-2">
+                            <label className="text-[10px] font-bold text-[#4a4a5e] uppercase tracking-widest" htmlFor="password">Password</label>
+                            <div className="relative flex items-center">
+                                <input
+                                    id="password"
+                                    className="w-full pl-4 pr-16 py-3.5 bg-[#f3f4f6] border border-transparent rounded-[12px] text-gray-900 text-[14px] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/20 focus:bg-white focus:border-[#6b58dc]/30 transition-all tracking-widest"
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="••••••••"
+                                    name="password"
+                                    onChange={handleBtn}
+                                />
+                                <button
+                                    className="absolute right-4 text-[12px] font-semibold text-gray-400 hover:text-[#6b58dc] focus:outline-none transition-colors"
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >
+                                    {showPassword ? "Hide" : "Show"}
+                                </button>
+                            </div>
+                        </div>
+
+                        <button
+                            className="mt-2 w-full py-4 px-4 bg-[#7460ed] hover:bg-[#6250cc] text-white text-[15px] font-semibold rounded-[12px] shadow-sm hover:shadow-md transform transition-all active:scale-[0.98] outline-none focus:ring-2 focus:ring-[#7460ed]/50 focus:ring-offset-2 flex justify-center items-center gap-2"
+                            type="submit"
+                        >
+                            Join Loomy <span className="text-[16px] leading-none mb-[2px] font-light">&rarr;</span>
+                        </button>
+                    </form>
+                    
+                    {error && (
+                        <div className="mt-4 p-3 bg-red-50 border border-red-100 rounded-[12px] text-red-500 text-[13px] text-center font-medium">
+                            {error}
+                        </div>
+                    )}
+
+                    <div className="mt-8 pt-8 border-t border-gray-50 text-center">
+                        <Link to="/login" className="text-[13px] text-gray-500 font-medium">
+                            Already have an account? <span className="font-semibold text-[#6b58dc] hover:text-[#5a46c8] transition-colors ml-1">Log in</span>
+                        </Link>
                     </div>
-                )}
+                </div>
+
+                <div className="mt-12 text-center text-[11px] font-semibold text-gray-400 flex justify-center items-center gap-4">
+                    <p className="hover:text-gray-600 transition-colors">All rights reserved &copy; 2026</p>
+                </div>
             </div>
         </main>
     )
