@@ -1,6 +1,6 @@
 import { useRef, useState } from "react"
 import useUser from "../hooks/useUser.tsx"
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
 
 interface State {
     email: string
@@ -12,10 +12,14 @@ export default function Login() {
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [error, setErrorMessage] = useState<string>("");
     const { login } = useUser();
+    const navigate = useNavigate();
     const timeout = useRef<number | null>(null);
 
     const handleSubmitForm = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (state.email.trim() === "") {
+            setErrorMessage("Please fill the inputs") //mejorar el mensaje
+        }
         const error = await login(state.email, state.password);
         if (error) {
             setErrorMessage(error && "status" in error && (error as any).status === 400 ? "The email is not registered" : "Something went wrong. Please try again!");
@@ -28,6 +32,10 @@ export default function Login() {
             setErrorMessage("");
         }, 3000);
 
+    }
+
+    const handleResetPassword = () => {
+        navigate("/resetPassword");
     }
 
     const handleBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,7 +93,7 @@ export default function Login() {
                         <div className="flex flex-col gap-2">
                             <div className="flex justify-between items-center">
                                 <label className="text-[10px] font-bold text-[#4a4a5e] uppercase tracking-widest" htmlFor="password">Password</label>
-                                <a href="#" className="text-[11px] font-bold text-[#6b58dc] hover:text-[#5a46c8] transition-colors" tabIndex={-1}>Forgot?</a>
+                                <button onClick={() => handleResetPassword()} className="text-[11px] font-bold text-[#6b58dc] hover:text-[#5a46c8] transition-colors" tabIndex={-1}>Forgot?</button>
                             </div>
                             <div className="relative flex items-center">
                                 <input
