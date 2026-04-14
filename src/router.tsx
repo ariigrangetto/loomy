@@ -55,7 +55,7 @@ export const Router = createBrowserRouter([
                     if (!user) {
                         return redirect("/login");
                     }
-                    return user;
+                    return { user };
                 }
             },
             {
@@ -67,7 +67,7 @@ export const Router = createBrowserRouter([
                     if (!user) {
                         return redirect("/login");
                     }
-                    return user;
+                    return { user };
                 }
             },
             {
