@@ -1,10 +1,16 @@
 import { Outlet } from "react-router";
 import { UserProvider } from "../context/userActions";
+import DashboardProvider from "../context/dashboardContext.tsx";
+import { ThemeProvider } from "../context/ThemeProvider.tsx";
 
 export default function RootLayout() {
     return (
-        <UserProvider>
-            <Outlet />
-        </UserProvider>
+        <ThemeProvider defaultTheme="system">
+            <UserProvider>
+                <DashboardProvider>
+                    <Outlet />
+                </DashboardProvider>
+            </UserProvider>
+        </ThemeProvider>
     )
 }
