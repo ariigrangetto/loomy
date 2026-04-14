@@ -4,3 +4,16 @@ export interface Client {
     created_at: string;
     number?: number
 }
+
+export type State = "pending" | "completed" | "cancelled";
+
+export interface Turno {
+    id: number;
+    created_at: string;
+    date: string;
+    time: string;
+    description: string;
+    client: Client;
+    user_id: string;
+    state: State;
+}
