@@ -3,6 +3,7 @@ export interface Client {
     name: string;
     created_at: string;
     number?: number
+    lastname: string
 }
 
 export type State = "pending" | "completed" | "cancelled";
