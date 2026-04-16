@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 
 type Theme = "light" | "dark" | "system";
 
@@ -36,13 +36,13 @@ export function ThemeProvider({ children, defaultTheme }: ThemeProviderState) {
         root.classList.add(theme);
     }, [theme])
 
-    const value = {
+    const value = useMemo(() => ({
         theme,
         setTheme: (theme: Theme) => {
             localStorage.setItem("theme", theme);
             setTheme(theme);
         }
-    }
+    }), [theme, setTheme]);
 
     return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 }
