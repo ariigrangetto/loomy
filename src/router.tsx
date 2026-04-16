@@ -59,7 +59,7 @@ export const Router = createBrowserRouter([
                 }
             },
             {
-                path: "/client/:id",
+                path: "/client/:name/:lastname",
                 element: <Client />,
                 errorElement: <ErrorPage />,
                 loader: async () => {
@@ -86,6 +86,7 @@ export const Router = createBrowserRouter([
                     return user;
                 },
             },
+
         ],
     },
 ],
