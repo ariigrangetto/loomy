@@ -1,4 +1,4 @@
-import { createContext, useCallback, useMemo, useState } from "react";
+import { createContext, useCallback, useEffect, useMemo, useState } from "react";
 import { supabase } from "../supabase/client.ts";
 import type { Client, State, Turno } from "../types.d.ts";
 
@@ -6,15 +6,59 @@ interface DashboardContextType {
     findClient: (name: string, lastname: string) => Promise<Client[] | undefined>;
     loading: boolean;
     createTurno: (id: string, name: string, lastname: string, description: string, date: string, time: string, state: State) => Promise<boolean>
-    getTurnos: (id: string) => Promise<Turno[] | undefined>
+    getTurnos: () => Promise<void>
     updateTurnoState: (turnoId: number, state: State, userId: string, description: string, date: string) => Promise<boolean>
+    turnos: Turno[] | undefined;
+    deleteFromDashboard: (turnoId: number) => Promise<boolean>;
 }
 
 export const DashboardContext = createContext<DashboardContextType | undefined>(undefined);
 
-export default function DashboardProvider({ children }: { children: React.ReactNode }) {
+export default function DashboardProvider({ children, id }: { children: React.ReactNode, id: string }) {
     const [loading, setLoading] = useState<boolean>(false);
     const [clientId, setClientId] = useState<string | number | null>(null);
+    const [turnos, setTurnos] = useState<Turno[] | undefined>(undefined);
+
+    const getTurnos = useCallback(async () => {
+        setLoading(true);
+        try {
+            const { data, error } = await supabase.from("turnos").select("*, client (*)").eq("user_id", id).order("date", { ascending: true }).order("time", { ascending: true });
+            if (error) {
+                console.error("Error getting turnos", error.message);
+                throw new Error(error.message);
+            }
+            console.log(data);
+            setTurnos(data);
+        } catch (error) {
+            if (error instanceof Error) {
+                throw new Error(`Unexpected error getting turnos: ${error.message}`);
+            }
+            throw new Error("Unexpected error");
+        } finally {
+            setLoading(false);
+        }
+    }, [id]);
+
+
+    useEffect(() => {
+        // Obtenemos los turnos inicialmente cuando el componente carga
+        getTurnos();
+
+        const turnoChnnael = supabase.channel("dashboard-channel")
+            .on("postgres_changes", {
+                event: "*",
+                schema: "public",
+                table: "turnos" // Limitamos a la tabla de turnos
+            }, (payload) => {
+                console.log("Cambio detectado:", payload);
+                getTurnos();
+            })
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(turnoChnnael);
+        };
+    }, [getTurnos]);
 
     const createClient = useCallback(async (name: string, lastname: string): Promise<Client | null> => {
         setLoading(true);
@@ -106,26 +150,6 @@ export default function DashboardProvider({ children }: { children: React.ReactN
         }
     }, [findClient]);
 
-
-    const getTurnos = useCallback(async (id: string) => {
-        setLoading(true);
-        try {
-            const { data, error } = await supabase.from("turnos").select("*, client (*)").eq("user_id", id).order("date", { ascending: true }).order("time", { ascending: true });
-            if (error) {
-                console.error("Error getting turnos", error.message);
-                throw new Error(error.message);
-            }
-            return data as Turno[];
-        } catch (error) {
-            if (error instanceof Error) {
-                throw new Error(`Unexpected error getting turnos: ${error.message}`);
-            }
-            throw new Error("Unexpected error");
-        } finally {
-            setLoading(false);
-        }
-    }, []);
-
     const updateTurnoState = useCallback(async (turnoId: number, state: State, userId: string, description: string, date: string): Promise<boolean> => {
         setLoading(true);
         try {
@@ -134,7 +158,6 @@ export default function DashboardProvider({ children }: { children: React.ReactN
             }
 
             if (state === "cancelled") {
-
                 const { error: deleteError } = await supabase.from("turnos").delete().eq("id", turnoId);
                 if (deleteError) {
                     console.error("Error deleting turno", deleteError.message);
@@ -182,13 +205,34 @@ export default function DashboardProvider({ children }: { children: React.ReactN
         }
     }
 
+    const deleteFromDashboard = useCallback(async (turnoId: number) => {
+        setLoading(true);
+        try {
+            const { error } = await supabase.from("turnos").delete().eq("id", turnoId);
+            if (error) {
+                console.error("Error deleting turno", error.message);
+                throw new Error(error.message);
+            }
+            return true;
+        } catch (error) {
+            if (error instanceof Error) {
+                throw new Error(`Unexpected error deleting turno: ${error.message}`);
+            }
+            throw new Error("Unexpected error");
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
     const value = useMemo(() => ({
         createTurno,
         findClient,
         loading,
         getTurnos,
-        updateTurnoState
-    }), [createTurno, findClient, loading, getTurnos, updateTurnoState]);
+        updateTurnoState,
+        turnos,
+        deleteFromDashboard
+    }), [createTurno, findClient, loading, getTurnos, turnos, updateTurnoState, deleteFromDashboard]);
 
     return (
         <DashboardContext.Provider value={value}>
