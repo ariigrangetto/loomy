@@ -1,20 +1,10 @@
-import { useEffect, useState } from "react";
 import useDashboard from "../hooks/useDashboard.tsx";
-import type { State, Turno } from "../types.d.ts";
-import { CalendarIcon, Clock, Phone, Plus, User } from "lucide-react";
+import type { State } from "../types.d.ts";
+import { CalendarIcon, Clock, Phone, User, X } from "lucide-react";
+import { Link } from "react-router";
 
 export default function List({ id }: { id: string }) {
-    const { getTurnos, updateTurnoState } = useDashboard();
-    const [turnos, setTurnos] = useState<Turno[] | undefined>(undefined);
-
-
-    useEffect(() => {
-        const fetchTurnos = async () => {
-            const data = await getTurnos(id);
-            setTurnos(data);
-        }
-        fetchTurnos()
-    }, [id]);
+    const { updateTurnoState, turnos, deleteFromDashboard } = useDashboard();
 
 
     const getStateStyles = (state: string) => {
@@ -49,29 +39,43 @@ export default function List({ id }: { id: string }) {
                     <h2 className="text-[18px] font-bold text-[#1a1a2e] dark:text-white mb-6">Upcoming Appointments</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {turnos.map((turno) => (
+
                             <div
                                 key={turno.id}
                                 className="bg-white dark:bg-[#1f2028] rounded-[16px] p-6 shadow-[0_8px_40px_rgb(0,0,0,0.03)] border border-gray-100 dark:border-white/5 flex flex-col gap-4 relative overflow-hidden transition-all hover:border-[#7460ed]/30 dark:hover:border-[#c084fc]/30 hover:shadow-md"
                             >
-                                <div className="flex justify-between items-center">
+                                <div className="flex justify-between items-center w-full relative">
                                     <select
                                         value={turno.state}
                                         onChange={async (e) => {
                                             const newState = e.target.value as State;
-                                            const success = await updateTurnoState(turno.id, newState);
-                                            if (success) {
-                                                setTurnos(prev => prev?.map(t => t.id === turno.id ? { ...t, state: newState } : t));
-                                            }
+                                            await updateTurnoState(turno.id, newState, id, turno.description, turno.date);
+
                                         }}
                                         className={`text-[12px] font-semibold px-2 py-1 rounded-full appearance-none cursor-pointer outline-none focus:ring-2 focus:ring-[#7460ed]/30 border-none transition-colors ${getStateStyles(turno.state)}`}
                                     >
-                                        <option value="pending" className="bg-white text-gray-900 dark:bg-[#1a1a2e] dark:text-gray-300 font-medium">Pending</option>
-                                        <option value="completed" className="bg-white text-gray-900 dark:bg-[#1a1a2e] dark:text-gray-300 font-medium">Completed</option>
-                                        <option value="cancelled" className="bg-white text-gray-900 dark:bg-[#1a1a2e] dark:text-gray-300 font-medium">Cancelled</option>
+                                        {turno.state !== "completed" ? (
+                                            <>
+                                                <option value="pending" className="bg-white text-gray-900 dark:bg-[#1a1a2e] dark:text-gray-300 font-medium">Pending</option>
+                                                <option value="completed" className="bg-white text-gray-900 dark:bg-[#1a1a2e] dark:text-gray-300 font-medium">Completed</option>
+                                                <option value="cancelled" className="bg-white text-gray-900 dark:bg-[#1a1a2e] dark:text-gray-300 font-medium">Cancelled</option>
+                                            </>
+                                        ) : (
+                                            <option value="completed" className="bg-white text-gray-900 dark:bg-[#1a1a2e] dark:text-gray-300 font-medium">Completed</option>
+                                        )}
                                     </select>
-                                    <span className="text-[12px] text-gray-400 dark:text-gray-500 font-medium">
+
+                                    <span className="absolute left-1/2 -translate-x-1/2 text-[12px] text-gray-400 dark:text-gray-500 font-medium">
                                         Created: {new Date(turno.created_at).toLocaleDateString()}
                                     </span>
+
+                                    <button
+                                        onClick={() => deleteFromDashboard(turno.id)}
+                                        className="text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400 transition-colors p-1 rounded-full hover:bg-red-50 dark:hover:bg-red-500/10"
+                                        aria-label="Delete appointment"
+                                    >
+                                        <X size={18} />
+                                    </button>
                                 </div>
 
                                 <div>
@@ -98,9 +102,9 @@ export default function List({ id }: { id: string }) {
                                         <User size={18} />
                                     </div>
                                     <div className="flex flex-col">
-                                        <span className="text-[14px] font-semibold text-[#1a1a2e] dark:text-white capitalize">
+                                        <Link to={`/client/${turno.client}`} className="text-[14px] font-semibold text-[#1a1a2e] dark:text-white capitalize">
                                             {turno.client?.name} {turno.client?.lastname}
-                                        </span>
+                                        </Link>
                                         {turno.client?.number && (
                                             <span className="text-[12px] text-gray-500 dark:text-gray-400 flex items-center gap-1.5 mt-0.5">
                                                 <Phone size={11} className="text-gray-400" /> {turno.client.number}

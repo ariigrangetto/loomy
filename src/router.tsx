@@ -18,9 +18,11 @@ const getUser = async () => {
     return user;
 }
 
+const { id } = await getUser();
+
 export const Router = createBrowserRouter([
     {
-        element: <RootLayout />,
+        element: <RootLayout id={id} />,
         children: [
             {
                 path: "/login",
@@ -59,7 +61,7 @@ export const Router = createBrowserRouter([
                 }
             },
             {
-                path: "/client/:name/:lastname",
+                path: "/client/:id",
                 element: <Client />,
                 errorElement: <ErrorPage />,
                 loader: async () => {
