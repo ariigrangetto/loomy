@@ -11,6 +11,7 @@ interface userContextType {
     register: (email: string, name: string, password: string, lastName: string) => Promise<Error | undefined>;
     signOut: () => Promise<Error | undefined>;
     resetPassword: (email: string) => Promise<Error | undefined>;
+    loginWithGoogle: () => Promise<Error | undefined>;
 }
 
 export const UserContext = createContext<userContextType | undefined>(undefined);
@@ -20,12 +21,10 @@ export function UserProvider({ children }: userProviderProps) {
 
     useEffect(() => {
         const { data } = supabase.auth.onAuthStateChange((event, session) => {
-            console.log(session)
-            console.log(event)
-            if (event === "SIGNED_IN" && session) {
+            if (event === "SIGNED_IN" && session && window.location.pathname === "/client") {
                 navigate("/");
             }
-            if (event === "SIGNED_OUT" && session === null) {
+            if (event === "SIGNED_OUT" && session === null && window.location.pathname !== "/login") {
                 navigate("/login");
             }
         })
@@ -33,7 +32,6 @@ export function UserProvider({ children }: userProviderProps) {
         return () => {
             data.subscription.unsubscribe();
         }
-
     }, [])
 
     const login = async (email: string, password: string) => {
@@ -49,7 +47,10 @@ export function UserProvider({ children }: userProviderProps) {
             }
             return;
         } catch (error) {
-            throw new Error(error.message);
+            if (error instanceof Error) {
+                throw new Error(`Unexpected error logging in: ${error.message}`);
+            }
+            throw new Error("Unexpected error");
         }
     }
 
@@ -72,7 +73,10 @@ export function UserProvider({ children }: userProviderProps) {
             }
             return;
         } catch (error) {
-            throw new Error(error.message);
+            if (error instanceof Error) {
+                throw new Error(`Unexpected error registering: ${error.message}`);
+            }
+            throw new Error("Unexpected error");
         }
 
     }
@@ -85,7 +89,10 @@ export function UserProvider({ children }: userProviderProps) {
                 return error;
             }
         } catch (error) {
-            throw new Error(error.message);
+            if (error instanceof Error) {
+                throw new Error(`Unexpected error signing out: ${error.message}`);
+            }
+            throw new Error("Unexpected error");
         }
     }
 
@@ -99,14 +106,35 @@ export function UserProvider({ children }: userProviderProps) {
             }
 
         } catch (error) {
-            throw new Error(error.message);
+            if (error instanceof Error) {
+                throw new Error(`Unexpected error resetting password: ${error.message}`);
+            }
+            throw new Error("Unexpected error");
         }
 
 
     }
 
+    const loginWithGoogle = async () => {
+        try {
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: "google",
+            })
+            if (error) {
+                console.error(error.message);
+                return error;
+            }
+            return;
+        } catch (error) {
+            if (error instanceof Error) {
+                throw new Error(`Unexpected error logging in with Google: ${error.message}`);
+            }
+            throw new Error("Unexpected error");
+        }
+    }
+
     return (
-        <UserContext.Provider value={{ login, resetPassword, signOut, register }}>
+        <UserContext.Provider value={{ login, resetPassword, signOut, register, loginWithGoogle }}>
             {children}
         </UserContext.Provider>
     )
