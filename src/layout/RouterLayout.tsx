@@ -3,11 +3,11 @@ import { UserProvider } from "../context/UserActions.tsx";
 import DashboardProvider from "../context/DashboardContext.tsx";
 import { ThemeProvider } from "../context/ThemeProvider.tsx";
 
-export default function RootLayout({ id }: { id: string }) {
+export default function RootLayout() {
     return (
         <ThemeProvider defaultTheme="system">
             <UserProvider>
-                <DashboardProvider id={id}>
+                <DashboardProvider>
                     <Outlet />
                 </DashboardProvider>
             </UserProvider>
