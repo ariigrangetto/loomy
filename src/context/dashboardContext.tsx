@@ -7,27 +7,44 @@ interface DashboardContextType {
     loading: boolean;
     createTurno: (id: string, name: string, lastname: string, description: string, date: string, time: string, state: State) => Promise<boolean>
     getTurnos: () => Promise<void>
-    updateTurnoState: (turnoId: number, state: State, userId: string, description: string, date: string) => Promise<boolean>
+    updateTurnoState: (turnoId: number, state: State, userId: string, description: string, date: string, clientId: string | number) => Promise<boolean>
     turnos: Turno[] | undefined;
     deleteFromDashboard: (turnoId: number) => Promise<boolean>;
+    getClientHistory: (clientId: string | number) => Promise<History[] | undefined>;
+    getClientById: (clientId: string | number) => Promise<Client | undefined>;
 }
 
 export const DashboardContext = createContext<DashboardContextType | undefined>(undefined);
 
-export default function DashboardProvider({ children, id }: { children: React.ReactNode, id: string }) {
+export default function DashboardProvider({ children }: { children: React.ReactNode }) {
     const [loading, setLoading] = useState<boolean>(false);
-    const [clientId, setClientId] = useState<string | number | null>(null);
     const [turnos, setTurnos] = useState<Turno[] | undefined>(undefined);
+
+    const getUserId = useCallback(async () => {
+        try {
+            const { data: userData, error: userError } = await supabase.auth.getUser();
+            if (userError || !userData.user) {
+                throw new Error("No user authenticated");
+            }
+            const userId = userData.user.id;
+            return userId;
+        } catch (error) {
+            if (error instanceof Error) {
+                throw new Error(`Unexpected error getting user id: ${error.message}`);
+            }
+            throw new Error("Unexpected error");
+        }
+    }, [])
 
     const getTurnos = useCallback(async () => {
         setLoading(true);
         try {
-            const { data, error } = await supabase.from("turnos").select("*, client (*)").eq("user_id", id).order("date", { ascending: true }).order("time", { ascending: true });
+            const userId = await getUserId();
+            const { data, error } = await supabase.from("turnos").select("*, client (*)").eq("user_id", userId).order("date", { ascending: true }).order("time", { ascending: true });
             if (error) {
                 console.error("Error getting turnos", error.message);
                 throw new Error(error.message);
             }
-            console.log(data);
             setTurnos(data);
         } catch (error) {
             if (error instanceof Error) {
@@ -37,18 +54,16 @@ export default function DashboardProvider({ children, id }: { children: React.Re
         } finally {
             setLoading(false);
         }
-    }, [id]);
+    }, []);
 
 
     useEffect(() => {
-        // Obtenemos los turnos inicialmente cuando el componente carga
         getTurnos();
-
         const turnoChnnael = supabase.channel("dashboard-channel")
             .on("postgres_changes", {
                 event: "*",
                 schema: "public",
-                table: "turnos" // Limitamos a la tabla de turnos
+                table: "turnos"
             }, (payload) => {
                 console.log("Cambio detectado:", payload);
                 getTurnos();
@@ -116,7 +131,6 @@ export default function DashboardProvider({ children, id }: { children: React.Re
                 return false;
             }
             const clientId = data[0].id;
-            setClientId(clientId);
             const { data: existingTurno, error: existingError } = await supabase.from("turnos").select("*")
                 .eq("date", date)
                 .eq("time", time);
@@ -128,7 +142,7 @@ export default function DashboardProvider({ children, id }: { children: React.Re
                 return false;
             }
             const { error } = await supabase.from("turnos").insert({
-                cliente: clientId,
+                client: clientId,
                 description: description,
                 date: date,
                 time: time,
@@ -150,11 +164,11 @@ export default function DashboardProvider({ children, id }: { children: React.Re
         }
     }, [findClient]);
 
-    const updateTurnoState = useCallback(async (turnoId: number, state: State, userId: string, description: string, date: string): Promise<boolean> => {
+    const updateTurnoState = useCallback(async (turnoId: number, state: State, userId: string, description: string, date: string, clientId: string | number): Promise<boolean> => {
         setLoading(true);
         try {
             if (state === "completed") {
-                await updateClientHistory(userId, description, date);
+                await updateClientHistory(userId, description, date, clientId);
             }
 
             if (state === "cancelled") {
@@ -182,7 +196,7 @@ export default function DashboardProvider({ children, id }: { children: React.Re
         }
     }, []);
 
-    const updateClientHistory = async (userId: string, description: string, date: string) => {
+    const updateClientHistory = async (userId: string, description: string, date: string, clientId: string | number) => {
         try {
             const { data, error } = await supabase.from("history").insert({
                 client_id: clientId,
@@ -224,15 +238,53 @@ export default function DashboardProvider({ children, id }: { children: React.Re
         }
     }, []);
 
+    const getClientHistory = useCallback(async (clientId: string | number) => {
+        try {
+            const userId = await getUserId();
+            const parsedClientId = !isNaN(Number(clientId)) ? Number(clientId) : clientId;
+            const { data, error } = await supabase.from("history").select("*, client(*)")
+                .eq("client_id", parsedClientId)
+                .eq("user_id", userId)
+                .order("last_date", { ascending: false });
+            if (error) {
+                console.error("Error getting user history", error.message);
+                throw new Error(error.message);
+            }
+            return data;
+        } catch (error) {
+            if (error instanceof Error) {
+                throw new Error(`Unexpected error getting user history: ${error.message}`);
+            }
+            throw new Error("Unexpected error");
+        }
+    }, [getUserId]);
+
+    const getClientById = useCallback(async (clientId: string | number): Promise<Client | undefined> => {
+        try {
+            const parsedClientId = !isNaN(Number(clientId)) ? Number(clientId) : clientId;
+            const { data, error } = await supabase.from("client").select("*").eq("id", parsedClientId).single();
+            if (error) {
+                console.error("Error getting client", error.message);
+                throw new Error(error.message);
+            }
+            return data as Client;
+        } catch (error) {
+            console.error("Error getting client details:", error);
+            return undefined;
+        }
+    }, []);
+
     const value = useMemo(() => ({
         createTurno,
         findClient,
         loading,
         getTurnos,
         updateTurnoState,
+        getClientHistory,
+        getClientById,
         turnos,
         deleteFromDashboard
-    }), [createTurno, findClient, loading, getTurnos, turnos, updateTurnoState, deleteFromDashboard]);
+    }), [createTurno, findClient, getClientHistory, getClientById, loading, getTurnos, turnos, updateTurnoState, deleteFromDashboard]);
 
     return (
         <DashboardContext.Provider value={value}>
