@@ -64,8 +64,7 @@ export default function DashboardProvider({ children }: { children: React.ReactN
                 event: "*",
                 schema: "public",
                 table: "turnos"
-            }, (payload) => {
-                console.log("Cambio detectado:", payload);
+            }, () => {
                 getTurnos();
             })
             .subscribe();
@@ -76,7 +75,6 @@ export default function DashboardProvider({ children }: { children: React.ReactN
     }, [getTurnos]);
 
     const createClient = useCallback(async (name: string, lastname: string): Promise<Client | null> => {
-        setLoading(true);
         try {
             const { data, error } = await supabase.from("client").insert({
                 name,
@@ -92,13 +90,10 @@ export default function DashboardProvider({ children }: { children: React.ReactN
                 throw new Error(`Unexpected error creating client: ${error.message}`);
             }
             throw new Error("Unexpected error");
-        } finally {
-            setLoading(false);
         }
     }, []);
 
     const findClient = useCallback(async (name: string, lastname: string) => {
-        setLoading(true);
         try {
             const { data, error } = await supabase.from("client").select("*")
                 .eq("name", name)
@@ -118,8 +113,6 @@ export default function DashboardProvider({ children }: { children: React.ReactN
                 throw new Error(`Unexpected error finding client: ${error.message}`);
             }
             throw new Error("Unexpected error");
-        } finally {
-            setLoading(false);
         }
     }, [createClient]);
 
@@ -142,7 +135,7 @@ export default function DashboardProvider({ children }: { children: React.ReactN
                 return false;
             }
             const { error } = await supabase.from("turnos").insert({
-                client: clientId,
+                cliente: clientId,
                 description: description,
                 date: date,
                 time: time,
@@ -165,7 +158,6 @@ export default function DashboardProvider({ children }: { children: React.ReactN
     }, [findClient]);
 
     const updateTurnoState = useCallback(async (turnoId: number, state: State, userId: string, description: string, date: string, clientId: string | number): Promise<boolean> => {
-        setLoading(true);
         try {
             if (state === "completed") {
                 await updateClientHistory(userId, description, date, clientId);
@@ -191,8 +183,6 @@ export default function DashboardProvider({ children }: { children: React.ReactN
                 throw new Error(`Unexpected error updating turno: ${error.message}`);
             }
             throw new Error("Unexpected error");
-        } finally {
-            setLoading(false);
         }
     }, []);
 
@@ -220,7 +210,6 @@ export default function DashboardProvider({ children }: { children: React.ReactN
     }
 
     const deleteFromDashboard = useCallback(async (turnoId: number) => {
-        setLoading(true);
         try {
             const { error } = await supabase.from("turnos").delete().eq("id", turnoId);
             if (error) {
@@ -233,8 +222,6 @@ export default function DashboardProvider({ children }: { children: React.ReactN
                 throw new Error(`Unexpected error deleting turno: ${error.message}`);
             }
             throw new Error("Unexpected error");
-        } finally {
-            setLoading(false);
         }
     }, []);
 
