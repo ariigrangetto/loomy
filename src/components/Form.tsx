@@ -38,18 +38,18 @@ export default function Form({ id, setIsFormOpen }: { id: string; setIsFormOpen:
             setTimeout(() => {
                 setErrorMessage("");
             }, 3000);
-            return;
+        } else {
+            setIsFormOpen(false);
+            setFormData({
+                name: "",
+                lastname: "",
+                number: "",
+                description: "",
+                date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0],
+                time: "",
+                state: "pending",
+            });
         }
-        setIsFormOpen(false);
-        setFormData({
-            name: "",
-            lastname: "",
-            number: "",
-            description: "",
-            date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0],
-            time: "",
-            state: "pending",
-        });
     }
 
     return (
