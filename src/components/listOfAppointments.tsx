@@ -4,7 +4,15 @@ import { CalendarIcon, Clock, Phone, User, X } from "lucide-react";
 import { Link } from "react-router";
 
 export default function List({ id }: { id: string }) {
-    const { updateTurnoState, turnos, deleteFromDashboard } = useDashboard();
+    const { updateTurnoState, turnos, deleteFromDashboard, loading } = useDashboard();
+
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-[#f7f7f9] dark:bg-[#16171d] flex items-center justify-center transition-colors duration-200">
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#7460ed]"></div>
+            </div>
+        );
+    }
 
 
     const getStateStyles = (state: string) => {
