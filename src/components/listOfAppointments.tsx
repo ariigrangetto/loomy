@@ -49,7 +49,7 @@ export default function List({ id }: { id: string }) {
                                         value={turno.state}
                                         onChange={async (e) => {
                                             const newState = e.target.value as State;
-                                            await updateTurnoState(turno.id, newState, id, turno.description, turno.date);
+                                            await updateTurnoState(turno.id, newState, id, turno.description, turno.date, turno.client.id);
 
                                         }}
                                         className={`text-[12px] font-semibold px-2 py-1 rounded-full appearance-none cursor-pointer outline-none focus:ring-2 focus:ring-[#7460ed]/30 border-none transition-colors ${getStateStyles(turno.state)}`}
@@ -102,7 +102,7 @@ export default function List({ id }: { id: string }) {
                                         <User size={18} />
                                     </div>
                                     <div className="flex flex-col">
-                                        <Link to={`/client/${turno.client}`} className="text-[14px] font-semibold text-[#1a1a2e] dark:text-white capitalize">
+                                        <Link to={`/client/${turno.client.id}`} className="text-[14px] font-semibold text-[#1a1a2e] dark:text-white capitalize">
                                             {turno.client?.name} {turno.client?.lastname}
                                         </Link>
                                         {turno.client?.number && (
