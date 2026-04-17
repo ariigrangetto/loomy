@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createBrowserRouter, redirect } from "react-router";
 import { supabase } from "./supabase/client.ts";
 import RootLayout from "./layout/RouterLayout.tsx";
@@ -18,11 +19,9 @@ const getUser = async () => {
     return user;
 }
 
-const { id } = await getUser();
-
 export const Router = createBrowserRouter([
     {
-        element: <RootLayout id={id} />,
+        element: <RootLayout />,
         children: [
             {
                 path: "/login",
