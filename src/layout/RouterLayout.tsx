@@ -3,7 +3,7 @@ import DashboardProvider from "../context/DashboardContext";
 import { ThemeProvider } from "../context/ThemeProvider";
 import { Suspense } from "react";
 import StateProvider from "../context/StateContext";
-import UserProvider from "../context/UserActions";
+import UserProvider from "../context/UserActions.tsx";
 
 export default function RootLayout() {
     return (

@@ -1,10 +1,10 @@
 import { LogOut, Plus, Moon, Sun } from "lucide-react";
-import useUser from "../hooks/useUser.tsx";
 import { useLoaderData, useNavigate } from "react-router";
 import useTheme from "../hooks/useTheme.tsx";
 import List from "../components/listOfAppointments.tsx";
 import { useState } from "react";
 import Form from "../components/Form.tsx";
+import useUser from "../hooks/useUser.tsx";
 
 export default function Dashboard() {
     const { signOut } = useUser();
