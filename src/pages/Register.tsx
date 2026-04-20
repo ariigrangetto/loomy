@@ -77,7 +77,7 @@ export default function Register() {
                                 <span>Continue with Google</span>
                             </button>
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
                             <div className="flex flex-col gap-2">
                                 <label className="text-[10px] font-bold text-[#4a4a5e] uppercase tracking-widest" htmlFor="name">First Name</label>

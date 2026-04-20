@@ -36,7 +36,7 @@ export default function Dashboard() {
                         <p className="text-[9px] font-bold text-gray-500 dark:text-gray-400 tracking-[0.2em] uppercase">Dashboard</p>
                     </div>
                 </div>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 sm:gap-4">
                     <button
                         onClick={toggleTheme}
                         className="p-2.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10 rounded-[10px] transition-colors"
@@ -46,10 +46,10 @@ export default function Dashboard() {
                     </button>
                     <button
                         onClick={() => setIsFormOpen(true)}
-                        className="py-2.5 px-5 bg-[#7460ed] hover:bg-[#6250cc] text-white text-[14px] font-semibold rounded-[10px] shadow-sm hover:shadow-md transform transition-all active:scale-[0.98] outline-none flex items-center gap-2"
+                        className="py-2.5 px-3 sm:px-5 bg-[#7460ed] hover:bg-[#6250cc] text-white text-[14px] font-semibold rounded-[10px] shadow-sm hover:shadow-md transform transition-all active:scale-[0.98] outline-none flex items-center gap-2"
                     >
                         <Plus size={18} />
-                        New Appointment
+                        <span className="hidden sm:inline">New Appointment</span>
                     </button>
                     <button
                         onClick={() => handleSignOut()}
