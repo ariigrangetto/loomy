@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import type { Turno } from "../types.d";
+import type { Turno } from "../types.d.ts";
 
 interface StateContextProvider {
     loading: boolean,

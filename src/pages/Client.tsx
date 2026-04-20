@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router";
 import { useEffect, useState } from "react";
-import type { History, Client as ClientType } from "../types.d";
+import type { History, Client as ClientType } from "../types.d.ts";
 import useDashboard from "../hooks/useDashboard.tsx";
 import { ArrowLeft, Calendar, User as UserIcon, Phone, Clock, FileText } from "lucide-react";
 
