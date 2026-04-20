@@ -143,7 +143,7 @@ export default function Form({ id, setIsFormOpen }: { id: string; setIsFormOpen:
                                     onChange={handleInputChange}
                                     required
                                     className="w-full pl-9 pr-4 py-3 bg-[#f3f4f6] dark:bg-white/5 border border-transparent rounded-[10px] text-gray-900 dark:text-white text-[14px] placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/20 dark:focus:ring-[#c084fc]/30 focus:bg-white dark:focus:bg-[#16171d] focus:border-[#6b58dc]/30 dark:focus:border-[#c084fc]/30 transition-all resize-none"
-                                    placeholder="e.g. Eyebrow styling and shaping"
+                                    placeholder="e.g. Haircut, highlights, balayage..."
                                 />
                             </div>
                         </div>
