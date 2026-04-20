@@ -1,9 +1,9 @@
 import { Outlet, } from "react-router";
-import { UserProvider } from "../context/UserActions.tsx";
-import DashboardProvider from "../context/DashboardContext.tsx";
-import { ThemeProvider } from "../context/ThemeProvider.tsx";
+import { UserProvider } from "../context/UserActions";
+import DashboardProvider from "../context/dashboardContext";
+import { ThemeProvider } from "../context/ThemeProvider";
 import { Suspense } from "react";
-import StateProvider from "../context/StateContext.tsx";
+import StateProvider from "../context/StateContext";
 
 export default function RootLayout() {
     return (
