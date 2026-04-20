@@ -21,7 +21,12 @@ export function UserProvider({ children }: userProviderProps) {
 
     useEffect(() => {
         const { data } = supabase.auth.onAuthStateChange((event, session) => {
+            console.log(event);
+            console.log(session);
             if (event === "SIGNED_IN" && session && window.location.pathname === "/client") {
+                navigate("/");
+            }
+            if (event === "SIGNED_IN" && session) {
                 navigate("/");
             }
             if (event === "SIGNED_OUT" && session === null && window.location.pathname !== "/login") {
