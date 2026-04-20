@@ -16,7 +16,7 @@ interface userContextType {
 
 export const UserContext = createContext<userContextType | undefined>(undefined);
 
-export function UserProvider({ children }: userProviderProps) {
+export default function UserProvider({ children }: userProviderProps) {
     const navigate = useNavigate();
 
     useEffect(() => {

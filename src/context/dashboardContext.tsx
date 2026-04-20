@@ -1,6 +1,6 @@
 import { createContext, useCallback, useEffect, useMemo } from "react";
 import { supabase } from "../supabase/client.ts";
-import type { Client, State, History } from "../types.d.ts";
+import type { Client, State, History } from "../types";
 import useStateContext from "../hooks/useStateContext.tsx";
 
 interface DashboardContextType {

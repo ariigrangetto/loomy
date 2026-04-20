@@ -20,7 +20,6 @@ export default function Client() {
                 if (clientData) setClient(clientData);
 
                 const historyData = await getClientHistory(id);
-                console.log(historyData)
                 if (historyData) setHistory(historyData as History[]);
             } catch (error) {
                 console.error("Error fetching data:", error);
