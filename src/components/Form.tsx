@@ -2,9 +2,11 @@ import { CalendarIcon, Clock, FileText, Phone, User, X } from "lucide-react";
 import { useState } from "react";
 import type { State } from "../types.d.ts";
 import useDashboard from "../hooks/useDashboard.tsx";
+import useStateContext from "../hooks/useStateContext.tsx";
 
 export default function Form({ id, setIsFormOpen }: { id: string; setIsFormOpen: (value: boolean) => void }) {
-    const { createTurno, loading } = useDashboard();
+    const { createTurno } = useDashboard();
+    const { loading } = useStateContext();
     const [errorMessage, setErrorMessage] = useState<string>("");
 
     const [formData, setFormData] = useState<{
@@ -74,7 +76,7 @@ export default function Form({ id, setIsFormOpen }: { id: string; setIsFormOpen:
                             <User size={12} />
                             Client Data
                         </h4>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="flex flex-col gap-1.5">
                                 <label className="text-[11px] font-semibold text-[#4a4a5e] dark:text-gray-300" htmlFor="name">name</label>
                                 <input
@@ -145,7 +147,7 @@ export default function Form({ id, setIsFormOpen }: { id: string; setIsFormOpen:
                                 />
                             </div>
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="flex flex-col gap-1.5">
                                 <label className="text-[11px] font-semibold text-[#4a4a5e] dark:text-gray-300" htmlFor="date">date</label>
                                 <div className="relative">
@@ -180,7 +182,7 @@ export default function Form({ id, setIsFormOpen }: { id: string; setIsFormOpen:
                         </div>
                     </div>
 
-                    <div className="mt-4 flex gap-3">
+                    <div className="mt-4 flex flex-col sm:flex-row gap-3">
                         {loading ? (
                             <button
                                 type="submit"

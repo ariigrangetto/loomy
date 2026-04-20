@@ -1,14 +1,13 @@
-import { createContext, useCallback, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useEffect, useMemo } from "react";
 import { supabase } from "../supabase/client.ts";
-import type { Client, State, Turno } from "../types.d.ts";
+import type { Client, State } from "../types.d.ts";
+import useStateContext from "../hooks/useStateContext.tsx";
 
 interface DashboardContextType {
     findClient: (name: string, lastname: string) => Promise<Client[] | undefined>;
-    loading: boolean;
     createTurno: (id: string, name: string, lastname: string, description: string, date: string, time: string, state: State) => Promise<boolean>
     getTurnos: () => Promise<void>
     updateTurnoState: (turnoId: number, state: State, userId: string, description: string, date: string, clientId: string | number) => Promise<boolean>
-    turnos: Turno[] | undefined;
     deleteFromDashboard: (turnoId: number) => Promise<boolean>;
     getClientHistory: (clientId: string | number) => Promise<History[] | undefined>;
     getClientById: (clientId: string | number) => Promise<Client | undefined>;
@@ -17,8 +16,7 @@ interface DashboardContextType {
 export const DashboardContext = createContext<DashboardContextType | undefined>(undefined);
 
 export default function DashboardProvider({ children }: { children: React.ReactNode }) {
-    const [loading, setLoading] = useState<boolean>(false);
-    const [turnos, setTurnos] = useState<Turno[] | undefined>(undefined);
+    const { setTurnos, setLoading } = useStateContext();
 
     const getUserId = useCallback(async () => {
         try {
@@ -186,7 +184,7 @@ export default function DashboardProvider({ children }: { children: React.ReactN
         }
     }, []);
 
-    const updateClientHistory = async (userId: string, description: string, date: string, clientId: string | number) => {
+    const updateClientHistory = useCallback(async (userId: string, description: string, date: string, clientId: string | number) => {
         try {
             const { data, error } = await supabase.from("history").insert({
                 client_id: clientId,
@@ -207,7 +205,7 @@ export default function DashboardProvider({ children }: { children: React.ReactN
             }
             throw new Error("Unexpected error");
         }
-    }
+    }, []);
 
     const deleteFromDashboard = useCallback(async (turnoId: number) => {
         try {
@@ -264,14 +262,12 @@ export default function DashboardProvider({ children }: { children: React.ReactN
     const value = useMemo(() => ({
         createTurno,
         findClient,
-        loading,
         getTurnos,
         updateTurnoState,
         getClientHistory,
         getClientById,
-        turnos,
         deleteFromDashboard
-    }), [createTurno, findClient, getClientHistory, getClientById, loading, getTurnos, turnos, updateTurnoState, deleteFromDashboard]);
+    }), [createTurno, findClient, getClientHistory, getClientById, getTurnos, updateTurnoState, deleteFromDashboard]);
 
     return (
         <DashboardContext.Provider value={value}>

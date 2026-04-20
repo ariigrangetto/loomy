@@ -2,9 +2,11 @@ import useDashboard from "../hooks/useDashboard.tsx";
 import type { State } from "../types.d.ts";
 import { CalendarIcon, Clock, Phone, User, X } from "lucide-react";
 import { Link } from "react-router";
+import useStateContext from "../hooks/useStateContext.tsx";
 
 export default function List({ id }: { id: string }) {
-    const { updateTurnoState, turnos, deleteFromDashboard, loading } = useDashboard();
+    const { updateTurnoState, deleteFromDashboard } = useDashboard();
+    const { turnos, loading } = useStateContext();
 
     if (loading) {
         return (
@@ -52,7 +54,7 @@ export default function List({ id }: { id: string }) {
                                 key={turno.id}
                                 className="bg-white dark:bg-[#1f2028] rounded-[16px] p-6 shadow-[0_8px_40px_rgb(0,0,0,0.03)] border border-gray-100 dark:border-white/5 flex flex-col gap-4 relative overflow-hidden transition-all hover:border-[#7460ed]/30 dark:hover:border-[#c084fc]/30 hover:shadow-md"
                             >
-                                <div className="flex justify-between items-center w-full relative">
+                                <div className="flex flex-wrap sm:flex-nowrap justify-between items-center w-full gap-2 relative">
                                     <select
                                         value={turno.state}
                                         onChange={async (e) => {
@@ -73,7 +75,7 @@ export default function List({ id }: { id: string }) {
                                         )}
                                     </select>
 
-                                    <span className="absolute left-1/2 -translate-x-1/2 text-[12px] text-gray-400 dark:text-gray-500 font-medium">
+                                    <span className="text-[11px] sm:text-[12px] text-gray-400 dark:text-gray-500 font-medium sm:absolute sm:left-1/2 sm:-translate-x-1/2 order-3 sm:order-none w-full sm:w-auto text-center sm:text-left mt-1 sm:mt-0">
                                         Created: {new Date(turno.created_at).toLocaleDateString()}
                                     </span>
 
