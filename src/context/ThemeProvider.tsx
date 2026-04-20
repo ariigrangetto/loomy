@@ -4,7 +4,7 @@ type Theme = "light" | "dark" | "system";
 
 interface ThemeProviderState {
     children: React.ReactNode;
-    defaultTheme?: "system"
+    defaultTheme: "system"
 }
 
 interface ThemeContextState {
@@ -15,7 +15,7 @@ interface ThemeContextState {
 export const ThemeContext = createContext<ThemeContextState | undefined>(undefined);
 
 export function ThemeProvider({ children, defaultTheme }: ThemeProviderState) {
-    const [theme, setTheme] = useState(() => {
+    const [theme, setTheme] = useState<Theme>(() => {
         const savedTheme = localStorage.getItem("theme") as Theme;
         return savedTheme ? savedTheme : defaultTheme;
     })

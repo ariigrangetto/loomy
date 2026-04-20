@@ -1,13 +1,13 @@
 import { createContext, useCallback, useEffect, useMemo } from "react";
 import { supabase } from "../supabase/client.ts";
-import type { Client, State } from "../types.d.ts";
+import type { Client, State, History } from "../types.d.ts";
 import useStateContext from "../hooks/useStateContext.tsx";
 
 interface DashboardContextType {
     findClient: (name: string, lastname: string) => Promise<Client[] | undefined>;
     createTurno: (id: string, name: string, lastname: string, description: string, date: string, time: string, state: State) => Promise<boolean>
     getTurnos: () => Promise<void>
-    updateTurnoState: (turnoId: number, state: State, userId: string, description: string, date: string, clientId: string | number) => Promise<boolean>
+    updateTurnoState: (turnoId: number, state: State, userId: string, description: string, date: string, clientId: string | number) => Promise<boolean | void>
     deleteFromDashboard: (turnoId: number) => Promise<boolean>;
     getClientHistory: (clientId: string | number) => Promise<History[] | undefined>;
     getClientById: (clientId: string | number) => Promise<Client | undefined>;
@@ -155,7 +155,7 @@ export default function DashboardProvider({ children }: { children: React.ReactN
         }
     }, [findClient]);
 
-    const updateTurnoState = useCallback(async (turnoId: number, state: State, userId: string, description: string, date: string, clientId: string | number): Promise<boolean> => {
+    const updateTurnoState = useCallback(async (turnoId: number, state: State, userId: string, description: string, date: string, clientId: string | number): Promise<boolean | void> => {
         try {
             if (state === "completed") {
                 await updateClientHistory(userId, description, date, clientId);
