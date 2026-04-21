@@ -56,6 +56,7 @@ export default function List({ id }: { id: string }) {
                             >
                                 <div className="flex flex-wrap sm:flex-nowrap justify-between items-center w-full gap-2 relative">
                                     <select
+                                        aria-label="state"
                                         value={turno.state}
                                         onChange={async (e) => {
                                             const newState = e.target.value as State;
@@ -89,7 +90,7 @@ export default function List({ id }: { id: string }) {
                                 </div>
 
                                 <div>
-                                    <h3 className="text-[17px] font-bold text-[#1a1a2e] dark:text-white capitalize leading-tight">
+                                    <h3 className="text-[17px] font-bold text-[#1a1a2e] dark:text-white capitalize leading-tight" aria-label="description">
                                         {turno.description}
                                     </h3>
                                 </div>
@@ -99,11 +100,11 @@ export default function List({ id }: { id: string }) {
                                 <div className="flex items-center gap-5 text-[14px] text-gray-600 dark:text-gray-300 font-medium">
                                     <div className="flex items-center gap-2">
                                         <CalendarIcon size={16} className="text-[#7460ed] dark:text-[#c084fc]" />
-                                        <span>{turno.date}</span>
+                                        <span aria-label="date">{turno.date}</span>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <Clock size={16} className="text-[#7460ed] dark:text-[#c084fc]" />
-                                        <span>{turno.time}</span>
+                                        <span aria-label="time">{turno.time}</span>
                                     </div>
                                 </div>
 
