@@ -25,6 +25,7 @@ export default function DashboardProvider({ children }: { children: React.ReactN
                 throw new Error("No user authenticated");
             }
             const userId = userData.user.id;
+            console.log(userId);
             return userId;
         } catch (error) {
             if (error instanceof Error) {
@@ -36,8 +37,8 @@ export default function DashboardProvider({ children }: { children: React.ReactN
 
     const getTurnos = useCallback(async () => {
         setLoading(true);
+        const userId = await getUserId();
         try {
-            const userId = await getUserId();
             const { data, error } = await supabase.from("turnos").select("*, client (*)").eq("user_id", userId).order("date", { ascending: true }).order("time", { ascending: true });
             if (error) {
                 console.error("Error getting turnos", error.message);
