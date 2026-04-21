@@ -1,4 +1,4 @@
-import { describe, expect, test } from "vitest";
+import { afterEach, describe, expect, test } from "vitest";
 import { MemoryRouter, Route, Routes } from "react-router";
 import { render, screen } from "@testing-library/react";
 import Login from "../src/pages/Login.tsx"
@@ -6,6 +6,10 @@ import { ThemeProvider } from "../src/context/ThemeProvider.tsx";
 import StateProvider from "../src/context/StateContext.tsx";
 import UserProvider from "../src/context/UserActions.tsx";
 import MatchMediaMock from "vitest-matchmedia-mock";
+
+afterEach(() => {
+    cleanup();
+})
 
 describe("find google button", () => {
     test(`Login page with form and google btn`, async () => {

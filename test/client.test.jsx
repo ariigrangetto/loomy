@@ -1,13 +1,17 @@
 import Client from "../src/pages/Client.tsx";
-import { render, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router";
 import MatchMediaMock from "vitest-matchmedia-mock";
 import DashboardProvider from "../src/context/DashboardContext.tsx";
 import { ThemeProvider } from "../src/context/ThemeProvider.tsx";
 import StateProvider from "../src/context/StateContext.tsx";
 import UserProvider from "../src/context/UserActions.tsx";
-import { vi } from "vitest";
+import { afterEach, vi } from "vitest";
 import { supabase } from "../src/supabase/client.js";
+
+afterEach(() => {
+    cleanup();
+})
 
 vi.mock(`../src/supabase/client.js`, () => {
     const chain = {
@@ -15,7 +19,7 @@ vi.mock(`../src/supabase/client.js`, () => {
         eq: vi.fn().mockReturnThis(),
         order: vi.fn().mockReturnThis(),
         single: vi.fn().mockResolvedValue({ data: null, error: null }),
-        then: function(resolve) { resolve({ data: [], error: null }) }
+        then: function (resolve) { resolve({ data: [], error: null }) }
     };
     return {
         supabase: {
