@@ -67,7 +67,7 @@ describe("Find register inputs in form", () => {
 });
 
 
-describe("redirect to login when user is alredy logged in", () => {
+describe("redirect to login when user is alredy logged in", async () => {
     test("Redirect to login", async () => {
         let matchMediaMock = new MatchMediaMock();
         matchMediaMock.useMediaQuery('(prefers-color-scheme: dark)');
@@ -87,7 +87,7 @@ describe("redirect to login when user is alredy logged in", () => {
         );
         const link = await screen.findByRole("link", { name: /Already have an account?/i })
         expect(link).toBeInTheDocument();
-        await fireEvent.click(link);
+        fireEvent.click(link);
         expect(screen.getByText(/Welcome back/i)).toBeInTheDocument();
     })
 })
