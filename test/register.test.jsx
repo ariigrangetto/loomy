@@ -12,8 +12,8 @@ afterEach(() => {
     cleanup();
 });
 
-describe("find google button", () => {
-    test(`Login page with form and google btn`, async () => {
+describe("Find register form, with google button and inputs", () => {
+    test(`Register page with google button`, async () => {
         let macthMediaMock = new MatchMediaMock();
         macthMediaMock.useMediaQuery('(prefers-color-scheme: dark)');
         render(
@@ -32,9 +32,7 @@ describe("find google button", () => {
         const googleBtn = screen.getByRole("button", { name: /Continue with Google/i })
         expect(googleBtn).toBeInTheDocument();
     });
-});
 
-describe("Find register inputs in form", () => {
     test("Register form inputs", async () => {
         let matchMediaMock = new MatchMediaMock();
         matchMediaMock.useMediaQuery('(prefers-color-scheme: dark)');
@@ -67,7 +65,7 @@ describe("Find register inputs in form", () => {
 });
 
 
-describe("redirect to login when user is alredy logged in", async () => {
+describe("Redirect to login when user is alredy logged in", async () => {
     test("Redirect to login", async () => {
         let matchMediaMock = new MatchMediaMock();
         matchMediaMock.useMediaQuery('(prefers-color-scheme: dark)');

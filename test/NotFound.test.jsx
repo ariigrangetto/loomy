@@ -7,7 +7,7 @@ afterEach(() => {
     cleanup();
 });
 
-describe(`Find "not found" message`, () => {
+describe(`Find "Not Found" message`, () => {
     test("Find 404 message", async () => {
         render(
             <MemoryRouter initialEntries={["/not-found"]}>

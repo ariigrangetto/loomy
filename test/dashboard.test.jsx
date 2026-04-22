@@ -20,8 +20,8 @@ vi.mock(`../src/supabase/client.js`, () => {
         eq: vi.fn().mockReturnThis(),
         order: vi.fn().mockReturnThis(),
         single: vi.fn().mockResolvedValue({ data: null, error: null }),
-        then: function (resolve) { 
-            resolve({ 
+        then: function (resolve) {
+            resolve({
                 data: [{
                     id: "1",
                     description: "Reflejos y mechas",
@@ -38,8 +38,8 @@ vi.mock(`../src/supabase/client.js`, () => {
                     state: "pending",
                     created_at: "2022-01-01",
                     user_id: "12230a"
-                }], error: null 
-            }) 
+                }], error: null
+            })
         }
     };
     return {
@@ -57,7 +57,6 @@ vi.mock(`../src/supabase/client.js`, () => {
         },
     }
 });
-
 
 const AllProviders = ({ children }) => {
     return (
@@ -78,7 +77,6 @@ vi.mocked(supabase.auth.getUser).mockResolvedValue({ data: { user: mockUser }, e
 let matchMediaMock = new MatchMediaMock();
 matchMediaMock.useMediaQuery('(prefers-color-scheme: dark)');
 
-
 const mockTurno = [{
     id: "1",
     description: "Reflejos y mechas",
@@ -97,11 +95,7 @@ const mockTurno = [{
     user_id: "12230a"
 }];
 
-
-
-
 const mockNavigate = vi.fn();
-
 
 vi.mock("react-router", async (importOriginal) => {
     const router = await importOriginal();
@@ -112,7 +106,7 @@ vi.mock("react-router", async (importOriginal) => {
     }
 })
 
-describe(`Find new appointment button in dashboard`, () => {
+describe(`Find new appointment button in dashboard and appoitment description`, () => {
     test(`Find button`, async () => {
         render(
             <MemoryRouter initialEntries={["/dashboard"]}>
@@ -125,10 +119,8 @@ describe(`Find new appointment button in dashboard`, () => {
         );
         const newButton = screen.getByRole("button", { name: /New Appointment/i });
         expect(newButton).toBeInTheDocument();
-    })
-});
+    });
 
-describe(`Find new appointment in dashboard`, () => {
     test(`Find mock appointment`, async () => {
         render(
             <MemoryRouter initialEntries={["/dashboard"]}>
@@ -152,4 +144,4 @@ describe(`Find new appointment in dashboard`, () => {
         expect(time).toBeInTheDocument();
         expect(button).toBeInTheDocument();
     })
-})
+});

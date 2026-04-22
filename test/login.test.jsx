@@ -11,8 +11,8 @@ afterEach(() => {
     cleanup();
 })
 
-describe("find google button", () => {
-    test(`Login page with form and google btn`, async () => {
+describe("Find login form with inputs and google button", () => {
+    test(`Login page with google button`, async () => {
         let macthMediaMock = new MatchMediaMock();
         macthMediaMock.useMediaQuery('(prefers-color-scheme: dark)');
         render(
@@ -31,11 +31,8 @@ describe("find google button", () => {
         const googleBtn = screen.getByRole("button", { name: /Continue with Google/i })
         expect(googleBtn).toBeInTheDocument();
     });
-});
 
-
-describe("Find login form", () => {
-    test("Login page form", async () => {
+    test("Login page form inputs", async () => {
         let matchMediaMock = new MatchMediaMock();
         matchMediaMock.useMediaQuery('(prefers-color-scheme: dark)');
         render(
@@ -60,4 +57,5 @@ describe("Find login form", () => {
         expect(passwordInput).toBeInTheDocument();
         expect(newInPlatformLink).toBeInTheDocument();
     });
-})
+});
+
