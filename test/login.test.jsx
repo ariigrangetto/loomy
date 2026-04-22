@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, test } from "vitest";
 import { MemoryRouter, Route, Routes } from "react-router";
-import { render, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import Login from "../src/pages/Login.tsx"
 import { ThemeProvider } from "../src/context/ThemeProvider.tsx";
 import StateProvider from "../src/context/StateContext.tsx";
@@ -51,7 +51,7 @@ describe("Find login form with inputs and google button", () => {
         const form = document.querySelector("form");
         const emailInput = screen.getByLabelText(/Professional Email/i);
         const passwordInput = screen.getByLabelText(/Password/i);
-        const newInPlatformLink = screen.getByRole("link", { name: /Join Loomy/i })
+        const newInPlatformLink = await screen.findByRole("link", { name: /Join Loomy/i })
         expect(form).toBeInTheDocument();
         expect(emailInput).toBeInTheDocument();
         expect(passwordInput).toBeInTheDocument();
