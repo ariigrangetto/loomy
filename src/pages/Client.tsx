@@ -2,7 +2,8 @@ import { useParams, Link } from "react-router";
 import { useEffect, useState } from "react";
 import type { History, Client as ClientType } from "../types.d.ts";
 import useDashboard from "../hooks/useDashboard.tsx";
-import { ArrowLeft, Calendar, User as UserIcon, Phone, Clock, FileText } from "lucide-react";
+import { ArrowLeft, Calendar, User as UserIcon, Phone, Clock, FileText, Sun, Moon } from "lucide-react";
+import useTheme from "../hooks/useTheme.tsx";
 
 export default function Client() {
     const { getClientHistory, getClientById } = useDashboard();
@@ -10,6 +11,15 @@ export default function Client() {
     const [history, setHistory] = useState<History[]>([]);
     const [client, setClient] = useState<ClientType | null>(null);
     const [loading, setLoading] = useState(true);
+    const { theme, setTheme } = useTheme();
+
+    const toggleTheme = () => {
+        if (theme === "dark") {
+            setTheme("light");
+        } else {
+            setTheme("dark");
+        }
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -50,7 +60,17 @@ export default function Client() {
     }
 
     return (
-        <main className="min-h-screen bg-[#f7f7f9] dark:bg-[#16171d] p-6 md:p-10 font-sans transition-colors duration-200">
+        <main className="min-h-screen bg-[#f7f7f9] dark:bg-[#16171d] p-6 md:p-10 font-sans transition-colors duration-200 relative">
+            <div className="absolute top-6 right-6 z-10">
+                <button
+                    onClick={toggleTheme}
+                    className="p-2.5 text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-100 hover:bg-gray-200/50 dark:hover:bg-white/10 rounded-[12px] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/30"
+                    title="Change Theme"
+                >
+                    {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+                </button>
+            </div>
+
             <div className="max-w-5xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <Link to="/" className="inline-flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-[#1a1a2e] dark:hover:text-white transition-colors mb-8 font-medium">
                     <ArrowLeft size={18} /> Back to Dashboard
