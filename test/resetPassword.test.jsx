@@ -7,12 +7,29 @@ afterEach(() => {
     cleanup();
 })
 
+const AllProviders = ({ children }) => {
+    return (
+        <ThemeProvider defaultTheme="system">
+            <UserProvider>
+                <StateProvider>
+                    <DashboardProvider>
+                        {children}
+                    </DashboardProvider>
+                </StateProvider>
+            </UserProvider>
+        </ThemeProvider>
+    )
+}
+
+
 
 describe("Find reset password elements", () => {
     test("Find reset password form", async () => {
         render(
             <MemoryRouter initialEntries={["/reset-password"]}>
-                <ResetPassword />
+                <AllProviders>
+                    <ResetPassword />
+                </AllProviders>
             </MemoryRouter>
         );
         expect(await screen.findByText(/Reset Password/i)).toBeInTheDocument();
