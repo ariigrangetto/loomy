@@ -25,7 +25,6 @@ export default function DashboardProvider({ children }: { children: React.ReactN
                 throw new Error("No user authenticated");
             }
             const userId = userData.user.id;
-            console.log(userId);
             return userId;
         } catch (error) {
             if (error instanceof Error) {
@@ -44,7 +43,6 @@ export default function DashboardProvider({ children }: { children: React.ReactN
                 console.error("Error getting turnos", error.message);
                 throw new Error(error.message);
             }
-            console.log(data);
             setTurnos(data);
         } catch (error) {
             if (error instanceof Error) {
