@@ -1,5 +1,5 @@
 import { LogOut, Plus, Moon, Sun } from "lucide-react";
-import { useLoaderData, useNavigate } from "react-router";
+import { Link, useLoaderData, useNavigate } from "react-router";
 import useTheme from "../hooks/useTheme.tsx";
 import List from "../components/listOfAppointments.tsx";
 import { useState } from "react";
@@ -28,13 +28,16 @@ export default function Dashboard() {
 
     return (
         <main className="min-h-screen bg-[#f7f7f9] dark:bg-[#16171d] p-6 font-sans relative transition-colors duration-200">
-            <header className="flex justify-between items-center mb-10 pb-4 border-b border-gray-200 dark:border-white/10">
+            <header className="flex justify-between items-center mb-10 pb-4 border-b border-gray-200 dark:border-white/10 relative">
                 <div className="flex items-center gap-3">
                     <img src="/icon.png" alt="Loomy Icon" className="w-12 h-12" />
                     <div>
                         <h1 className="text-[20px] font-extrabold text-[#1a1a2e] dark:text-white tracking-tight">Loomy</h1>
                         <p className="text-[9px] font-bold text-gray-500 dark:text-gray-400 tracking-[0.2em] uppercase">Dashboard</p>
                     </div>
+                </div>
+                <div className="absolute left-1/2 -translate-x-1/2">
+                    <Link to="/about" className="text-black dark:text-white font-semibold px-4 rounded-[10px] transition-colors hover:text-[#7460ed] dark:hover:text-[#c084fc]">About</Link>
                 </div>
                 <div className="flex items-center gap-2 sm:gap-4">
                     <button

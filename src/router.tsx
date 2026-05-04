@@ -3,6 +3,7 @@ import { createBrowserRouter, redirect } from "react-router";
 import { supabase } from "./supabase/client.ts";
 import RootLayout from "./layout/RouterLayout.tsx";
 import { lazy } from "react";
+import About from "./pages/About.tsx";
 
 const ResetPassword = lazy(() => import("./pages/ResetPassword.tsx"));
 const Login = lazy(() => import("./pages/Login.tsx"));
@@ -87,7 +88,11 @@ export const Router = createBrowserRouter([
                     return user;
                 },
             },
-
+            {
+                path: "/about",
+                element: <About />,
+                errorElement: <ErrorPage />
+            }
         ],
     },
 ],
