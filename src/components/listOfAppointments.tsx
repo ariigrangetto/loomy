@@ -8,6 +8,18 @@ export default function List({ id }: { id: string }) {
     const { updateTurnoState, deleteFromDashboard } = useDashboard();
     const { turnos, loading } = useStateContext();
 
+    const compareDates = (date: string) => {
+        const actualDay = new Date().toISOString().split("T")[0];
+        const appointmentDay = new Date(date).toISOString().split("T")[0];
+
+        if (actualDay == appointmentDay) {
+            return "This appointment is due today.";
+        } else if (appointmentDay < actualDay) {
+            return "This appointment is due.";
+        }
+        return "";
+    }
+
     if (loading) {
         return (
             <div className="min-h-screen bg-[#f7f7f9] dark:bg-[#16171d] flex items-center justify-center transition-colors duration-200">
@@ -50,10 +62,12 @@ export default function List({ id }: { id: string }) {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {turnos.map((turno) => (
 
+
                             <div
                                 key={turno.id}
                                 className="bg-white dark:bg-[#1f2028] rounded-[16px] p-6 shadow-[0_8px_40px_rgb(0,0,0,0.03)] border border-gray-100 dark:border-white/5 flex flex-col gap-4 relative overflow-hidden transition-all hover:border-[#7460ed]/30 dark:hover:border-[#c084fc]/30 hover:shadow-md"
                             >
+                                <p className="text-[12px] font-semibold px-2 py-1 rounded-full appearance-none cursor-pointer outline-none focus:ring-2 focus:ring-[#7460ed]/30 border-none transition-colors bg-red-100 text-red-600 dark:bg-red-500/20">{compareDates(turno.date)}</p>
                                 <div className="flex flex-wrap sm:flex-nowrap justify-between items-center w-full gap-2 relative">
                                     <select
                                         aria-label="state"
