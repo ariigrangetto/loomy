@@ -1,75 +1,50 @@
-# React + TypeScript + Vite
+<h1>📅 Appointment Management System v2.0</h1>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### 📝 Description
+This project is a full-stack evolution of my very first programming application. Originally built with vanilla JavaScript and CSS, this version has been completely re-engineered to solve real-world scheduling challenges for a professional hair salon.
 
-Currently, two official plugins are available:
+The application goes beyond simple scheduling; it acts as a Client Relationship Management (CRM) tool. It allows the administrator to track client history, review previous services provided, and monitor the time elapsed since the last visit, enabling a more personalized and professional service.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### 🚀 Evolution & Learning Goals
+This rewrite served as a benchmark for my growth as a developer. I migrated the entire architecture to a modern stack to implement better patterns and more robust features:
 
-## React Compiler
+- From JS/CSS to TypeScript & Tailwind: Enhancing type safety and UI consistency.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- Database Migration: Moving to Supabase for real-time data handling and secure authentication.
 
-Note: This will impact Vite dev & build performances.
+- Architecture & Quality: Implementing CI/CD pipelines and automated testing to ensure a production-ready environment.
 
-## Expanding the ESLint configuration
+### 🛠️ Tech Stack
+- Frontend: React, TypeScript, Tailwind CSS.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Backend & Database: Supabase (Auth, PostgreSQL, Edge Functions).
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Testing: Vitest, React Testing Library.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- DevOps: GitHub Actions (CI/CD), Vercel.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Workflow: Custom MCPs (Model Context Protocol) for Notion (task tracking) and Supabase integration.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### ✨ Key Features
+- Advanced Scheduling: Dynamic time-slot management.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Client Insights: Detailed history logs including past services and "days since last visit" metrics.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Security: Protected routes and row-level security (RLS) via Supabase.
+
+- Performance Optimized: Focused on React performance patterns (Memoization, optimized re-renders) verified through custom profiling.
+
+Automated Workflow: Continuous integration and deployment with automated testing for every push.
+
+### 🌆 Preview
+(This demonstrates how you can switch between themes.)
+
+<img width="1893" height="948" alt="Captura de pantalla (180)" src="https://github.com/user-attachments/assets/1b8018ec-297e-44b0-a2c5-3cf00d31bf3c" />
+<img width="1895" height="955" alt="Captura de pantalla (185)" src="https://github.com/user-attachments/assets/c9de364a-8e13-45c1-8dda-cc3689b5d59b" />
+<img width="1920" height="948" alt="Captura de pantalla (188)" src="https://github.com/user-attachments/assets/6d483820-4278-442a-beaf-529cf77f6488" />
+<img width="1920" height="943" alt="Captura de pantalla (181)" src="https://github.com/user-attachments/assets/f37fc90d-65d4-4b66-bf8b-1288b1ae9790" />
+<img width="1920" height="946" alt="Captura de pantalla (184)" src="https://github.com/user-attachments/assets/3d38e01b-9040-46f4-8431-8241b066cc88" />
+<img width="1895" height="952" alt="Captura de pantalla (187)" src="https://github.com/user-attachments/assets/31bb2453-b3ef-4bdf-8b4f-2769230bf8ed" />
+
+
+

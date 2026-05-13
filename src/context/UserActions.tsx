@@ -24,7 +24,7 @@ export default function UserProvider({ children }: userProviderProps) {
             if (event === "SIGNED_IN" && session && window.location.pathname === "/client") {
                 navigate("/");
             }
-            if (event === "SIGNED_IN" && session) {
+            if (event === "SIGNED_IN" && session && window.location.pathname !== "/about") {
                 navigate("/");
             }
             if (event === "SIGNED_OUT" && session === null && window.location.pathname !== "/login") {
