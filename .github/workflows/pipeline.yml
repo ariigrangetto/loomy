@@ -25,25 +25,24 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: "22"
-          cache: "npm"
+          version: 11
 
       - name: Install dependencies
         run: |
-          npm install
+          pnpm install
           echo "Dependencies installed correctly"
 
       - name: Run test
         run: |
-          npm run test -- --run
+          pnpm run test
           echo "Test passed successfully, proceeding to deploy"
 
       - name: Install vercel CLI
         run: |
-          npm i --global vercel@latest
+          pnpm i --global vercel@latest
           echo "Vercel CLI installed successfully"
 
       - name: Pull Vercel Environment Information (Preview)
