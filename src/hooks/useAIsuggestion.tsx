@@ -3,7 +3,6 @@ import type { Turno } from "../types.d";
 import ollama from "ollama";
 
 export default function useAISuggestion({ turnos }: { turnos: Turno[] }) {
-    console.log("hello");
     const [IAMessage, setIAMessage] = useState("");
     const turnosData = JSON.stringify(turnos);
     const currentDate = new Date().toLocaleString("es-AR", { dateStyle: "full", timeStyle: "short" });
@@ -45,8 +44,6 @@ export default function useAISuggestion({ turnos }: { turnos: Turno[] }) {
                 });
 
                 if (!response.message.content) throw new Error("Error al generar la respuesta");
-
-                console.log("working")
                 const parsedResponse = JSON.parse(response.message.content);
                 if (parsedResponse.suggestion) {
                     setIAMessage(parsedResponse.suggestion);

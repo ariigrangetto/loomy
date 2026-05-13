@@ -9,8 +9,6 @@ export default function List({ id }: { id: string }) {
     const { updateTurnoState, deleteFromDashboard } = useDashboard();
     const { turnos, loading } = useStateContext();
     const { IAMessage } = useAISuggestion({ turnos });
-    console.log(IAMessage);
-
     const compareDates = (date: string) => {
         const actualDay = new Date().toISOString().split("T")[0];
         const appointmentDay = new Date(date).toISOString().split("T")[0];
