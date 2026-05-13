@@ -2,9 +2,9 @@ name: Deployment pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -33,13 +33,13 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm ci
+          npm install
           echo "Dependencies installed correctly"
 
       - name: Run test
         run: |
           npm run test -- --run
-          echo "Test passed successfully, proceeding to deploy" 
+          echo "Test passed successfully, proceeding to deploy"
 
       - name: Install vercel CLI
         run: |
