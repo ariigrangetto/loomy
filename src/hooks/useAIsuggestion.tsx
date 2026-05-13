@@ -9,7 +9,9 @@ export default function useAISuggestion({ turnos }: { turnos: Turno[] }) {
     const currentDate = new Date().toLocaleString("es-AR", { dateStyle: "full", timeStyle: "short" });
     const prompt = `Eres un asistente virtual experto para un salón de peluquería.
     Tu tarea es analizar la siguiente lista de turnos agendados y encontrar el próximo horario libre más cercano para un nuevo cliente.
-    Asume que el horario de atención es de 14:00 a 20:00. De martes a sábado
+    Asume que el horario de atención es de 14:00 a 20:00. De martes a sábados.
+    Ten en cuenta en que si no encuentras turno para el día actual, (${currentDate}), ofrécelo al usuario.
+    Dale el turno más cercano posible y disponible.
 
     Fecha y hora actual: ${currentDate}
 
@@ -35,7 +37,6 @@ export default function useAISuggestion({ turnos }: { turnos: Turno[] }) {
 
     useEffect(() => {
         async function getSuggestion() {
-            setIAMessage("Generating suggestion...");
             try {
                 const response = await ollama.chat({
                     model: "tinyllama",

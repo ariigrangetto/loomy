@@ -62,11 +62,17 @@ export default function List({ id }: { id: string }) {
             ) : (
                 <div className="max-w-5xl mx-auto mt-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
                     <h2 className="text-[18px] font-bold text-[#1a1a2e] dark:text-white mb-6">Upcoming Appointments</h2>
-                    {IAMessage && (
+                    {IAMessage ? (
                         <div className="mb-6 p-4 bg-[#7460ed]/10 border border-[#7460ed]/20 rounded-[12px] flex items-start gap-3">
                             <span className="text-xl">✨</span>
                             <p className="text-[#3b2d82] dark:text-indigo-300 font-medium text-[14px] leading-relaxed">{IAMessage}</p>
                         </div>
+                    ) : (
+                        <div className="mb-6 p-4 bg-[#7460ed]/10 border border-[#7460ed]/20 rounded-[12px] flex items-start gap-3">
+                            <span className="text-xl">✨</span>
+                            <p className="text-[#3b2d82] dark:text-indigo-300 font-medium text-[14px] leading-relaxed">generating suggestion</p>
+                        </div>
+
                     )}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {turnos.map((turno) => (
