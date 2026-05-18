@@ -68,7 +68,7 @@ export default function List({ id }: { id: string }) {
                     ) : (
                         <div className="mb-6 p-4 bg-[#7460ed]/10 border border-[#7460ed]/20 rounded-[12px] flex items-start gap-3">
                             <span className="text-xl">✨</span>
-                            <p className="text-[#3b2d82] dark:text-indigo-300 font-medium text-[14px] leading-relaxed">generating suggestion</p>
+                            <p className="text-[#3b2d82] dark:text-indigo-300 font-medium text-[14px] leading-relaxed">Generating suggestion...</p>
                         </div>
 
                     )}
