@@ -1,12 +1,10 @@
 import { CalendarIcon, Clock, FileText, Phone, User, X } from "lucide-react";
 import { useState } from "react";
-import type { State } from "../types.d.ts";
-import useDashboard from "../hooks/useDashboard.tsx";
-import useStateContext from "../hooks/useStateContext.tsx";
+import type { State } from "../../lib/types.d.ts";
+import useDashboardActions from "../../hooks/useDashboardActions.tsx";
 
 export default function Form({ id, setIsFormOpen }: { id: string; setIsFormOpen: (value: boolean) => void }) {
-    const { createTurno } = useDashboard();
-    const { loading } = useStateContext();
+    const { createAppointment, loading } = useDashboardActions();
     const [errorMessage, setErrorMessage] = useState<string>("");
 
     const [formData, setFormData] = useState<{
@@ -34,7 +32,7 @@ export default function Form({ id, setIsFormOpen }: { id: string; setIsFormOpen:
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const createdTurno = await createTurno(id, formData.name, formData.lastname, formData.description, formData.date, formData.time, formData.state);
+        const createdTurno = await createAppointment(id, formData.name, formData.lastname, formData.description, formData.date, formData.time, formData.state);
         if (!createdTurno) {
             setErrorMessage("The date and time are already occupied. Please try again.");
             setTimeout(() => {

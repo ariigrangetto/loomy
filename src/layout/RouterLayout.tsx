@@ -1,22 +1,16 @@
 import { Outlet, } from "react-router";
-import DashboardProvider from "../context/DashboardContext.tsx";
-import { ThemeProvider } from "../context/ThemeProvider.tsx";
+import { ThemeProvider } from "../hooks/useThemeProvider.tsx";
 import { Suspense } from "react";
-import StateProvider from "../context/StateContext.tsx";
 import UserProvider from "../context/UserActions.tsx";
 
 export default function RootLayout() {
     return (
         <ThemeProvider defaultTheme="system">
-            <StateProvider>
-                <UserProvider>
-                    <DashboardProvider>
-                        <Suspense fallback={<div className="min-h-screen bg-[#f7f7f9] dark:bg-[#16171d] flex items-center justify-center"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#7460ed]"></div></div>}>
-                            <Outlet />
-                        </Suspense>
-                    </DashboardProvider>
-                </UserProvider>
-            </StateProvider>
+            <UserProvider>
+                <Suspense fallback={<div className="min-h-screen bg-[#f7f7f9] dark:bg-[#16171d] flex items-center justify-center"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#7460ed]"></div></div>}>
+                    <Outlet />
+                </Suspense>
+            </UserProvider>
         </ThemeProvider>
     )
 }

@@ -1,23 +1,23 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createBrowserRouter, redirect } from "react-router";
-import { supabase } from "./supabase/client.ts";
+import { getUserId } from "./supabase/client.ts";
 import RootLayout from "./layout/RouterLayout.tsx";
 import { lazy } from "react";
-import About from "./pages/About.tsx";
+import About from "./pages/app/About/index.tsx";
 
-const ResetPassword = lazy(() => import("./pages/ResetPassword.tsx"));
-const Login = lazy(() => import("./pages/Login.tsx"));
-const Register = lazy(() => import("./pages/Register.tsx"));
-const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
-const Client = lazy(() => import("./pages/Client.tsx"));
+const ResetPassword = lazy(() => import("./pages/Auth/ResetPassword.tsx"));
+const Login = lazy(() => import("./pages/Auth/Login.tsx"));
+const Register = lazy(() => import("./pages/Auth/Register.tsx"));
+const Dashboard = lazy(() => import("./pages/app/Dashboard/index.tsx"));
+const Client = lazy(() => import("./pages/app/Client/index.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const ErrorPage = lazy(() => import("./pages/ErrorPage.tsx"));
 
 
 
 const getUser = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    return user;
+    const { user } = await getUserId();
+    return user
 }
 
 export const Router = createBrowserRouter([

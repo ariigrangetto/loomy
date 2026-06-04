@@ -1,27 +1,12 @@
-import { Info, History, Palette, Mail, CheckCircle2, CalendarDays, Sun, Moon } from "lucide-react";
-import useTheme from "../hooks/useTheme";
+import { Info, History, Palette, Mail, CheckCircle2, CalendarDays } from "lucide-react";
+import ButtonTheme from "../../../components/Event/toggleTheme";
 
 export default function About() {
-    const { theme, setTheme } = useTheme();
-
-    function toggleTheme() {
-        if (theme === "dark") {
-            setTheme("light");
-        } else {
-            setTheme("dark");
-        }
-    }
 
     return (
         <div className="min-h-screen bg-[#f7f7f9] dark:bg-[#16171d] p-6 md:p-12 transition-colors duration-200">
             <div className="absolute top-6 right-6 z-10">
-                <button
-                    onClick={toggleTheme}
-                    className="p-2.5 text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-100 hover:bg-gray-200/50 dark:hover:bg-white/10 rounded-[12px] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/30"
-                    title="Change Theme"
-                >
-                    {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-                </button>
+                <ButtonTheme />
             </div>
             <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
 
@@ -75,7 +60,7 @@ export default function About() {
                     </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-[#7460ed] to-[#9b8bfc] rounded-[24px] p-8 md:p-12 text-center text-white shadow-lg relative overflow-hidden">
+                <div className="bg-linear-to-br from-[#7460ed] to-[#9b8bfc] rounded-[24px] p-8 md:p-12 text-center text-white shadow-lg relative overflow-hidden">
                     <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-white opacity-10 rounded-full blur-2xl"></div>
                     <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-40 h-40 bg-black opacity-10 rounded-full blur-2xl"></div>
 

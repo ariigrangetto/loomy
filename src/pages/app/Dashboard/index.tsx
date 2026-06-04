@@ -1,29 +1,20 @@
-import { LogOut, Plus, Moon, Sun } from "lucide-react";
+import { LogOut, Plus } from "lucide-react";
 import { Link, useLoaderData, useNavigate } from "react-router";
-import useTheme from "../hooks/useTheme.tsx";
-import List from "../components/listOfAppointments.tsx";
+import List from "../../../components/App/Dashboard/ListOfAppointments.tsx";
 import { useState } from "react";
-import Form from "../components/Form.tsx";
-import useUser from "../hooks/useUser.tsx";
+import Form from "../../../components/Event/AppointmentForm.tsx";
+import useUser from "../../../hooks/useUser.tsx";
+import ButtonTheme from "../../../components/Event/toggleTheme.tsx";
 
 export default function Dashboard() {
     const { signOut } = useUser();
     const navigate = useNavigate();
     const { user: { id } } = useLoaderData();
-    const { theme, setTheme } = useTheme();
     const [isFormOpen, setIsFormOpen] = useState(false);
 
     const handleSignOut = async () => {
         const error = await signOut();
         if (!error) navigate("/login");
-    };
-
-    const toggleTheme = () => {
-        if (theme === "dark") {
-            setTheme("light");
-        } else {
-            setTheme("dark");
-        }
     };
 
     return (
@@ -40,13 +31,7 @@ export default function Dashboard() {
                     <Link to="/about" className="text-black dark:text-white font-semibold px-4 rounded-[10px] transition-colors hover:text-[#7460ed] dark:hover:text-[#c084fc]">About</Link>
                 </div>
                 <div className="flex items-center gap-2 sm:gap-4">
-                    <button
-                        onClick={toggleTheme}
-                        className="p-2.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10 rounded-[10px] transition-colors"
-                        title="Cambiar Tema"
-                    >
-                        {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-                    </button>
+                    <ButtonTheme />
                     <button
                         onClick={() => setIsFormOpen(true)}
                         className="py-2.5 px-3 sm:px-5 bg-[#7460ed] hover:bg-[#6250cc] text-white text-[14px] font-semibold rounded-[10px] shadow-sm hover:shadow-md transform transition-all active:scale-[0.98] outline-none flex items-center gap-2"
@@ -64,7 +49,7 @@ export default function Dashboard() {
                 </div>
             </header>
             {isFormOpen && <Form id={id} setIsFormOpen={setIsFormOpen} />}
-            <List id={id} />
+            <List userId={id} />
         </main>
     );
 }

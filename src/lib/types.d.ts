@@ -28,3 +28,9 @@ export interface History {
     client?: Client;
 }
 
+export type ServiceResult<T = void> = {
+    success: boolean;
+    error: string | null;
+    message?: string | null;
+    data?: T | null;
+}
