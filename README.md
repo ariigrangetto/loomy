@@ -36,6 +36,23 @@ This rewrite served as a benchmark for my growth as a developer. I migrated the 
 
 Automated Workflow: Continuous integration and deployment with automated testing for every push.
 
+### 🤖 AI Integration: Smart Appointment Suggestions
+To optimize the booking experience and help users find available time slots more efficiently, the project incorporates an intelligent suggestion system for upcoming appointments.
+
+#### 🛠️ Model Used: TinyLlama
+The engine behind these suggestions is TinyLlama, a compact yet highly efficient language model.
+
+The choice of this model was a strategic balance between available computing power and the desired functionality:
+
+Resource Optimization: Due to local hardware limitations (development machine configuration), a lightweight model was prioritized. This allowed for local and stable execution without sacrificing project viability.
+
+The Prompt Engineering Challenge: Being a smaller-scale model, its capacity for strict instruction-following is naturally limited. Achieving precise results required an intensive and meticulous Prompt Engineering process. Crafting the instructions to ensure the model adhered to the system's business rules to the letter, and formatted the data correctly without drifting, represented a significant optimization challenge.
+
+#### 🚀 Benefits of this Implementation
+- Privacy and Cost Efficiency: Running a lightweight model locally reduces reliance on expensive external APIs and keeps processing optimized.
+
+- Search Efficiency: The system analyzes open slots and actively suggests the best real-time options to the user.
+
 ### 🌆 Preview
 (This demonstrates how you can switch between themes.)
 
