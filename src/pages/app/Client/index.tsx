@@ -13,25 +13,35 @@ export default function Client() {
     const [history, setHistory] = useState<History[]>([]);
     const [client, setClient] = useState<ClientType | null>(null);
     const [loading, setLoading] = useState(true);
+    const [errorMessage, setErrorMessage] = useState<string>("");
 
     useEffect(() => {
         const fetchData = async () => {
             if (!id) return;
             setLoading(true);
             try {
-                const clientData = await getClientData(id);
+                const { data: clientData, error: clientError } = await getClientData(id);
+
+                if (clientError) {
+                    setErrorMessage(`Oops, something went wrong trying to fetch client data. Try again later. `)
+                    return;
+                }
+
                 if (clientData) setClient(clientData);
 
-                const historyData = await getClientHistory(id);
-                if (historyData) setHistory(historyData as History[]);
-            } catch (error) {
-                throw new Error("Error fetching client data and client histor:", error);
+                const { data: historyData, error: historyError } = await getClientHistory(id);
+                if (historyError) {
+                    setErrorMessage(`Oops, something went wrong trying to fetch client history. Try again later.`)
+                    return;
+                }
+
+                if (historyData) setHistory(historyData);
             } finally {
                 setLoading(false);
             }
         }
         fetchData();
-    }, [getClientHistory, getClientData, id]);
+    }, [id]);
 
     if (loading) {
         return (
@@ -45,6 +55,18 @@ export default function Client() {
         return (
             <div className="min-h-screen bg-[#f7f7f9] dark:bg-[#16171d] flex flex-col items-center justify-center p-6 text-center transition-colors duration-200">
                 <h2 className="text-[22px] font-bold text-[#1a1a2e] dark:text-white mb-4">Client not found</h2>
+                <Link to="/" className="text-[#6b58dc] hover:text-[#5a46c8] dark:text-[#8271eb] font-semibold flex items-center gap-2">
+                    <ArrowLeft size={16} /> Back to Dashboard
+                </Link>
+            </div>
+        );
+    }
+
+    if (errorMessage) {
+        return (
+            <div className="min-h-screen bg-[#f7f7f9] dark:bg-[#16171d] flex flex-col items-center justify-center p-6 text-center transition-colors duration-200">
+                <h2 className="text-[22px] font-bold text-[#1a1a2e] dark:text-white mb-4">Error</h2>
+                <p className="text-gray-500 dark:text-gray-400 mb-6">{errorMessage}</p>
                 <Link to="/" className="text-[#6b58dc] hover:text-[#5a46c8] dark:text-[#8271eb] font-semibold flex items-center gap-2">
                     <ArrowLeft size={16} /> Back to Dashboard
                 </Link>
