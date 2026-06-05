@@ -20,10 +20,12 @@ export default function ResetPassword() {
         setSuccess(false);
 
         try {
-            const { error } = await supabase.auth.resetPasswordForEmail(email);
+            const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: "https://loomynat.vercel.app/update-password"
+            });
 
             if (error) {
-                setError(`Oops, something went wrong! Try again later`);
+                setError(error.status === 429 ? `Too many requests. Please wait a few minutes before trying to reset your password again. ` : `Oops, something went wrong! Try again later`);
                 setSuccess(false);
                 if (timeoutId.current) {
                     clearTimeout(timeoutId.current);
@@ -31,13 +33,14 @@ export default function ResetPassword() {
 
                 timeoutId.current = setTimeout(() => {
                     setError("");
-                }, 3000);
+                }, 4000);
 
                 return;
             }
 
             setSuccess(true);
             setMessage("Check your email for instructions to reset your password.");
+
         } catch (error: any) {
             setError(error.message);
         } finally {
@@ -47,7 +50,9 @@ export default function ResetPassword() {
 
     return (
         <main className="min-h-screen flex flex-col items-center justify-center w-full p-6 bg-[#f7f7f9] dark:bg-[#0f0f13] relative font-sans transition-colors duration-300">
-            <ButtonTheme />
+            <div className="absolute top-6 right-6">
+                <ButtonTheme />
+            </div>
 
             <div className="relative z-10 w-full max-w-md">
                 <div className="bg-white dark:bg-[#15151e] rounded-[16px] p-8 shadow-[0_8px_40px_rgb(0,0,0,0.03)] border border-gray-100 dark:border-white/5 transition-colors duration-300">
@@ -62,7 +67,7 @@ export default function ResetPassword() {
                     </div>
 
                     {error && (
-                        <div className="flex items-center gap-2 p-3 mb-4 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-lg">
+                        <div className="flex items-center gap-2 p-3 mb-4 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-lg justify-center">
                             <AlertCircle className="w-4 h-4 text-red-500" />
                             <span className="text-sm text-red-600 dark:text-red-400">{error}</span>
                         </div>
