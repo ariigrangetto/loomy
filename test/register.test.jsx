@@ -2,8 +2,6 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, test, vi } from "vitest";
 import Register from "../src/pages/Register.tsx";
 import { MemoryRouter, Route, Routes } from "react-router";
-import UserProvider from "../src/context/UserActions.tsx";
-import StateProvider from "../src/context/StateContext.tsx";
 import { ThemeProvider } from "../src/context/ThemeProvider.tsx";
 import MatchMediaMock from "vitest-matchmedia-mock";
 import Login from "../src/pages/Login.tsx";
@@ -18,15 +16,11 @@ describe("Find register form, with google button and inputs", () => {
         macthMediaMock.useMediaQuery('(prefers-color-scheme: dark)');
         render(
             <MemoryRouter initialEntries={["/login"]}>
-                <UserProvider>
-                    <StateProvider>
-                        <ThemeProvider defaultTheme="system">
-                            <Routes>
-                                <Route path="/login" element={<Register />} />
-                            </Routes>
-                        </ThemeProvider>
-                    </StateProvider>
-                </UserProvider>
+                <ThemeProvider defaultTheme="system">
+                    <Routes>
+                        <Route path="/login" element={<Register />} />
+                    </Routes>
+                </ThemeProvider>
             </MemoryRouter>
         );
         const googleBtn = screen.getByRole("button", { name: /Continue with Google/i })
@@ -38,16 +32,13 @@ describe("Find register form, with google button and inputs", () => {
         matchMediaMock.useMediaQuery('(prefers-color-scheme: dark)');
         render(
             <MemoryRouter initialEntries={["/register"]}>
-                <UserProvider>
-                    <StateProvider>
-                        <ThemeProvider defaultTheme="system">
-                            <Routes>
-                                <Route path="/register" element={<Register />} />
-                            </Routes>
-                        </ThemeProvider>
-                    </StateProvider>
-                </UserProvider>
-            </MemoryRouter>
+
+                <ThemeProvider defaultTheme="system">
+                    <Routes>
+                        <Route path="/register" element={<Register />} />
+                    </Routes>
+                </ThemeProvider>
+            </MemoryRouter >
         );
         const form = document.querySelector("form");
         const nameInput = screen.getByLabelText(/first name/i);
@@ -71,16 +62,12 @@ describe("Redirect to login when user is alredy logged in", async () => {
         matchMediaMock.useMediaQuery('(prefers-color-scheme: dark)');
         render(
             <MemoryRouter initialEntries={["/register"]}>
-                <UserProvider>
-                    <StateProvider>
-                        <ThemeProvider defaultTheme="system">
-                            <Routes>
-                                <Route path="/register" element={<Register />} />
-                                <Route path="/login" element={<Login />} />
-                            </Routes>
-                        </ThemeProvider>
-                    </StateProvider>
-                </UserProvider>
+                <ThemeProvider defaultTheme="system">
+                    <Routes>
+                        <Route path="/register" element={<Register />} />
+                        <Route path="/login" element={<Login />} />
+                    </Routes>
+                </ThemeProvider>
             </MemoryRouter>
         );
         const link = await screen.findByRole("link", { name: /Already have an account?/i })
