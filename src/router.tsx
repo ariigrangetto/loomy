@@ -4,6 +4,7 @@ import { getUserId } from "./supabase/client.ts";
 import RootLayout from "./layout/RouterLayout.tsx";
 import { lazy } from "react";
 import About from "./pages/app/About/index.tsx";
+import UpdatePassword from "./pages/Auth/UpdatePassword.tsx";
 
 const ResetPassword = lazy(() => import("./pages/Auth/ResetPassword.tsx"));
 const Login = lazy(() => import("./pages/Auth/Login.tsx"));
@@ -81,16 +82,15 @@ export const Router = createBrowserRouter([
                 element: <NotFound />,
             },
             {
-                path: "/resetPassword",
+                path: "/forgot-password",
                 element: <ResetPassword />,
                 errorElement: <ErrorPage />,
-                loader: async () => {
-                    const user = await getUser();
-                    if (user) {
-                        return redirect("/");
-                    }
-                    return user;
-                },
+
+            },
+            {
+                path: "/update-password",
+                element: <UpdatePassword />,
+                errorElement: <ErrorPage />
             },
             {
                 path: "/about",
