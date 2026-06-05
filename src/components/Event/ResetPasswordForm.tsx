@@ -24,7 +24,7 @@ export const ResetPasswordForm: React.FC<Props> = (props) => {
                             onChange={(e) => props.setEmail(e.target.value)}
                             required
                             disabled={props.loading}
-                            className="w-full pl-10 pr-4 py-3 bg-[#f3f4f6] dark:bg-white/5 border border-transparent dark:border-white/5 rounded-[12px] text-gray-900 dark:text-white text-[14px] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/40 focus:bg-white dark:focus:bg-[#1a1a24] focus:border-[#6b58dc]/30 transition-all duration-200"
+                            className="w-full pl-10 pr-4 py-3 bg-[#f3f4f6] dark:bg-white/5 border border-transparent dark:border-white/5 rounded-[12px] text-gray-900 dark:text-white text-[14px] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/40 focus:bg-white dark:focus:bg-[#1a1a24] focus:border-[#6b58dc]/30 transition-all duration-200 autofill:[box-shadow:0_0_0_1000px_#f3f4f6_inset] dark:autofill:[box-shadow:0_0_0_1000px_#1f2937_inset] autofill:[-webkit-text-fill-color: #000000] dark:autofill:[-webkit-text-fill-color:#ffffff]"
                             placeholder="your@email.com"
                         />
                     </div>
