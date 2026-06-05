@@ -16,8 +16,12 @@ const ErrorPage = lazy(() => import("./pages/ErrorPage.tsx"));
 
 
 const getUser = async () => {
-    const { user } = await getUserId();
-    return user
+    try {
+        const { user } = await getUserId();
+        return user;
+    } catch (error) {
+        return null;
+    }
 }
 
 export const Router = createBrowserRouter([
