@@ -23,7 +23,7 @@ export default function Client() {
                 const { data: clientData, error: clientError } = await getClientData(id);
 
                 if (clientError) {
-                    setErrorMessage(`Oops, something went wrong trying to fetch client data. Try again later. `)
+                    setErrorMessage(clientError);
                     return;
                 }
 
@@ -31,7 +31,7 @@ export default function Client() {
 
                 const { data: historyData, error: historyError } = await getClientHistory(id);
                 if (historyError) {
-                    setErrorMessage(`Oops, something went wrong trying to fetch client history. Try again later.`)
+                    setErrorMessage(historyError);
                     return;
                 }
 

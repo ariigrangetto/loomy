@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import Footer from "../../components/ui/Footer.tsx";
 import { supabase } from "../../supabase/client.ts";
-import NavBar from "../../components/ui/Navbar.tsx";
+import NavBar from "../../components/ui/NavbarForms.tsx";
 import { RegisterForm } from "../../components/Event/RegisterForm.tsx";
 
 

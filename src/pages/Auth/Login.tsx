@@ -1,7 +1,7 @@
 import { useRef, useState } from "react"
 import { useNavigate } from "react-router"
 import { supabase } from "../../supabase/client.ts"
-import NavBar from "../../components/ui/Navbar.tsx"
+import NavBar from "../../components/ui/NavbarForms.tsx"
 import { LoginForm } from "../../components/Event/LoginForm.tsx"
 import Footer from "../../components/ui/Footer.tsx"
 
