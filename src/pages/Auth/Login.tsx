@@ -24,8 +24,10 @@ export default function Login() {
         const { error } = await supabase.auth.signInWithPassword({
             email: state.email, password: state.password
         });
+
         if (error) {
             setErrorMessage(error.status === 400 ? "The email is not registered" : "Something went wrong. Please try again!");
+            return;
         }
 
         if (timeout.current) {
@@ -51,6 +53,9 @@ export default function Login() {
     const handleLoginWithGoogle = async () => {
         const { error } = await supabase.auth.signInWithOAuth({
             provider: "google",
+            options: {
+                redirectTo: window.location.origin
+            }
         });
 
         if (error) {
