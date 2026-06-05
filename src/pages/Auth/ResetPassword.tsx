@@ -1,25 +1,16 @@
-import { useState } from "react";
-import { useNavigate } from "react-router";
-import { supabase } from "../supabase/client.ts";
-import { AlertCircle, CheckCircle, Mail, ArrowLeft, Sun, Moon } from "lucide-react";
-import useTheme from "../hooks/useTheme.tsx";
+import { useRef, useState } from "react";
+import { supabase } from "../../supabase/client.ts";
+import { AlertCircle, CheckCircle, Mail } from "lucide-react";
+import ButtonTheme from "../../components/Event/toggleTheme.tsx";
+import { ResetPasswordForm } from "../../components/Event/ResetPasswordForm.tsx";
 
 export default function ResetPassword() {
-    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
-    const { theme, setTheme } = useTheme();
-
-    const toggleTheme = () => {
-        if (theme === "dark") {
-            setTheme("light");
-        } else {
-            setTheme("dark");
-        }
-    };
+    const timeoutId = useRef<number | null>(null);
 
     const handleResetPassword = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -32,7 +23,17 @@ export default function ResetPassword() {
             const { error } = await supabase.auth.resetPasswordForEmail(email);
 
             if (error) {
-                throw error;
+                setError(`Oops, something went wrong! Try again later`);
+                setSuccess(false);
+                if (timeoutId.current) {
+                    clearTimeout(timeoutId.current);
+                }
+
+                timeoutId.current = setTimeout(() => {
+                    setError("");
+                }, 3000);
+
+                return;
             }
 
             setSuccess(true);
@@ -46,15 +47,7 @@ export default function ResetPassword() {
 
     return (
         <main className="min-h-screen flex flex-col items-center justify-center w-full p-6 bg-[#f7f7f9] dark:bg-[#0f0f13] relative font-sans transition-colors duration-300">
-            <div className="absolute top-6 right-6">
-                <button
-                    onClick={toggleTheme}
-                    className="p-2.5 text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-100 hover:bg-gray-200/50 dark:hover:bg-white/10 rounded-[12px] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/30"
-                    title="Change Theme"
-                >
-                    {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-                </button>
-            </div>
+            <ButtonTheme />
 
             <div className="relative z-10 w-full max-w-md">
                 <div className="bg-white dark:bg-[#15151e] rounded-[16px] p-8 shadow-[0_8px_40px_rgb(0,0,0,0.03)] border border-gray-100 dark:border-white/5 transition-colors duration-300">
@@ -82,48 +75,7 @@ export default function ResetPassword() {
                         </div>
                     )}
 
-                    <form onSubmit={handleResetPassword} className="space-y-5">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email Address</label>
-                            <div className="relative">
-                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                                <input
-                                    aria-label="Email Address"
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                    disabled={loading}
-                                    className="w-full pl-10 pr-4 py-3 bg-[#f3f4f6] dark:bg-white/5 border border-transparent dark:border-white/5 rounded-[12px] text-gray-900 dark:text-white text-[14px] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/40 focus:bg-white dark:focus:bg-[#1a1a24] focus:border-[#6b58dc]/30 transition-all duration-200"
-                                    placeholder="your@email.com"
-                                />
-                            </div>
-                        </div>
-
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="mt-3 w-full py-3.5 px-4 bg-[#7460ed] hover:bg-[#6250cc] dark:bg-[#6b58dc] dark:hover:bg-[#5a46c8] text-white text-[15px] font-medium rounded-[12px] shadow-[0_4px_12px_rgba(116,96,237,0.2)] hover:shadow-[0_6px_16px_rgba(116,96,237,0.3)] transform transition-all duration-200 active:scale-[0.98] outline-none focus:ring-2 focus:ring-[#7460ed]/50 focus:ring-offset-2 dark:focus:ring-offset-[#15151e] flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            {loading ? (
-                                <div className="flex items-center justify-center gap-2">
-                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                                    <span>Sending...</span>
-                                </div>
-                            ) : (
-                                "Send Reset Link"
-                            )}
-                        </button>
-                    </form>
-
-                    <div className="mt-6 text-center">
-                        <button
-                            onClick={() => navigate("/login")}
-                            className="inline-flex items-center gap-2 text-sm text-[#7460ed] hover:text-[#6a53d8] dark:text-[#c084fc] dark:hover:text-[#d8b4fe] font-medium transition-colors duration-200"
-                        >
-                            <ArrowLeft size={14} /> Back to Login
-                        </button>
-                    </div>
+                    <ResetPasswordForm onHandleResetPassword={handleResetPassword} email={email} loading={loading} setEmail={setEmail} />
                 </div>
             </div>
         </main>
