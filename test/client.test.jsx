@@ -4,8 +4,6 @@ import { MemoryRouter, Route, Routes, useParams } from "react-router";
 import MatchMediaMock from "vitest-matchmedia-mock";
 import DashboardProvider from "../src/context/DashboardContext.tsx";
 import { ThemeProvider } from "../src/context/ThemeProvider.tsx";
-import StateProvider from "../src/context/StateContext.tsx";
-import UserProvider from "../src/context/UserActions.tsx";
 import { afterEach, vi } from "vitest";
 import { supabase } from "../src/supabase/client.js";
 import useDashboard from "../src/hooks/useDashboard.tsx";
@@ -93,13 +91,9 @@ vi.mock("react-router", async (importOriginal) => {
 const AllProviders = ({ children }) => {
     return (
         <ThemeProvider defaultTheme="system">
-            <UserProvider>
-                <StateProvider>
-                    <DashboardProvider>
-                        {children}
-                    </DashboardProvider>
-                </StateProvider>
-            </UserProvider>
+            <DashboardProvider>
+                {children}
+            </DashboardProvider>
         </ThemeProvider>
     )
 }

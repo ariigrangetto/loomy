@@ -3,8 +3,6 @@ import { afterEach, describe, test } from "vitest";
 import ResetPassword from "../src/pages/ResetPassword.tsx";
 import { MemoryRouter } from "react-router";
 import { ThemeProvider } from "../src/context/ThemeProvider.tsx";
-import UserProvider from "../src/context/UserActions.tsx";
-import StateProvider from "../src/context/StateContext.tsx";
 import DashboardProvider from "../src/context/DashboardContext.tsx";
 import MatchMediaMock from "vitest-matchmedia-mock";
 import { supabase } from "../src/supabase/client.ts";
@@ -66,13 +64,9 @@ macthMediaMock.useMediaQuery('(prefers-color-scheme: dark)');
 const AllProviders = ({ children }) => {
     return (
         <ThemeProvider defaultTheme="system">
-            <UserProvider>
-                <StateProvider>
-                    <DashboardProvider>
-                        {children}
-                    </DashboardProvider>
-                </StateProvider>
-            </UserProvider>
+            <DashboardProvider>
+                {children}
+            </DashboardProvider>
         </ThemeProvider>
     )
 }

@@ -6,8 +6,6 @@ import { MemoryRouter, Route, Routes } from "react-router";
 import Dashboard from "../src/pages/Dashboard.tsx";
 import DashboardProvider from "../src/context/DashboardContext.tsx";
 import { ThemeProvider } from "../src/context/ThemeProvider.tsx";
-import StateProvider from "../src/context/StateContext.tsx";
-import UserProvider from "../src/context/UserActions.tsx";
 import ListOfAppointments from "../src/components/listOfAppointments.tsx";
 
 afterEach(() => {
@@ -61,13 +59,9 @@ vi.mock(`../src/supabase/client.js`, () => {
 const AllProviders = ({ children }) => {
     return (
         <ThemeProvider defaultTheme="system">
-            <UserProvider>
-                <StateProvider>
-                    <DashboardProvider>
-                        {children}
-                    </DashboardProvider>
-                </StateProvider>
-            </UserProvider>
+            <DashboardProvider>
+                {children}
+            </DashboardProvider>
         </ThemeProvider>
     )
 }

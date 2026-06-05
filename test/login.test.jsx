@@ -3,8 +3,6 @@ import { MemoryRouter, Route, Routes } from "react-router";
 import { cleanup, render, screen } from "@testing-library/react";
 import Login from "../src/pages/Login.tsx"
 import { ThemeProvider } from "../src/context/ThemeProvider.tsx";
-import StateProvider from "../src/context/StateContext.tsx";
-import UserProvider from "../src/context/UserActions.tsx";
 import MatchMediaMock from "vitest-matchmedia-mock";
 
 afterEach(() => {
@@ -17,15 +15,11 @@ describe("Find login form with inputs and google button", () => {
         macthMediaMock.useMediaQuery('(prefers-color-scheme: dark)');
         render(
             <MemoryRouter initialEntries={["/login"]}>
-                <UserProvider>
-                    <StateProvider>
-                        <ThemeProvider defaultTheme="system">
-                            <Routes>
-                                <Route path="/login" element={<Login />} />
-                            </Routes>
-                        </ThemeProvider>
-                    </StateProvider>
-                </UserProvider>
+                <ThemeProvider defaultTheme="system">
+                    <Routes>
+                        <Route path="/login" element={<Login />} />
+                    </Routes>
+                </ThemeProvider>
             </MemoryRouter>
         );
         const googleBtn = screen.getByRole("button", { name: /Continue with Google/i })
@@ -37,15 +31,11 @@ describe("Find login form with inputs and google button", () => {
         matchMediaMock.useMediaQuery('(prefers-color-scheme: dark)');
         render(
             <MemoryRouter initialEntries={["/login"]}>
-                <UserProvider>
-                    <StateProvider>
-                        <ThemeProvider defaultTheme="system">
-                            <Routes>
-                                <Route path="/login" element={<Login />} />
-                            </Routes>
-                        </ThemeProvider>
-                    </StateProvider>
-                </UserProvider>
+                <ThemeProvider defaultTheme="system">
+                    <Routes>
+                        <Route path="/login" element={<Login />} />
+                    </Routes>
+                </ThemeProvider>
             </MemoryRouter>
         );
         const form = document.querySelector("form");
