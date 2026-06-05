@@ -21,7 +21,7 @@ export default function ResetPassword() {
 
         try {
             const { error } = await supabase.auth.resetPasswordForEmail(email, {
-                redirectTo: "https://loomynat.vercel.app/update-password"
+                redirectTo: `${window.location.origin}/update-password`
             });
 
             if (error) {

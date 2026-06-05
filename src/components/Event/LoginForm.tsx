@@ -1,16 +1,20 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 interface Props {
     onLoginWithGoogle: () => Promise<void>;
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
     onHandleBtn: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    onHandleResetPassword: () => void;
     errorMessage: string;
 }
 
 export const LoginForm: React.FC<Props> = (props) => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
+    const navigate = useNavigate();
+
+    function handleForgotPassword() {
+        navigate("/forgot-password")
+    }
 
     return (
         <div className="w-full max-w-[450px] bg-white dark:bg-[#15151e] rounded-[16px] p-8 sm:p-10 shadow-[0_8px_40px_rgb(0,0,0,0.03)] border border-gray-100 dark:border-white/5 transition-colors duration-300">
@@ -55,7 +59,7 @@ export const LoginForm: React.FC<Props> = (props) => {
                 <div className="flex flex-col gap-2">
                     <div className="flex justify-between items-center">
                         <label className="text-[10px] font-bold text-[#4a4a5e] dark:text-gray-400 uppercase tracking-widest transition-colors duration-300" htmlFor="password">Password</label>
-                        <button type="button" onClick={() => props.onHandleResetPassword()} className="text-[11px] font-bold text-[#6b58dc] hover:text-[#5a46c8] dark:text-[#8271eb] dark:hover:text-[#9788ed] transition-colors focus:outline-none" tabIndex={-1}>Forgot?</button>
+                        <button type="button" onClick={handleForgotPassword} className="text-[11px] font-bold text-[#6b58dc] hover:text-[#5a46c8] dark:text-[#8271eb] dark:hover:text-[#9788ed] transition-colors focus:outline-none" tabIndex={-1}>Forgot?</button>
                     </div>
                     <div className="relative flex items-center">
                         <input

@@ -40,10 +40,6 @@ export default function Login() {
 
     }
 
-    const handleResetPassword = () => {
-        navigate("/resetPassword");
-    }
-
     const handleBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { target: { name, value } } = e;
         setState((prevState) => ({
@@ -74,7 +70,7 @@ export default function Login() {
     return (
         <main className="min-h-screen flex flex-col items-center justify-center p-4 bg-[#f7f7f9] dark:bg-[#0f0f13] relative font-sans transition-colors duration-300">
             <NavBar />
-            <LoginForm onHandleBtn={handleBtn} onSubmit={handleSubmitForm} onHandleResetPassword={handleResetPassword} onLoginWithGoogle={handleLoginWithGoogle} errorMessage={error} />
+            <LoginForm onHandleBtn={handleBtn} onSubmit={handleSubmitForm} onLoginWithGoogle={handleLoginWithGoogle} errorMessage={error} />
             <Footer />
         </main >
     )
