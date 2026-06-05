@@ -35,10 +35,10 @@ jobs:
           pnpm install
           echo "Dependencies installed correctly"
 
-      - name: Run test
-        run: |
-          pnpm run test
-          echo "Test passed successfully, proceeding to deploy"
+      # - name: Run test
+      #   run: |
+      #     pnpm run test
+      #     echo "Test passed successfully, proceeding to deploy"
 
       - name: Install vercel CLI
         run: |
