@@ -1,4 +1,4 @@
-import ButtonTheme from "../Event/toggleTheme";
+import ButtonTheme from "../Event/toggleTheme.tsx";
 
 export default function NavBar() {
     return (
