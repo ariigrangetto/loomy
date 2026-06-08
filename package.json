@@ -20,7 +20,8 @@
     "react-router": "^7.14.0",
     "tailwindcss": "^4.2.2",
     "tslib": "^2.8.1",
-    "vitest-matchmedia-mock": "^2.0.3"
+    "vitest-matchmedia-mock": "^2.0.3",
+    "vitest-tsconfig-paths": "^3.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
