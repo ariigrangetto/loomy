@@ -1,7 +1,7 @@
 import { CalendarIcon, Clock, Phone, User, X } from "lucide-react";
-import type { State, Turno } from "../../../lib/types.d.ts";
+import type { State, Turno } from "../../../lib/types";
 import { Link } from "react-router";
-import useDashboardActions from "../../../hooks/useDashboardActions.tsx";
+import useDashboardActions from "../hooks/useDashboardActions.tsx";
 
 interface Props {
     turno: Turno,
@@ -41,7 +41,11 @@ export default function AppointmentDetails({ turno, userId }: Props) {
             key={turno.id}
             className="bg-white dark:bg-[#1f2028] rounded-[16px] p-6 shadow-[0_8px_40px_rgb(0,0,0,0.03)] border border-gray-100 dark:border-white/5 flex flex-col gap-4 relative overflow-hidden transition-all hover:border-[#7460ed]/30 dark:hover:border-[#c084fc]/30 hover:shadow-md"
         >
-            <p className="text-[12px] font-semibold px-2 py-1 rounded-full appearance-none cursor-pointer outline-none focus:ring-2 focus:ring-[#7460ed]/30 border-none transition-colors bg-red-100 text-red-600 dark:bg-red-500/20">{compareDates(turno.date)}</p>
+            <div className="flex justify-between items-center min-h-[28px]">
+                {compareDates(turno.date) ? (
+                    <p className="text-[12px] font-semibold px-2 py-1 rounded-full appearance-none w-full cursor-pointer outline-none focus:ring-2 focus:ring-[#7460ed]/30 border-none transition-colors bg-red-100 text-red-600 dark:bg-red-500/20">{compareDates(turno.date)}</p>
+                ) : null}
+            </div>
             <div className="flex flex-wrap sm:flex-nowrap justify-between items-center w-full gap-2 relative">
                 <select
                     aria-label="state"

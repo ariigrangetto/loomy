@@ -1,5 +1,5 @@
 import { Calendar, Clock, FileText } from "lucide-react";
-import type { History } from "../../../lib/types.d.ts";
+import type { History } from "@/lib/types.d.ts";
 
 export default function ClientHistory({ history }: { history: History[] }) {
     return (

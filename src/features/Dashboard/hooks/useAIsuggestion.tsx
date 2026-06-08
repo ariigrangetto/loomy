@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Turno } from "../lib/types";
+import type { Turno } from "@/lib/types.d.ts";
 import ollama from "ollama";
 
 export default function useAISuggestion({ turnos }: { turnos: Turno[] }) {

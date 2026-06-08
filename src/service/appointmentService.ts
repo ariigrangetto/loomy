@@ -2,11 +2,12 @@ import type { Client, History, ServiceResult, State, Turno } from "../lib/types.
 import { getUserId, supabase } from "../supabase/client.ts";
 
 export const clientService = {
-    async createClient(name: string, lastname: string): Promise<ServiceResult<Client>> {
+    async createClient(name: string, lastname: string, number?: string): Promise<ServiceResult<Client>> {
         try {
             const { data, error } = await supabase.from("client").insert({
                 name,
-                lastname
+                lastname,
+                number
             }).select();
 
             if (error) {
@@ -17,22 +18,22 @@ export const clientService = {
 
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : "Unexpected error creating client.";
-            return { success: false, error: errorMessage, message: null, data: null };
+            throw new Error(errorMessage);
         }
     },
 
-    async findClient(name: string, lastname: string): Promise<ServiceResult<Client[]>> {
+    async findClient(name: string, lastname: string, number?: string): Promise<ServiceResult<Client[]>> {
         try {
             const { data, error } = await supabase.from("client").select("*")
                 .eq("name", name)
-                .eq("lastname", lastname);
+                .eq("lastname", lastname)
 
             if (error) {
                 return { success: false, error: error.message, message: null, data: null }
             };
 
             if (!data || data.length === 0) {
-                const { error, data: newClient } = await this.createClient(name, lastname);
+                const { error, data: newClient } = await this.createClient(name, lastname, number);
 
                 if (error) {
                     return { success: false, error, message: null, data: null }
@@ -41,11 +42,25 @@ export const clientService = {
                 return { success: true, error: null, message: "Client created successfully.", data: newClient ? [newClient] : null }
             };
 
-            return { success: true, error: null, message: "Client found successfully.", data: data }
+            const existingClient = data[0];
+
+            if (number && (!existingClient.number || existingClient.number.trim() === "")) {
+                const { data: updatedData, error: updateError } = await supabase
+                    .from("client")
+                    .update({ number })
+                    .eq("id", existingClient.id)
+                    .select();
+
+                if (!updateError && updatedData && updatedData.length > 0) {
+                    data[0] = updatedData[0];
+                }
+            }
+
+            return { success: true, error: null, message: "Client found successfully.", data: data[0] }
 
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : "Unexpected error finding client.";
-            return { success: false, error: errorMessage, message: null, data: null }
+            throw new Error(errorMessage);
         }
     },
 
@@ -66,7 +81,7 @@ export const clientService = {
             return { success: true, error: null, data };
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : "Unexpected error getting client history.";
-            return { success: false, error: errorMessage, data: null };
+            throw new Error(errorMessage);
         }
     },
 
@@ -85,7 +100,7 @@ export const clientService = {
             return { success: true, error: null, message: "Client history updated successfully." };
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : "Unexpected error updating client history.";
-            return { success: false, error: errorMessage, message: null };
+            throw new Error(errorMessage);
         }
     },
 
@@ -101,7 +116,7 @@ export const clientService = {
             return { success: true, error: null, data };
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : "Unexpected error getting client details.";
-            return { success: false, error: errorMessage, data: null };
+            throw new Error(errorMessage);
         }
     },
 };
@@ -120,16 +135,18 @@ export const appointmentService = {
 
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : "Unexpected error getting turnos.";
-            return { success: false, error: errorMessage, data: null };
+            throw new Error(errorMessage);
         }
     },
-    async createAppointment(id: string, name: string, lastname: string, description: string, date: string, time: string, state: State): Promise<ServiceResult> {
+
+    async createAppointment(id: string, name: string, lastname: string, description: string, date: string, time: string, state: State, number?: string): Promise<ServiceResult> {
         try {
-            const { data, error: errorFindingClient } = await clientService.findClient(name, lastname);
+            const { data, error: errorFindingClient } = await clientService.findClient(name, lastname, number);
 
             if (errorFindingClient || !data || data.length === 0) {
-                return { success: false, error: errorFindingClient || "Client not found.", message: null };
+                return { success: false, error: errorFindingClient || "Error finding or creating client.", message: null };
             }
+
             const clientId = data[0].id;
 
             const { success, error: errorExistingAppointment } = await this.existingAppointment(date, time);
@@ -144,11 +161,11 @@ export const appointmentService = {
 
             const { error } = await supabase.from("turnos").insert({
                 cliente: clientId,
-                description: description,
-                date: date,
-                time: time,
+                description,
+                date,
+                time,
                 user_id: id,
-                state: state
+                state,
             })
 
             if (error) {
@@ -159,7 +176,7 @@ export const appointmentService = {
 
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : "Unexpected error creating appointment.";
-            return { success: false, error: errorMessage, message: null };
+            throw new Error(errorMessage);
         }
     },
 
@@ -181,7 +198,7 @@ export const appointmentService = {
 
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : "Unexpected error checking appointment existence.";
-            return { success: false, error: errorMessage };
+            throw new Error(errorMessage)
         };
     },
 
@@ -195,7 +212,7 @@ export const appointmentService = {
             return { success: true, error: null, message: "Appointment deleted successfully." };
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : "Unexpected error deleting appointment.";
-            return { success: false, error: errorMessage, message: null };
+            throw new Error(errorMessage);
         }
     },
 
@@ -227,7 +244,7 @@ export const appointmentService = {
 
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : "Unexpected error updating appointment.";
-            return { success: false, error: errorMessage, message: null };
+            throw new Error(errorMessage);
         }
     },
 }

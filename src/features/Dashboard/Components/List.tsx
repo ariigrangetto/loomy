@@ -1,7 +1,7 @@
 import { CalendarIcon, } from "lucide-react";
 //import useAISuggestion from "../../../hooks/useAIsuggestion.tsx";
-import AppointmentDetails from "./AppointmentDetails.tsx";
-import useDashboardActions from "../../../hooks/useDashboardActions.tsx";
+import AppointmentDetails from "./Details.tsx";
+import useDashboardActions from "../hooks/useDashboardActions.tsx";
 
 export default function List({ userId }: { userId: string }) {
     const { turnos, loading } = useDashboardActions();

@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import { supabase } from "../../supabase/client.ts";
 import { AlertCircle, CheckCircle, Mail } from "lucide-react";
-import ButtonTheme from "../../components/Event/toggleTheme.tsx";
-import { ResetPasswordForm } from "../../components/Event/ResetPasswordForm.tsx";
+import ButtonTheme from "@/components/Event/toggleTheme.tsx";
+import { ResetPasswordForm } from "@/features/Auth/Components/ResetPasswordForm.tsx";
 
 export default function ResetPassword() {
     const [email, setEmail] = useState("");

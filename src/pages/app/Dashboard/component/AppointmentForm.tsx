@@ -1,54 +1,37 @@
 import { CalendarIcon, Clock, FileText, Phone, User, X } from "lucide-react";
 import { useState } from "react";
-import type { State } from "../../lib/types.d.ts";
-import useDashboardActions from "../../hooks/useDashboardActions.tsx";
+import useDashboardActions from "../../../../features/Dashboard/hooks/useDashboardActions.tsx";
 
 export default function Form({ id, setIsFormOpen }: { id: string; setIsFormOpen: (value: boolean) => void }) {
     const { createAppointment, loading } = useDashboardActions();
     const [errorMessage, setErrorMessage] = useState<string>("");
 
-    const [formData, setFormData] = useState<{
-        name: string;
-        lastname: string;
-        number: string;
-        description: string;
-        date: string;
-        time: string;
-        state: State;
-    }>({
-        name: "",
-        lastname: "",
-        number: "",
-        description: "",
-        date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0],
-        time: "",
-        state: "pending",
-    });
+    const handleSubmit = async (formData: FormData) => {
+        const name = formData.get("name") as string;
+        const lastname = formData.get("lastname") as string;
+        const number = formData.get("number") as string;
+        const description = formData.get("description") as string;
+        const date = formData.get("date") as string;
+        const time = formData.get("time") as string;
+        const state = 'pending';
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value } as typeof prev));
-    };
+        if (!date || !time) {
+            setErrorMessage("Please select a date and time.");
+            setTimeout(() => {
+                setErrorMessage("");
+            }, 3000);
+            return;
+        }
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        const createdTurno = await createAppointment(id, formData.name, formData.lastname, formData.description, formData.date, formData.time, formData.state);
-        if (!createdTurno) {
-            setErrorMessage("The date and time are already occupied. Please try again.");
+        const { error } = await createAppointment(id, name, lastname, description, date, time, state, number);
+
+        if (error) {
+            setErrorMessage(error);
             setTimeout(() => {
                 setErrorMessage("");
             }, 3000);
         } else {
             setIsFormOpen(false);
-            setFormData({
-                name: "",
-                lastname: "",
-                number: "",
-                description: "",
-                date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0],
-                time: "",
-                state: "pending",
-            });
         }
     }
 
@@ -68,7 +51,7 @@ export default function Form({ id, setIsFormOpen }: { id: string; setIsFormOpen:
                     </button>
                 </div>
 
-                <form onSubmit={handleSubmit} className="p-6 flex flex-col gap-5">
+                <form action={handleSubmit} className="p-6 flex flex-col gap-5">
                     <div className="flex flex-col gap-4">
                         <h4 className="text-[11px] font-bold text-[#7460ed] dark:text-[#c084fc] uppercase tracking-widest flex items-center gap-1.5 mt-2">
                             <User size={12} />
@@ -80,8 +63,6 @@ export default function Form({ id, setIsFormOpen }: { id: string; setIsFormOpen:
                                 <input
                                     id="name"
                                     name="name"
-                                    value={formData.name}
-                                    onChange={handleInputChange}
                                     required
                                     className="w-full px-4 py-3 bg-[#f3f4f6] dark:bg-white/5 border border-transparent rounded-[10px] text-gray-900 dark:text-white text-[14px] placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/20 dark:focus:ring-[#c084fc]/30 focus:bg-white dark:focus:bg-[#16171d] focus:border-[#6b58dc]/30 dark:focus:border-[#c084fc]/30 transition-all"
                                     placeholder="E.g. María"
@@ -92,8 +73,6 @@ export default function Form({ id, setIsFormOpen }: { id: string; setIsFormOpen:
                                 <input
                                     id="lastname"
                                     name="lastname"
-                                    value={formData.lastname}
-                                    onChange={handleInputChange}
                                     required
                                     className="w-full px-4 py-3 bg-[#f3f4f6] dark:bg-white/5 border border-transparent rounded-[10px] text-gray-900 dark:text-white text-[14px] placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/20 dark:focus:ring-[#c084fc]/30 focus:bg-white dark:focus:bg-[#16171d] focus:border-[#6b58dc]/30 dark:focus:border-[#c084fc]/30 transition-all"
                                     placeholder="E.g. Gómez"
@@ -112,8 +91,6 @@ export default function Form({ id, setIsFormOpen }: { id: string; setIsFormOpen:
                                     id="number"
                                     name="number"
                                     type="number"
-                                    value={formData.number}
-                                    onChange={handleInputChange}
                                     className="w-full pl-9 pr-4 py-3 bg-[#f3f4f6] dark:bg-white/5 border border-transparent rounded-[10px] text-gray-900 dark:text-white text-[14px] placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/20 dark:focus:ring-[#c084fc]/30 focus:bg-white dark:focus:bg-[#16171d] focus:border-[#6b58dc]/30 dark:focus:border-[#c084fc]/30 transition-all"
                                     placeholder="Number of contact"
                                 />
@@ -137,8 +114,6 @@ export default function Form({ id, setIsFormOpen }: { id: string; setIsFormOpen:
                                 <input
                                     id="description"
                                     name="description"
-                                    value={formData.description}
-                                    onChange={handleInputChange}
                                     required
                                     className="w-full pl-9 pr-4 py-3 bg-[#f3f4f6] dark:bg-white/5 border border-transparent rounded-[10px] text-gray-900 dark:text-white text-[14px] placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/20 dark:focus:ring-[#c084fc]/30 focus:bg-white dark:focus:bg-[#16171d] focus:border-[#6b58dc]/30 dark:focus:border-[#c084fc]/30 transition-all resize-none"
                                     placeholder="e.g. Haircut, highlights, balayage..."
@@ -153,8 +128,6 @@ export default function Form({ id, setIsFormOpen }: { id: string; setIsFormOpen:
                                         id="date"
                                         name="date"
                                         type="date"
-                                        value={formData.date}
-                                        onChange={handleInputChange}
                                         required
                                         className="w-full px-4 py-3 bg-[#f3f4f6] dark:bg-white/5 border border-transparent rounded-[10px] text-gray-900 dark:text-white text-[14px] placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/20 dark:focus:ring-[#c084fc]/30 focus:bg-white dark:focus:bg-[#16171d] focus:border-[#6b58dc]/30 dark:focus:border-[#c084fc]/30 transition-all [&::-webkit-calendar-picker-indicator]:bg-transparent [&::-webkit-calendar-picker-indicator]:opacity-50 dark:[&::-webkit-calendar-picker-indicator]:invert"
                                     />
@@ -170,8 +143,6 @@ export default function Form({ id, setIsFormOpen }: { id: string; setIsFormOpen:
                                         id="time"
                                         name="time"
                                         type="time"
-                                        value={formData.time}
-                                        onChange={handleInputChange}
                                         required
                                         className="w-full pl-9 pr-4 py-3 bg-[#f3f4f6] dark:bg-white/5 border border-transparent rounded-[10px] text-gray-900 dark:text-white text-[14px] placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/20 dark:focus:ring-[#c084fc]/30 focus:bg-white dark:focus:bg-[#16171d] focus:border-[#6b58dc]/30 dark:focus:border-[#c084fc]/30 transition-all [&::-webkit-calendar-picker-indicator]:bg-transparent [&::-webkit-calendar-picker-indicator]:opacity-50 dark:[&::-webkit-calendar-picker-indicator]:invert"
                                     />

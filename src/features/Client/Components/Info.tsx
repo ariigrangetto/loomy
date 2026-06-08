@@ -1,5 +1,5 @@
 import { Calendar, Phone, UserIcon } from "lucide-react";
-import type { Client } from "../../../lib/types.d.ts";
+import type { Client } from "@/lib/types.d.ts";
 
 export default function ClientInfo({ client }: { client: Client }) {
     return (

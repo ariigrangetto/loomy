@@ -1,8 +1,8 @@
-import { Lock } from "lucide-react";
+import { AlertCircle, CheckCircle, Lock } from "lucide-react";
 import { useState } from "react";
-import { supabase } from "../../supabase/client";
+import { supabase } from "../../supabase/client.ts";
 import { useNavigate } from "react-router";
-import ButtonTheme from "../../components/Event/toggleTheme";
+import ButtonTheme from "../../components/Event/toggleTheme.tsx";
 
 export default function UpdatePassword() {
     const [password, setPassword] = useState("");
@@ -11,6 +11,7 @@ export default function UpdatePassword() {
     const [error, setError] = useState("");
     const [message, setMessage] = useState<string>("");
     const navigate = useNavigate();
+    const [success, setSuccess] = useState(false);
 
     const handleUpdatePassword = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -22,15 +23,18 @@ export default function UpdatePassword() {
             });
 
             if (error) {
+                setSuccess(false);
                 setError(`Error updating password: ${error.message}`);
                 return;
             }
 
             setMessage("Password updated successfully");
+            setSuccess(true);
 
             setTimeout(() => {
                 navigate("/");
             }, 3000);
+
         } finally {
             setLoading(false);
         }
@@ -102,14 +106,16 @@ export default function UpdatePassword() {
                         </form>
 
                         {error && (
-                            <div className="mt-4 text-center">
-                                <p className="text-red-500 dark:text-red-400 text-sm">{error}</p>
+                            <div className="flex items-center gap-2 p-3 mb-1 mt-10 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-lg justify-center">
+                                <AlertCircle className="w-4 h-4 text-red-500" />
+                                <span className="text-sm text-red-600 dark:text-red-400">{error}</span>
                             </div>
                         )}
 
-                        {message && (
-                            <div className="mt-4 text-center">
-                                <p className="text-green-500 dark:text-green-400 text-sm">{message}</p>
+                        {success && (
+                            <div className="flex items-center gap-2 p-3 mb-4 bg-green-50 dark:bg-green-500/10 border border-green-200 dark:border-green-500/30 rounded-lg">
+                                <CheckCircle className="w-4 h-4 text-green-500" />
+                                <span className="text-sm text-green-600 dark:text-green-400">{message}</span>
                             </div>
                         )}
                     </div>

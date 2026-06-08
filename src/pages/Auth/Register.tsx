@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
-import Footer from "../../components/ui/Footer.tsx";
-import { supabase } from "../../supabase/client.ts";
-import NavBar from "../../components/ui/NavbarForms.tsx";
-import { RegisterForm } from "../../components/Event/RegisterForm.tsx";
+import Footer from "@/components/ui/Footer.tsx";
+import { supabase } from "@/supabase/client.ts";
+import NavBar from "@/features/Auth/ui/NavbarForms.tsx";
+import { RegisterForm } from "@/features/Auth/Components/RegisterForm.tsx";
 
 
 export default function Register() {

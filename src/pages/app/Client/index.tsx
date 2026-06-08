@@ -1,14 +1,14 @@
 import { useParams, Link } from "react-router";
 import { useEffect, useState } from "react";
-import type { History, Client as ClientType } from "../../../lib/types.d.ts";
+import type { History, Client as ClientType } from "@/lib/types.d.ts";
 import { ArrowLeft } from "lucide-react";
-import ButtonTheme from "../../../components/Event/toggleTheme.tsx";
-import ClientInfo from "../../../components/App/Client/ClientInfo.tsx";
-import ClientHistory from "../../../components/App/Client/ClientHistory.tsx";
-import useDashboardActions from "../../../hooks/useDashboardActions.tsx";
+import ButtonTheme from "@/components/Event/toggleTheme.tsx";
+import ClientInfo from "@/features/Client/Components/Info.tsx";
+import ClientHistory from "@/features/Client/Components/History.tsx";
+import useClientActions from "@/features/Client/hooks/useClientActions.tsx";
 
 export default function Client() {
-    const { getClientHistory, getClientData } = useDashboardActions();
+    const { getClientHistory, getClientData } = useClientActions();
     const { id } = useParams();
     const [history, setHistory] = useState<History[]>([]);
     const [client, setClient] = useState<ClientType | null>(null);

@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
-import { supabase } from "../supabase/client.ts";
-import type { State, Turno } from "../lib/types";
-import { clientService, appointmentService } from "../service/appointmentService.ts";
-import useLoading from "./useLoading.tsx";
+import { supabase } from "@/supabase/client.ts";
+import type { State, Turno } from "@/lib/types";
+import { appointmentService } from "@/service/appointmentService.ts";
+import useLoading from "@/hooks/useLoading.tsx";
 
 export default function useDashboardActions() {
     const [turnos, setTurnos] = useState<Turno[]>([]);
@@ -17,7 +17,7 @@ export default function useDashboardActions() {
                 return;
             };
 
-            setTurnos(result.data);
+            setTurnos(result.data || []);
 
         } finally {
             stopLoading();
@@ -43,28 +43,10 @@ export default function useDashboardActions() {
         };
     }, [getTurnos]);
 
-    const createClient = async (name: string, lastname: string) => {
+    const createAppointment = async (id: string, name: string, lastname: string, description: string, date: string, time: string, state: State, number: string) => {
         startLoading()
         try {
-            return await clientService.createClient(name, lastname);
-        } finally {
-            stopLoading();
-        }
-    };
-
-    const findClient = async (name: string, lastname: string) => {
-        startLoading()
-        try {
-            return await clientService.findClient(name, lastname);
-        } finally {
-            stopLoading();
-        }
-    };
-
-    const createAppointment = async (id: string, name: string, lastname: string, description: string, date: string, time: string, state: State) => {
-        startLoading()
-        try {
-            return await appointmentService.createAppointment(id, name, lastname, description, date, time, state);
+            return await appointmentService.createAppointment(id, name, lastname, description, date, time, state, number);
         } finally {
             stopLoading();
         }
@@ -79,15 +61,6 @@ export default function useDashboardActions() {
         }
     };
 
-    const getClientHistory = async (clientId: string | number) => {
-        startLoading()
-        try {
-            return await clientService.getClientHistory(clientId);
-        } finally {
-            stopLoading();
-        }
-    };
-
     const deleteAppointment = async (turnoId: number) => {
         startLoading()
         try {
@@ -97,26 +70,12 @@ export default function useDashboardActions() {
         }
     };
 
-    const getClientData = async (clientId: string | number) => {
-        startLoading();
-        try {
-            return await clientService.getClientData(clientId);
-        } finally {
-            stopLoading();
-        }
-    };
-
-
     return {
         getTurnos,
         turnos,
-        createClient,
-        findClient,
         createAppointment,
         loading,
         updateAppoitmentState,
-        getClientHistory,
         deleteAppointment,
-        getClientData
     }
 }

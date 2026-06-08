@@ -1,53 +1,38 @@
-import { LogOut, Plus } from "lucide-react";
-import { Link, useLoaderData, useNavigate } from "react-router";
-import List from "../../../components/App/Dashboard/ListOfAppointments.tsx";
+import { useLoaderData, useNavigate } from "react-router";
+import List from "@/features/Dashboard/Components/List.tsx";
 import { useState } from "react";
-import Form from "../../../components/Event/AppointmentForm.tsx";
-import useUser from "../../../hooks/useUser.tsx";
-import ButtonTheme from "../../../components/Event/toggleTheme.tsx";
+import Form from "@/features/Dashboard/Components/Form.tsx";
+import { supabase } from "@/supabase/client.ts";
+import { NavBarDashboard } from "@/features/Dashboard/ui/Navbar.tsx";
 
 export default function Dashboard() {
-    const { signOut } = useUser();
     const navigate = useNavigate();
     const { user: { id } } = useLoaderData();
     const [isFormOpen, setIsFormOpen] = useState(false);
+    const [errorMessage, setErrorMessage] = useState<string>("");
 
     const handleSignOut = async () => {
-        const error = await signOut();
-        if (!error) navigate("/login");
+        const { error } = await supabase.auth.signOut();
+        if (error) {
+            setErrorMessage("Error trying to sign out. Please try again.");
+            return;
+        }
+        navigate("/login");
+    };
+
+    if (errorMessage) {
+        return (
+            <main className="min-h-screen bg-[#f7f7f9] dark:bg-[#16171d] p-6 font-sans relative transition-colors duration-200">
+                <div className="flex items-center justify-center">
+                    <p className="text-red-500">{errorMessage}</p>
+                </div>
+            </main>
+        )
     };
 
     return (
         <main className="min-h-screen bg-[#f7f7f9] dark:bg-[#16171d] p-6 font-sans relative transition-colors duration-200">
-            <header className="flex justify-between items-center mb-10 pb-4 border-b border-gray-200 dark:border-white/10 relative">
-                <div className="flex items-center gap-3">
-                    <img src="/icon.png" alt="Loomy Icon" className="w-12 h-12" />
-                    <div>
-                        <h1 className="text-[20px] font-extrabold text-[#1a1a2e] dark:text-white tracking-tight">Loomy</h1>
-                        <p className="text-[9px] font-bold text-gray-500 dark:text-gray-400 tracking-[0.2em] uppercase">Dashboard</p>
-                    </div>
-                </div>
-                <div className="absolute left-1/2 -translate-x-1/2">
-                    <Link to="/about" className="text-black dark:text-white font-semibold px-4 rounded-[10px] transition-colors hover:text-[#7460ed] dark:hover:text-[#c084fc]">About</Link>
-                </div>
-                <div className="flex items-center gap-2 sm:gap-4">
-                    <ButtonTheme />
-                    <button
-                        onClick={() => setIsFormOpen(true)}
-                        className="py-2.5 px-3 sm:px-5 bg-[#7460ed] hover:bg-[#6250cc] text-white text-[14px] font-semibold rounded-[10px] shadow-sm hover:shadow-md transform transition-all active:scale-[0.98] outline-none flex items-center gap-2"
-                    >
-                        <Plus size={18} />
-                        <span className="hidden sm:inline">New Appointment</span>
-                    </button>
-                    <button
-                        onClick={() => handleSignOut()}
-                        className="p-2.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-[10px] transition-colors"
-                        title="Cerrar Sessión"
-                    >
-                        <LogOut size={20} />
-                    </button>
-                </div>
-            </header>
+            <NavBarDashboard onHandleSignOut={handleSignOut} setIsFormOpen={setIsFormOpen} />
             {isFormOpen && <Form id={id} setIsFormOpen={setIsFormOpen} />}
             <List userId={id} />
         </main>
