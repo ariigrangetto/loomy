@@ -17,6 +17,25 @@ export default function UpdatePassword() {
         e.preventDefault();
         setLoading(true);
         setError("");
+
+        if (password !== confirmPassword) {
+            setError("Passwords do not match. Please try again.");
+            setLoading(false);
+            setTimeout(() => {
+                setError("");
+            }, 3000);
+            return;
+        };
+
+        if (password.length < 6) {
+            setError("Password must be at least 6 characters long.");
+            setLoading(false);
+            setTimeout(() => {
+                setError("");
+            }, 3000);
+            return;
+        };
+
         try {
             const { error } = await supabase.auth.updateUser({
                 password
@@ -113,7 +132,7 @@ export default function UpdatePassword() {
                         )}
 
                         {success && (
-                            <div className="flex items-center gap-2 p-3 mb-4 bg-green-50 dark:bg-green-500/10 border border-green-200 dark:border-green-500/30 rounded-lg">
+                            <div className="flex items-center gap-2 p-3 mb-1 mt-10 bg-green-50 dark:bg-green-500/10 border border-green-200 dark:border-green-500/30 rounded-lg">
                                 <CheckCircle className="w-4 h-4 text-green-500" />
                                 <span className="text-sm text-green-600 dark:text-green-400">{message}</span>
                             </div>
