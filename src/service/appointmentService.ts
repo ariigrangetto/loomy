@@ -139,6 +139,41 @@ export const appointmentService = {
         }
     },
 
+    async updateAppointment(turnoId: number, clientId: string | number, name: string, lastname: string, number: string, description: string, date: string, time: string, clientChange: boolean, appointmentChange: boolean): Promise<ServiceResult> {
+        try {
+            if (clientChange) {
+                const { error: errorUpdateClient } = await supabase.from(`client`).update({
+                    name,
+                    lastname,
+                    number,
+                }).eq("id", clientId).select();
+
+                if (errorUpdateClient) {
+                    return { success: false, error: errorUpdateClient.message, message: null };
+                }
+            }
+
+            if (appointmentChange) {
+                const { error: errorUpdatingAppointment } = await supabase.from(`turnos`).update({
+                    description,
+                    date,
+                    time,
+                }).eq("id", turnoId).select();
+
+                if (errorUpdatingAppointment) {
+                    return { success: false, error: errorUpdatingAppointment.message, message: null }
+                }
+            }
+
+            return { success: true, error: null, message: "Appointment updated successfully." };
+
+        } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : "Unexpected error updating appointment.";
+            throw new Error(errorMessage);
+        }
+
+    },
+
     async createAppointment(id: string, name: string, lastname: string, description: string, date: string, time: string, state: State, number?: string): Promise<ServiceResult> {
         try {
             const { data, error: errorFindingClient } = await clientService.findClient(name, lastname, number);
@@ -216,7 +251,7 @@ export const appointmentService = {
         }
     },
 
-    async updateAppointment(turnoId: number, state: State, userId: string, description: string, date: string, clientId: string | number): Promise<ServiceResult> {
+    async updateAppointmentState(turnoId: number, state: State, userId: string, description: string, date: string, clientId: string | number): Promise<ServiceResult> {
         try {
             if (state === "completed") {
                 const { error } = await clientService.updateClientHistory(userId, description, date, clientId);

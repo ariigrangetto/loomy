@@ -26,7 +26,7 @@ export default function Login() {
         });
 
         if (error) {
-            setErrorMessage(error.status === 400 ? "The email is not registered" : "Something went wrong. Please try again!");
+            setErrorMessage(error.status === 400 ? "Either the email is not registered or the password is incorrect" : "Something went wrong. Please try again!");
             return;
         }
 

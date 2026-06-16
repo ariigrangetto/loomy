@@ -24,6 +24,17 @@ export default function useDashboardActions() {
         }
     }, [startLoading, stopLoading]);
 
+    const updateAppoitment = async (turnoId: number, clientId: string | number, name: string, lastname: string, number: string, description: string, date: string, time: string, clientChange: boolean, appointmentChange: boolean) => {
+
+        startLoading();
+
+        try {
+            return await appointmentService.updateAppointment(turnoId, clientId, name, lastname, number, description, date, time, clientChange, appointmentChange);
+        } finally {
+            stopLoading();
+        }
+    };
+
     useEffect(() => {
         getTurnos();
         const channelId = `dashboard-channel-${Math.random().toString(36).substring(2, 9)}`;
@@ -32,6 +43,14 @@ export default function useDashboardActions() {
                 event: "*",
                 schema: "public",
                 table: "turnos"
+            },
+                async () => {
+                    await getTurnos();
+                })
+            .on("postgres_changes", {
+                event: "*",
+                schema: "public",
+                table: "client"
             },
                 async () => {
                     await getTurnos();
@@ -55,7 +74,7 @@ export default function useDashboardActions() {
     const updateAppoitmentState = async (turnoId: number, state: State, userId: string, description: string, date: string, clientId: string | number) => {
         startLoading()
         try {
-            return await appointmentService.updateAppointment(turnoId, state, userId, description, date, clientId);
+            return await appointmentService.updateAppointmentState(turnoId, state, userId, description, date, clientId);
         } finally {
             stopLoading();
         }
@@ -77,5 +96,6 @@ export default function useDashboardActions() {
         loading,
         updateAppoitmentState,
         deleteAppointment,
+        updateAppoitment,
     }
 }

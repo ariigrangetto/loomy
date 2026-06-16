@@ -1,7 +1,9 @@
-import { CalendarIcon, Clock, Phone, User, X } from "lucide-react";
-import type { State, Turno } from "../../../lib/types";
+import { CalendarIcon, Clock, Pencil, Phone, User, X } from "lucide-react";
+import type { State, Turno } from "../../../lib/types.d.ts";
 import { Link } from "react-router";
 import useDashboardActions from "../hooks/useDashboardActions.tsx";
+import { useState } from "react";
+import EditForm from "./EditForm.tsx";
 
 interface Props {
     turno: Turno,
@@ -9,7 +11,10 @@ interface Props {
 }
 
 export default function AppointmentDetails({ turno, userId }: Props) {
-    const { updateAppoitmentState, deleteAppointment } = useDashboardActions();
+    const { updateAppoitmentState, deleteAppointment, updateAppoitment, loading } = useDashboardActions();
+    const [openEditForm, setOpenEditForm] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
     const getStateStyles = (state: string) => {
         switch (state) {
             case "pending":
@@ -22,6 +27,32 @@ export default function AppointmentDetails({ turno, userId }: Props) {
                 return "bg-gray-100 text-gray-700 dark:bg-gray-500/20 dark:text-gray-400";
         }
     };
+
+    const update = async (tunroId: number, clientId: string | number, formData: FormData) => {
+        const name = formData.get("name") as string;
+        const lastname = formData.get("lastname") as string;
+        const number = formData.get("number") as string;
+        const description = formData.get("description") as string;
+        const date = formData.get("date") as string;
+        const time = formData.get("time") as string;
+
+        const clientChange = name !== turno.client.name || lastname !== turno.client.lastname || number !== (turno.client.number?.toString() ?? "");
+
+        const appointmentChange = description !== turno.description || date !== turno.date || time !== turno.time;
+
+        if (!clientChange && !appointmentChange) {
+            setOpenEditForm(false);
+            return;
+        }
+
+        const { error } = await updateAppoitment(tunroId, clientId, name, lastname, number, description, date, time, clientChange, appointmentChange);
+        if (error) {
+            setErrorMessage(error);
+        } else {
+            setOpenEditForm(false);
+            setErrorMessage(null);
+        }
+    }
 
     const compareDates = (date: string) => {
         const actualDay = new Date().toISOString().split("T")[0];
@@ -81,11 +112,18 @@ export default function AppointmentDetails({ turno, userId }: Props) {
                 </button>
             </div>
 
-            <div>
+            <div className="flex justify-center m-auto gap-3">
                 <h3 className="text-[17px] font-bold text-[#1a1a2e] dark:text-white capitalize leading-tight" aria-label="description">
                     {turno.description}
                 </h3>
+                <button onClick={() => setOpenEditForm(!openEditForm)} className="text-gray-400 hover:text-blue-500 dark:text-gray-500 dark:hover:text-blue-400 transition-colors p-1 rounded-full hover:bg-blue-50 dark:hover:bg-blue-500/10">
+                    <Pencil size={16} />
+                </button>
             </div>
+
+            {openEditForm ? (
+                <EditForm turno={turno} setOpenEditForm={setOpenEditForm} update={update} loading={loading} errorMessage={errorMessage} />
+            ) : null}
 
             <hr className="border-gray-100 dark:border-white/5 my-1" />
 
