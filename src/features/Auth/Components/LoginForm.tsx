@@ -6,6 +6,7 @@ interface Props {
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
     onHandleBtn: (e: React.ChangeEvent<HTMLInputElement>) => void;
     errorMessage: string;
+    state: { email: string; password: string };
 }
 
 export const LoginForm: React.FC<Props> = (props) => {
@@ -52,6 +53,7 @@ export const LoginForm: React.FC<Props> = (props) => {
                         type="text"
                         placeholder="name@atelier.com"
                         name="email"
+                        value={props.state.email}
                         onChange={props.onHandleBtn}
                     />
                 </div>
@@ -68,6 +70,7 @@ export const LoginForm: React.FC<Props> = (props) => {
                             type={showPassword ? "text" : "password"}
                             placeholder="••••••••"
                             name="password"
+                            value={props.state.password}
                             onChange={props.onHandleBtn}
                         />
                         <button
