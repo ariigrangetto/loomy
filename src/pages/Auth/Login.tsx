@@ -34,9 +34,10 @@ export default function Login() {
             clearTimeout(timeout.current);
         }
 
+        // Revisar el tiempo de el error
         timeout.current = setTimeout(() => {
             setErrorMessage("");
-        }, 3000);
+        }, 2000);
 
         navigate("/");
 
