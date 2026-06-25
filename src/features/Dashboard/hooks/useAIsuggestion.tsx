@@ -45,6 +45,7 @@ export default function useAISuggestion({ turnos }: { turnos: Turno[] }) {
             catch (error) {
                 if (error instanceof Error) {
                     console.error("Unexpected error", error.message);
+                    setIAMessage("Looks like I need a break. Try again later.")
                 } else {
                     console.error("Unexpected error", error);
                 }
