@@ -20,27 +20,34 @@ export default function Login() {
         e.preventDefault();
         if (state.email.trim() === "") {
             setErrorMessage("Email is required");
+
         }
+
         const { error } = await supabase.auth.signInWithPassword({
             email: state.email, password: state.password
         });
 
         if (error) {
             setErrorMessage(error.status === 400 ? "Either the email is not registered or the password is incorrect" : "Something went wrong. Please try again!");
+            setState((prev) => ({
+                ...prev,
+                email: "",
+                password: ""
+            }));
+
+            if (timeout.current) {
+                clearTimeout(timeout.current);
+            }
+
+            timeout.current = setTimeout(() => {
+                setErrorMessage("");
+            }, 3000);
+
+
             return;
         }
 
-        if (timeout.current) {
-            clearTimeout(timeout.current);
-        }
-
-        // Revisar el tiempo de el error
-        timeout.current = setTimeout(() => {
-            setErrorMessage("");
-        }, 2000);
-
         navigate("/");
-
     }
 
     const handleBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,7 +83,7 @@ export default function Login() {
     return (
         <main className="min-h-screen flex flex-col items-center justify-center p-4 bg-[#f7f7f9] dark:bg-[#0f0f13] relative font-sans transition-colors duration-300">
             <NavBar />
-            <LoginForm onHandleBtn={handleBtn} onSubmit={handleSubmitForm} onLoginWithGoogle={handleLoginWithGoogle} errorMessage={error} />
+            <LoginForm onHandleBtn={handleBtn} onSubmit={handleSubmitForm} onLoginWithGoogle={handleLoginWithGoogle} errorMessage={error} state={state} />
             <Footer />
         </main >
     )
