@@ -2,7 +2,7 @@ import { ArrowLeft, Mail } from "lucide-react";
 import { useNavigate } from "react-router";
 
 interface Props {
-    onHandleResetPassword: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+    onHandleResetPassword: (e: React.SubmitEvent<HTMLFormElement>) => Promise<void>;
     email: string,
     loading: boolean,
     setEmail: React.Dispatch<React.SetStateAction<string>>,

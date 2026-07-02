@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router";
 
 interface Props {
     onLoginWithGoogle: () => Promise<void>;
-    onSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+    onSubmit: (e: React.SubmitEvent) => Promise<void>;
     onHandleBtn: (e: React.ChangeEvent<HTMLInputElement>) => void;
     errorMessage: string;
     state: { email: string; password: string };
@@ -99,7 +99,7 @@ export const LoginForm: React.FC<Props> = (props) => {
 
             <div className="pt-1 mt-5 border-t border-gray-50 dark:border-white/5 text-center transition-colors duration-300">
                 <Link to="/register" className="text-[13px] text-gray-500 dark:text-gray-400 font-medium hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
-                    New to the platform? <span className="font-semibold text-[#6b58dc] dark:text-[#8271eb] hover:text-[#5a46c8] dark:hover:text-[#9788ed] transition-colors ml-1">Join Loomy</span>
+                    New to the platform? <span className="font-semibold text-[#6b58dc] dark:text-[#8271eb] hover:text-[#5a46c8] dark:hover:text-[#9788ed] transition-colors ml-1">Join Naao</span>
                 </Link>
             </div>
         </div>

@@ -45,7 +45,7 @@ describe("Find register form, with google button and inputs", () => {
         const lastNameInput = screen.getByLabelText(/last name/i);
         const emailInput = screen.getByLabelText(/Professional Email/i);
         const passwordInput = screen.getByLabelText(/Password/i);
-        const registerBtn = screen.getByRole("button", { name: /Join Loomy/i });
+        const registerBtn = screen.getByRole("button", { name: /Join Naao/i });
         expect(form).toBeInTheDocument();
         expect(nameInput).toBeInTheDocument();
         expect(lastNameInput).toBeInTheDocument();

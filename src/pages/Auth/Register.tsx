@@ -10,7 +10,9 @@ export default function Register() {
     const timeout = useRef<number | null>(null);
     const [successfulMessage, setSuccessfulMessage] = useState<string>("");
 
-    const handleSubmitForm = async (formData: FormData) => {
+    const handleSubmitForm = async (e: React.SubmitEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
         const email = formData.get("email") as string;
         const password = formData.get("password") as string;
         const name = formData.get("name") as string;

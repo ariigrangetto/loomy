@@ -12,7 +12,7 @@ export default function ResetPassword() {
     const [success, setSuccess] = useState(false);
     const timeoutId = useRef<number | null>(null);
 
-    const handleResetPassword = async (e: React.FormEvent) => {
+    const handleResetPassword = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
         setError("");

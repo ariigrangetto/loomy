@@ -41,7 +41,7 @@ describe("Find login form with inputs and google button", () => {
         const form = document.querySelector("form");
         const emailInput = screen.getByLabelText(/Professional Email/i);
         const passwordInput = screen.getByLabelText(/Password/i);
-        const newInPlatformLink = await screen.findByRole("link", { name: /Join Loomy/i })
+        const newInPlatformLink = await screen.findByRole("link", { name: /Join Naao/i })
         expect(form).toBeInTheDocument();
         expect(emailInput).toBeInTheDocument();
         expect(passwordInput).toBeInTheDocument();

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router";
 
 interface Props {
-    onHandleSubmit: (formData: FormData) => void;
+    onHandleSubmit: (e: React.SubmitEvent<HTMLFormElement>) => void;
     errorMessage: string;
     successfulMessage: string;
 }
@@ -16,7 +16,7 @@ export const RegisterForm: React.FC<Props> = (props) => {
                 <p className="text-gray-500 dark:text-gray-400 text-[14px] transition-colors duration-300">Join the professional suite.</p>
             </div>
 
-            <form className="flex flex-col gap-6" action={props.onHandleSubmit}>
+            <form className="flex flex-col gap-6" onSubmit={props.onHandleSubmit}>
                 <div className="flex justify-center m-auto w-full">
                     <button className="flex items-center justify-center gap-4 text-[14px] font-medium text-gray-700 dark:text-gray-200 border border-gray-200/50 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 rounded-[12px] px-4 py-2.5 cursor-pointer w-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/30">
                         <img

@@ -13,7 +13,7 @@ export default function UpdatePassword() {
     const navigate = useNavigate();
     const [success, setSuccess] = useState(false);
 
-    const handleUpdatePassword = async (e: React.FormEvent) => {
+    const handleUpdatePassword = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
         setError("");

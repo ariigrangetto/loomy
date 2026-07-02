@@ -16,7 +16,7 @@ export default function Login() {
     const navigate = useNavigate();
     const timeout = useRef<number | null>(null);
 
-    const handleSubmitForm = async (e: React.FormEvent) => {
+    const handleSubmitForm = async (e: React.SubmitEvent) => {
         e.preventDefault();
         if (state.email.trim() === "") {
             setErrorMessage("Email is required");
