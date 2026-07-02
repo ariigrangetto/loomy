@@ -87,7 +87,7 @@ export const RegisterForm: React.FC<Props> = (props) => {
                     className="mt-3 w-full py-3 px-4 bg-[#7460ed] hover:bg-[#6250cc] dark:bg-[#6b58dc] dark:hover:bg-[#5a46c8] text-white text-[15px] font-medium rounded-[12px] shadow-[0_4px_12px_rgba(116,96,237,0.2)] hover:shadow-[0_6px_16px_rgba(116,96,237,0.3)] transform transition-all duration-200 active:scale-[0.98] outline-none focus:ring-2 focus:ring-[#7460ed]/50 focus:ring-offset-2 dark:focus:ring-offset-[#15151e] flex justify-center items-center gap-2"
                     type="submit"
                 >
-                    Join Loomy <span className="text-[16px] leading-none mb-[2px] font-light">&rarr;</span>
+                    Join Naao <span className="text-[16px] leading-none mb-[2px] font-light">&rarr;</span>
                 </button>
             </form>
 

@@ -11,9 +11,9 @@ export const NavBarDashboard: React.FC<Props> = (props) => {
     return (
         <header className="flex justify-between items-center mb-10 pb-4 border-b border-gray-200 dark:border-white/10 relative">
             <div className="flex items-center gap-3">
-                <img src="/icon.png" alt="Loomy Icon" className="w-12 h-12" />
+                <img src="/icon.png" alt="Naao Icon" className="w-12 h-12" />
                 <div>
-                    <h1 className="text-[20px] font-extrabold text-[#1a1a2e] dark:text-white tracking-tight">Loomy</h1>
+                    <h1 className="text-[20px] font-extrabold text-[#1a1a2e] dark:text-white tracking-tight">Naao</h1>
                     <p className="text-[9px] font-bold text-gray-500 dark:text-gray-400 tracking-[0.2em] uppercase">Dashboard</p>
                 </div>
             </div>
