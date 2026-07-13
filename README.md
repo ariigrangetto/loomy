@@ -48,4 +48,5 @@ The application utilizes the Google Gemini API to analyze current scheduling con
 - Reliability and Precision: By leveraging a high-performance model, the application ensures consistent, rule-compliant output every time a suggestion is triggered.
 
 
-
+### 🚧 Site under construction
+The styling is currently being updated. Thank you for your patience.
