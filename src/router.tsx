@@ -3,8 +3,9 @@ import { createBrowserRouter, redirect } from "react-router";
 import { getUserId } from "./supabase/client.ts";
 import RootLayout from "./layout/RouterLayout.tsx";
 import { lazy } from "react";
-import About from "./pages/app/About/index.tsx";
+import About from "./pages/About.tsx";
 import UpdatePassword from "./pages/Auth/UpdatePassword.tsx";
+import Landing from "./pages/Landing.tsx";
 
 const ResetPassword = lazy(() => import("./pages/Auth/ResetPassword.tsx"));
 const Login = lazy(() => import("./pages/Auth/Login.tsx"));
@@ -30,6 +31,17 @@ export const Router = createBrowserRouter([
         element: <RootLayout />,
         children: [
             {
+                path: "/",
+                element: <Landing />,
+                errorElement: <ErrorPage />,
+                loader: async () => {
+                    const user = await getUser();
+                    if (user) {
+                        return redirect("/dashboard");
+                    }
+                }
+            },
+            {
                 path: "/login",
                 element: <Login />,
                 errorElement: <ErrorPage />,
@@ -54,7 +66,7 @@ export const Router = createBrowserRouter([
                 }
             },
             {
-                path: "/",
+                path: "/dashboard",
                 element: <Dashboard />,
                 errorElement: <ErrorPage />,
                 loader: async () => {
@@ -78,11 +90,7 @@ export const Router = createBrowserRouter([
                 }
             },
             {
-                path: "*",
-                element: <NotFound />,
-            },
-            {
-                path: "/forgot-password",
+                path: "/create-new-password",
                 element: <ResetPassword />,
                 errorElement: <ErrorPage />,
 
@@ -96,7 +104,11 @@ export const Router = createBrowserRouter([
                 path: "/about",
                 element: <About />,
                 errorElement: <ErrorPage />
-            }
+            },
+            {
+                path: "*",
+                element: <NotFound />,
+            },
         ],
     },
 ],

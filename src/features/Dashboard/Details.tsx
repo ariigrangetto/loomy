@@ -1,7 +1,7 @@
 import { CalendarIcon, Clock, Pencil, Phone, User, X } from "lucide-react";
-import type { State, Turno } from "../../../lib/types.d.ts";
+import type { State, Turno } from "@/lib/types.d.ts";
 import { Link } from "react-router";
-import useDashboardActions from "../hooks/useDashboardActions.tsx";
+import useDashboardActions from "@/hooks/useDashboardActions.tsx";
 import { useState } from "react";
 import EditForm from "./EditForm.tsx";
 

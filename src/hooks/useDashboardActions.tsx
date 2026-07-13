@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/supabase/client.ts";
 import type { State, Turno } from "@/lib/types";
-import { appointmentService } from "@/service/appointmentService.ts";
+import { appointmentService } from "@/service/appointment.ts";
 import useLoading from "@/hooks/useLoading.tsx";
 
 export default function useDashboardActions() {

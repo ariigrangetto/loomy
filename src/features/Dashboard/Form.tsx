@@ -1,6 +1,6 @@
 import { CalendarIcon, Clock, FileText, Phone, User, X } from "lucide-react";
 import { useState } from "react";
-import useDashboardActions from "../../../../features/Dashboard/hooks/useDashboardActions.tsx";
+import useDashboardActions from "@/hooks/useDashboardActions.tsx";
 
 export default function Form({ id, setIsFormOpen }: { id: string; setIsFormOpen: (value: boolean) => void }) {
     const { createAppointment, loading } = useDashboardActions();

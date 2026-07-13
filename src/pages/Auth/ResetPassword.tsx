@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import { supabase } from "../../supabase/client.ts";
 import { AlertCircle, CheckCircle, Mail } from "lucide-react";
-import ButtonTheme from "@/components/Event/toggleTheme.tsx";
-import { ResetPasswordForm } from "@/features/Auth/Components/ResetPasswordForm.tsx";
+import ButtonTheme from "@/components/ui/ButtonTheme.tsx";
+import { ResetPasswordForm } from "@/features/Auth/ResetPasswordForm.tsx";
 
 export default function ResetPassword() {
     const [email, setEmail] = useState("");
@@ -11,6 +11,7 @@ export default function ResetPassword() {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const timeoutId = useRef<number | null>(null);
+
 
     const handleResetPassword = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();

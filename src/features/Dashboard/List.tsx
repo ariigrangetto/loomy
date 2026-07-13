@@ -1,11 +1,13 @@
 import { CalendarIcon, } from "lucide-react";
 import AppointmentDetails from "./Details.tsx";
-import useDashboardActions from "../hooks/useDashboardActions.tsx";
-import useAISuggestion from "../hooks/useAIsuggestion.tsx";
+import useDashboardActions from "../../hooks/useDashboardActions.tsx";
+// import useAISuggestion from "../hooks/useAIsuggestion.tsx";
+
+const IAMessage = "Next availble: Tomorrow, 11:00 AM";
 
 export default function List({ userId }: { userId: string }) {
     const { turnos, loading } = useDashboardActions();
-    const { IAMessage } = useAISuggestion({ turnos });
+    // const { IAMessage } = useAISuggestion({ turnos });
 
     if (loading) {
         return (

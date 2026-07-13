@@ -1,5 +1,5 @@
 import useLoading from "@/hooks/useLoading.tsx";
-import { clientService } from "@/service/appointmentService.ts";
+import { clientService } from "@/service/client.ts";
 
 
 export default function useClientActions() {

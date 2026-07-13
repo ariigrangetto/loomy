@@ -1,5 +1,5 @@
 import { Info, History, Palette, Mail, CheckCircle2, CalendarDays } from "lucide-react";
-import ButtonTheme from "../../../components/Event/toggleTheme.tsx";
+import ButtonTheme from "@/components/ui/ButtonTheme.tsx";
 
 export default function About() {
 

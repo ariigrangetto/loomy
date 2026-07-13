@@ -2,10 +2,10 @@ import { useParams, Link } from "react-router";
 import { useEffect, useState } from "react";
 import type { History, Client as ClientType } from "@/lib/types.d.ts";
 import { ArrowLeft } from "lucide-react";
-import ButtonTheme from "@/components/Event/toggleTheme.tsx";
-import ClientInfo from "@/features/Client/Components/Info.tsx";
-import ClientHistory from "@/features/Client/Components/History.tsx";
-import useClientActions from "@/features/Client/hooks/useClientActions.tsx";
+import ButtonTheme from "@/components/ui/ButtonTheme.tsx";
+import ClientInfo from "@/features/Client/Info.tsx";
+import ClientHistory from "@/features/Client/History.tsx";
+import useClientActions from "@/hooks/useClientActions.tsx";
 
 export default function Client() {
     const { getClientHistory, getClientData } = useClientActions();

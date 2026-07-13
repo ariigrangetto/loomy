@@ -2,7 +2,7 @@ import { AlertCircle, CheckCircle, Lock } from "lucide-react";
 import { useState } from "react";
 import { supabase } from "../../supabase/client.ts";
 import { useNavigate } from "react-router";
-import ButtonTheme from "../../components/Event/toggleTheme.tsx";
+import ButtonTheme from "@/components/ui/ButtonTheme.tsx";
 
 export default function UpdatePassword() {
     const [password, setPassword] = useState("");

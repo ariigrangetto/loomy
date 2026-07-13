@@ -1,9 +1,9 @@
 import { useLoaderData, useNavigate } from "react-router";
-import List from "@/features/Dashboard/Components/List.tsx";
+import List from "@/features/Dashboard/List";
 import { useState } from "react";
-import Form from "@/features/Dashboard/Components/Form.tsx";
+import Form from "@/features/Dashboard/Form.tsx";
 import { supabase } from "@/supabase/client.ts";
-import { NavBarDashboard } from "@/features/Dashboard/ui/Navbar.tsx";
+import { NavBarDashboard } from "@/components/ui/Navbar";
 
 export default function Dashboard() {
     const navigate = useNavigate();

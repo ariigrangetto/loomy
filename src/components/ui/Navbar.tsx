@@ -1,5 +1,5 @@
 import { LogOut, Plus } from "lucide-react";
-import ButtonTheme from "@/components/Event/toggleTheme.tsx";
+import ButtonTheme from "@/components/ui/ButtonTheme.tsx";
 import { Link } from "react-router";
 
 interface Props {
