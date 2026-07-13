@@ -37,56 +37,15 @@ This rewrite served as a benchmark for my growth as a developer. I migrated the 
 Automated Workflow: Continuous integration and deployment with automated testing for every push.
 
 ### 🤖 AI Integration: Smart Appointment Suggestions
-To optimize the booking experience and help users find available time slots more efficiently, the project incorporates an intelligent suggestion system for upcoming appointments.
+To optimize the booking experience and help users find available time slots more efficiently, the project incorporates an intelligent suggestion system for upcoming appointments powered by the Google Gemini API.
 
-#### 🛠️ Model Used: TinyLlama
-The engine behind these suggestions is TinyLlama, a compact yet highly efficient language model.
+### 🧠 How it Works
+The application utilizes the Google Gemini API to analyze current scheduling constraints and real-time availability. By processing these data points, the system generates optimized, actionable appointment suggestions that are displayed directly to the user as a prompt.
 
-The choice of this model was a strategic balance between available computing power and the desired functionality:
+### 🚀 Benefits of this Implementation
+- Actionable Insights: The system translates raw availability into precise, user-ready suggestions, minimizing decision fatigue for the client.
 
-Resource Optimization: Due to local hardware limitations (development machine configuration), a lightweight model was prioritized. This allowed for local and stable execution without sacrificing project viability.
-
-The Prompt Engineering Challenge: Being a smaller-scale model, its capacity for strict instruction-following is naturally limited. Achieving precise results required an intensive and meticulous Prompt Engineering process. Crafting the instructions to ensure the model adhered to the system's business rules to the letter, and formatted the data correctly without drifting, represented a significant optimization challenge.
-
-#### 🚀 Benefits of this Implementation
-- Privacy and Cost Efficiency: Running a lightweight model locally reduces reliance on expensive external APIs and keeps processing optimized.
-
-- Search Efficiency: The system analyzes open slots and actively suggests the best real-time options to the user.
-
-### 🌆 Preview
-(This demonstrates how you can switch between themes.)
-
-#### /Login
-
-<img width="1893" height="948" alt="Captura de pantalla (180)" src="https://github.com/user-attachments/assets/1b8018ec-297e-44b0-a2c5-3cf00d31bf3c" />
-<img width="1895" height="955" alt="Captura de pantalla (185)" src="https://github.com/user-attachments/assets/c9de364a-8e13-45c1-8dda-cc3689b5d59b" />
-
-#### /Register
-<img width="1898" height="948" alt="Captura de pantalla (186)" src="https://github.com/user-attachments/assets/2c5b4ecc-83f2-47f4-9665-95b314fc84e1" />
-<img width="1895" height="952" alt="Captura de pantalla (187)" src="https://github.com/user-attachments/assets/9db9e6cc-5bc8-4f5a-a7f6-18bc11c1f407" />
-
-#### /Reset password
-
-<img width="1920" height="948" alt="Captura de pantalla (188)" src="https://github.com/user-attachments/assets/3539b030-d774-4b60-867f-67a8e289209f" />
-<img width="1920" height="952" alt="Captura de pantalla (201)" src="https://github.com/user-attachments/assets/00b194e5-14fc-4e82-8bd9-4aec3789df04" />
-
-#### /Update password
-
-<img width="1920" height="948" alt="Captura de pantalla (203)" src="https://github.com/user-attachments/assets/1dd3fc11-9938-4f8a-afeb-5619e73e97cc" />
-<img width="1920" height="955" alt="Captura de pantalla (202)" src="https://github.com/user-attachments/assets/a8fa49dd-aa76-4a77-91e5-9fb62a3db6ed" />
-
-#### /Dashboard
-
-<img width="1900" height="957" alt="Captura de pantalla (199)" src="https://github.com/user-attachments/assets/375162a8-c402-4534-8959-1e7a475cd1f8" />
-<img width="1895" height="954" alt="Captura de pantalla (195)" src="https://github.com/user-attachments/assets/5736b564-0b11-47fe-90b8-688b84daf275" />
-
-#### /Edit
-<img width="1904" height="952" alt="Captura de pantalla (196)" src="https://github.com/user-attachments/assets/69b764d2-fdde-4355-b4c0-35c08fac2171" />
-<img width="1900" height="950" alt="Captura de pantalla (200)" src="https://github.com/user-attachments/assets/aae8aaf1-f174-47bb-b4b1-a9528ad1cc1d" />
-
-#### /Client History
-<img width="1920" height="943" alt="Captura de pantalla (197)" src="https://github.com/user-attachments/assets/b2c5a4f6-904a-4bd6-a5e2-779836524243" />
-<img width="1920" height="953" alt="Captura de pantalla (198)" src="https://github.com/user-attachments/assets/7c00c237-e8d8-4e04-aa95-d214ac36d011" />
+- Reliability and Precision: By leveraging a high-performance model, the application ensures consistent, rule-compliant output every time a suggestion is triggered.
 
 
 
