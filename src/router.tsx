@@ -7,7 +7,7 @@ import Landing from "./pages/Landing.tsx";
 import CreateNewPassword from "./pages/Auth/CreatePwd.tsx";
 import ResetPassword from "./pages/Auth/ResetPwd.tsx";
 import AddAppointment from "./features/Dashboard/AddAppt.tsx";
-import Dashboard from "./pages/app/Dashboard/Index.tsx";
+import Dashboard from "./pages/app/Dashboard/index.tsx";
 
 const Login = lazy(() => import("./pages/Auth/Login.tsx"));
 const Register = lazy(() => import("./pages/Auth/Register.tsx"));
