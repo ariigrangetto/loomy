@@ -1,7 +1,5 @@
 import { useRef, useState } from "react";
-import Footer from "@/components/ui/Footer.tsx";
 import { supabase } from "@/supabase/client.ts";
-import NavBar from "@/components/ui/NavbarForms";
 import { RegisterForm } from "@/features/Auth/RegisterForm";
 
 
@@ -17,6 +15,12 @@ export default function Register() {
         const password = formData.get("password") as string;
         const name = formData.get("name") as string;
         const lastname = formData.get("lastname") as string;
+        const confirmPassword = formData.get("confirm-password") as string;
+
+        if (password !== confirmPassword) {
+            setErrorMessage("Passwords do not match. Please try again!");
+            return;
+        };
 
         const { data, error } = await supabase.auth.signUp({
             email,
@@ -51,16 +55,12 @@ export default function Register() {
 
 
     return (
-        <main className="min-h-screen flex flex-col items-center justify-center p-6 bg-[#f7f7f9] dark:bg-[#0f0f13] relative font-sans transition-colors duration-300">
-            <NavBar />
-
+        <main>
             <RegisterForm
                 onHandleSubmit={handleSubmitForm}
                 errorMessage={error}
                 successfulMessage={successfulMessage}
             />
-
-            <Footer />
         </main >
     )
 }

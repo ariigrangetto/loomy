@@ -1,9 +1,7 @@
 import { useRef, useState } from "react"
 import { useNavigate } from "react-router"
 import { supabase } from "@/supabase/client.ts"
-import NavBar from "@/components/ui/NavbarForms"
 import { LoginForm } from "@/features/Auth/LoginForm"
-import Footer from "@/components/ui/Footer.tsx"
 
 interface State {
     email: string
@@ -81,10 +79,8 @@ export default function Login() {
     }
 
     return (
-        <main className="min-h-screen flex flex-col items-center justify-center p-4 bg-[#f7f7f9] dark:bg-[#0f0f13] relative font-sans transition-colors duration-300">
-            <NavBar />
+        <main>
             <LoginForm onHandleBtn={handleBtn} onSubmit={handleSubmitForm} onLoginWithGoogle={handleLoginWithGoogle} errorMessage={error} state={state} />
-            <Footer />
         </main >
     )
 }
