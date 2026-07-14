@@ -54,9 +54,8 @@ export const clientService = {
                 if (!updateError && updatedData && updatedData.length > 0) {
                     data[0] = updatedData[0];
                 }
-            }
-
-            return { success: true, error: null, message: "Client found successfully.", data: data[0] }
+            };
+            return { success: true, error: null, message: "Client found successfully.", data }
 
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : "Unexpected error finding client.";
