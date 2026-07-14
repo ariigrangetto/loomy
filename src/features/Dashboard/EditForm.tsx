@@ -1,8 +1,8 @@
 import type { Turno } from "@/lib/types.d.ts";
-import { CalendarIcon, Clock, FileText, Phone, User, X } from "lucide-react";
+import { CalendarIcon, Clock, FileText, Phone, User, X, AlertCircle } from "lucide-react";
 
 interface EditFormProps {
-    turno: Turno,
+    turno: Turno;
     setOpenEditForm: (open: boolean) => void;
     update: (turnoId: number, clientId: string | number, formData: FormData) => void;
     loading: boolean;
@@ -10,109 +10,133 @@ interface EditFormProps {
 }
 
 export default function EditForm({ turno, setOpenEditForm, update, loading, errorMessage }: EditFormProps) {
+    const inputClass = "w-full px-4 py-3 bg-white border-[1.5px] border-border focus:border-(--teal) rounded-lg text-(--navy) text-sm outline-none font-body transition-colors duration-200";
+    const inputWithIconClass = "w-full pl-10 pr-4 py-3 bg-white border-[1.5px] border-border focus:border-(--teal) rounded-lg text-(--navy) text-sm outline-none font-body transition-colors duration-200";
+
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 dark:bg-black/60 backdrop-blur-sm">
-            <div className="bg-white dark:bg-[#1f2028] dark:border-white/10 rounded-[20px] w-full max-w-[500px] shadow-[0_20px_60px_rgb(0,0,0,0.1)] border border-white/20 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                <div className="flex justify-between items-center p-6 border-b border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/5">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+            <div className="bg-white rounded-2xl w-full max-w-[500px] shadow-[0_20px_60px_rgba(15,23,42,0.15)] border border-border overflow-hidden animate-in fade-in zoom-in-95 duration-200 font-body">
+
+                <div className="flex justify-between items-center p-6 border-b border-border bg-(--cream)/50">
                     <div>
-                        <h3 className="text-[18px] font-bold text-[#1a1a2e] dark:text-white">Edit Appointment</h3>
-                        <p className="text-[12px] text-gray-500 dark:text-gray-400 mt-1">Modify the client and service details.</p>
+                        <h3 className="font-display text-[18px] text-(--navy) font-semibold leading-none">Edit Appointment</h3>
+                        <p className="text-[12px] text-muted-foreground mt-1.5">Modify the client and service details.</p>
                     </div>
                     <button
                         onClick={() => setOpenEditForm(false)}
-                        className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10 rounded-full transition-colors"
+                        className="p-2 text-muted-foreground hover:text-(--navy) hover:bg-black/5 rounded-full transition-colors cursor-pointer"
+                        type="button"
                     >
                         <X size={20} />
                     </button>
                 </div>
 
                 <form action={(formData) => update(turno.id, turno.client.id, formData)} className="p-6 flex flex-col gap-5">
+
                     <div className="flex flex-col gap-4">
-                        <h4 className="text-[11px] font-bold text-[#7460ed] dark:text-[#c084fc] uppercase tracking-widest flex items-center gap-1.5 mt-2">
-                            <User size={12} />
+                        <h4 className="text-[12px] font-semibold text-(--teal) uppercase tracking-wider flex items-center gap-1.5">
+                            <User size={14} className="text-(--teal)" />
                             Client Data
                         </h4>
+
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="flex flex-col gap-1.5">
-                                <label className="text-[11px] font-semibold text-[#4a4a5e] dark:text-gray-300" htmlFor="name">name</label>
+                                <label className="block text-[12px] font-medium text-(--navy)" htmlFor="name">
+                                    Name <span className="text-[#E05252]">*</span>
+                                </label>
                                 <input
                                     id="name"
                                     name="name"
+                                    type="text"
                                     required
                                     defaultValue={turno.client.name}
-                                    className="w-full px-4 py-3 bg-[#f3f4f6] dark:bg-white/5 border border-transparent rounded-[10px] text-gray-900 dark:text-white text-[14px] placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/20 dark:focus:ring-[#c084fc]/30 focus:bg-white dark:focus:bg-[#16171d] focus:border-[#6b58dc]/30 dark:focus:border-[#c084fc]/30 transition-all"
+                                    className={inputClass}
+                                    placeholder="James"
                                 />
                             </div>
                             <div className="flex flex-col gap-1.5">
-                                <label className="text-[11px] font-semibold text-[#4a4a5e] dark:text-gray-300" htmlFor="lastname">lastname</label>
+                                <label className="block text-[12px] font-medium text-(--navy)" htmlFor="lastname">
+                                    Lastname
+                                </label>
                                 <input
                                     id="lastname"
                                     name="lastname"
-                                    required
+                                    type="text"
                                     defaultValue={turno.client.lastname}
-                                    className="w-full px-4 py-3 bg-[#f3f4f6] dark:bg-white/5 border border-transparent rounded-[10px] text-gray-900 dark:text-white text-[14px] placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/20 dark:focus:ring-[#c084fc]/30 focus:bg-white dark:focus:bg-[#16171d] focus:border-[#6b58dc]/30 dark:focus:border-[#c084fc]/30 transition-all"
+                                    className={inputClass}
+                                    placeholder="Okafor"
                                 />
                             </div>
                         </div>
+
                         <div className="flex flex-col gap-1.5">
-                            <label className="text-[11px] font-semibold text-[#4a4a5e] dark:text-gray-300 flex items-center gap-1.5" htmlFor="number">
-                                Phone <span className="text-gray-400 dark:text-gray-500 font-normal">(Optional)</span>
+                            <label className="block text-[12px] font-medium text-(--navy)" htmlFor="number">
+                                Phone number
                             </label>
                             <div className="relative">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
+                                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
                                     <Phone size={14} />
                                 </span>
                                 <input
                                     id="number"
                                     name="number"
-                                    type="number"
+                                    type="tel"
                                     defaultValue={turno.client.number ? turno.client.number.toString() : ""}
-                                    className="w-full pl-9 pr-4 py-3 bg-[#f3f4f6] dark:bg-white/5 border border-transparent rounded-[10px] text-gray-900 dark:text-white text-[14px] placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/20 dark:focus:ring-[#c084fc]/30 focus:bg-white dark:focus:bg-[#16171d] focus:border-[#6b58dc]/30 dark:focus:border-[#c084fc]/30 transition-all"
+                                    className={inputWithIconClass}
+                                    placeholder="+1 (555) 000-0000"
                                 />
                             </div>
                         </div>
                     </div>
 
-                    <hr className="border-gray-100 dark:border-white/5" />
+                    <hr className="border-border opacity-60" />
 
                     <div className="flex flex-col gap-4">
-                        <h4 className="text-[11px] font-bold text-[#7460ed] dark:text-[#c084fc] uppercase tracking-widest flex items-center gap-1.5">
-                            <CalendarIcon size={12} />
+                        <h4 className="text-[12px] font-semibold text-(--teal) uppercase tracking-wider flex items-center gap-1.5">
+                            <CalendarIcon size={14} className="text-(--teal)" />
                             Appointment Details
                         </h4>
+
                         <div className="flex flex-col gap-1.5">
-                            <label className="text-[11px] font-semibold text-[#4a4a5e] dark:text-gray-300" htmlFor="description">Service / Description</label>
+                            <label className="block text-[12px] font-medium text-(--navy)" htmlFor="description">
+                                Service / Description <span className="text-[#E05252]">*</span>
+                            </label>
                             <div className="relative">
-                                <span className="absolute left-3 top-[14px] text-gray-400 dark:text-gray-500">
+                                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
                                     <FileText size={14} />
                                 </span>
                                 <input
                                     id="description"
                                     name="description"
+                                    type="text"
                                     defaultValue={turno.description}
                                     required
-                                    className="w-full pl-9 pr-4 py-3 bg-[#f3f4f6] dark:bg-white/5 border border-transparent rounded-[10px] text-gray-900 dark:text-white text-[14px] placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/20 dark:focus:ring-[#c084fc]/30 focus:bg-white dark:focus:bg-[#16171d] focus:border-[#6b58dc]/30 dark:focus:border-[#c084fc]/30 transition-all resize-none"
+                                    className={inputWithIconClass}
+                                    placeholder="E.g. Haircut, highlights..."
                                 />
                             </div>
                         </div>
+
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="flex flex-col gap-1.5">
-                                <label className="text-[11px] font-semibold text-[#4a4a5e] dark:text-gray-300" htmlFor="date">date</label>
-                                <div className="relative">
-                                    <input
-                                        id="date"
-                                        name="date"
-                                        type="date"
-                                        defaultValue={turno.date.toString()}
-                                        required
-                                        className="w-full px-4 py-3 bg-[#f3f4f6] dark:bg-white/5 border border-transparent rounded-[10px] text-gray-900 dark:text-white text-[14px] placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/20 dark:focus:ring-[#c084fc]/30 focus:bg-white dark:focus:bg-[#16171d] focus:border-[#6b58dc]/30 dark:focus:border-[#c084fc]/30 transition-all [&::-webkit-calendar-picker-indicator]:bg-transparent [&::-webkit-calendar-picker-indicator]:opacity-50 dark:[&::-webkit-calendar-picker-indicator]:invert"
-                                    />
-                                </div>
+                                <label className="block text-[12px] font-medium text-(--navy)" htmlFor="date">
+                                    Date <span className="text-[#E05252]">*</span>
+                                </label>
+                                <input
+                                    id="date"
+                                    name="date"
+                                    type="date"
+                                    defaultValue={turno.date.toString()}
+                                    required
+                                    className={inputClass}
+                                />
                             </div>
                             <div className="flex flex-col gap-1.5">
-                                <label className="text-[11px] font-semibold text-[#4a4a5e] dark:text-gray-300" htmlFor="time">time</label>
+                                <label className="block text-[12px] font-medium text-(--navy)" htmlFor="time">
+                                    Time <span className="text-[#E05252]">*</span>
+                                </label>
                                 <div className="relative">
-                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 pointer-events-none">
+                                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
                                         <Clock size={14} />
                                     </span>
                                     <input
@@ -121,45 +145,42 @@ export default function EditForm({ turno, setOpenEditForm, update, loading, erro
                                         type="time"
                                         required
                                         defaultValue={turno.time}
-                                        className="w-full pl-9 pr-4 py-3 bg-[#f3f4f6] dark:bg-white/5 border border-transparent rounded-[10px] text-gray-900 dark:text-white text-[14px] placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#6b58dc]/20 dark:focus:ring-[#c084fc]/30 focus:bg-white dark:focus:bg-[#16171d] focus:border-[#6b58dc]/30 dark:focus:border-[#c084fc]/30 transition-all [&::-webkit-calendar-picker-indicator]:bg-transparent [&::-webkit-calendar-picker-indicator]:opacity-50 dark:[&::-webkit-calendar-picker-indicator]:invert"
+                                        className={inputWithIconClass}
                                     />
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="mt-4 flex flex-col sm:flex-row gap-3">
-                        {loading ? (
-                            <button
-                                type="submit"
-                                className="flex-1 py-3 px-4 bg-[#7460ed] hover:bg-[#6250cc] text-white text-[14px] font-semibold rounded-[10px] shadow-sm hover:shadow-md transform transition-all active:scale-[0.98] outline-none focus:ring-2 focus:ring-[#7460ed]/50 focus:ring-offset-2 flex justify-center items-center gap-2 delay-100"
-                            >
-                                <span>Saving appointment...</span>
-                            </button>
-                        ) : (
-                            <>
-                                <button
-                                    type="button"
-                                    onClick={() => setOpenEditForm(false)}
-                                    className="flex-1 py-3 px-4 bg-white dark:bg-[#16171d] border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 text-gray-700 dark:text-gray-300 text-[14px] font-semibold rounded-[10px] transition-all"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="flex-1 py-3 px-4 bg-[#7460ed] hover:bg-[#6250cc] text-white text-[14px] font-semibold rounded-[10px] shadow-sm hover:shadow-md transform transition-all active:scale-[0.98] outline-none focus:ring-2 focus:ring-[#7460ed]/50 focus:ring-offset-2 flex justify-center items-center gap-2"
-                                >
-                                    <span>Save Appointment</span>
-                                </button>
-                            </>
-                        )}
-                    </div>
-                    <div>
-                        {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
+                    {errorMessage && (
+                        <div className="flex items-center gap-2 p-3.5 bg-[#FDF2F2] border border-[#FDE8E8] rounded-lg justify-center text-[#9B1C1C] font-medium text-[13px]">
+                            <AlertCircle className="w-4 h-4 text-[#9B1C1C]" />
+                            <span>{errorMessage}</span>
+                        </div>
+                    )}
+
+                    <div className="mt-4 flex gap-3">
+                        <button
+                            type="button"
+                            onClick={() => setOpenEditForm(false)}
+                            className="flex-1 py-3 px-4 bg-transparent border border-border hover:border-gray-300 hover:bg-gray-50 text-muted-foreground hover:text-(--navy) text-[14px] font-medium rounded-lg transition-colors cursor-pointer"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="flex-1 py-3 px-4 bg-(--teal) hover:bg-(--teal-light) text-[#F7F5F0] text-[14px] font-medium rounded-lg shadow-sm border-none transition-colors flex justify-center items-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {loading ? (
+                                <span>Saving...</span>
+                            ) : (
+                                <span>Save changes</span>
+                            )}
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
-
-    )
+    );
 }

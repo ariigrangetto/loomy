@@ -3,14 +3,14 @@ import { createBrowserRouter, redirect } from "react-router";
 import { getUserId } from "./supabase/client.ts";
 import RootLayout from "./layout/RouterLayout.tsx";
 import { lazy } from "react";
-import About from "./pages/About.tsx";
-import UpdatePassword from "./pages/Auth/UpdatePassword.tsx";
 import Landing from "./pages/Landing.tsx";
+import CreateNewPassword from "./pages/Auth/CreatePwd.tsx";
+import ResetPassword from "./pages/Auth/ResetPwd.tsx";
+import AddAppointment from "./features/Dashboard/AddAppt.tsx";
+import Dashboard from "./pages/app/Dashboard/Index.tsx";
 
-const ResetPassword = lazy(() => import("./pages/Auth/ResetPassword.tsx"));
 const Login = lazy(() => import("./pages/Auth/Login.tsx"));
 const Register = lazy(() => import("./pages/Auth/Register.tsx"));
-const Dashboard = lazy(() => import("./pages/app/Dashboard/index.tsx"));
 const Client = lazy(() => import("./pages/app/Client/index.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const ErrorPage = lazy(() => import("./pages/ErrorPage.tsx"));
@@ -50,7 +50,7 @@ export const Router = createBrowserRouter([
                     if (user) {
                         return redirect("/");
                     }
-                    return user;
+                    return { user };
                 }
             },
             {
@@ -62,7 +62,7 @@ export const Router = createBrowserRouter([
                     if (user) {
                         return redirect("/");
                     }
-                    return user;
+                    return { user };
                 }
             },
             {
@@ -90,19 +90,27 @@ export const Router = createBrowserRouter([
                 }
             },
             {
+                path: "/add-appointment",
+                element: <AddAppointment />,
+                errorElement: <ErrorPage />,
+                loader: async () => {
+                    const user = await getUser();
+                    if (!user) {
+                        return redirect("/login");
+                    }
+
+                    return { user };
+                }
+            },
+            {
                 path: "/create-new-password",
-                element: <ResetPassword />,
+                element: <CreateNewPassword />,
                 errorElement: <ErrorPage />,
 
             },
             {
-                path: "/update-password",
-                element: <UpdatePassword />,
-                errorElement: <ErrorPage />
-            },
-            {
-                path: "/about",
-                element: <About />,
+                path: "/reset-password",
+                element: <ResetPassword />,
                 errorElement: <ErrorPage />
             },
             {
