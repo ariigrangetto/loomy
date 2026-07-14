@@ -47,6 +47,9 @@ The application utilizes the Google Gemini API to analyze current scheduling con
 
 - Reliability and Precision: By leveraging a high-performance model, the application ensures consistent, rule-compliant output every time a suggestion is triggered.
 
+<img width="1911" height="948" alt="Captura de pantalla (208)" src="https://github.com/user-attachments/assets/b150306e-1582-4b85-ba95-206b49ea0f9d" />
+<img width="1920" height="948" alt="Captura de pantalla (210)" src="https://github.com/user-attachments/assets/73f9df5c-3cb4-447b-a189-835204f0575d" />
+<img width="1920" height="948" alt="Captura de pantalla (209)" src="https://github.com/user-attachments/assets/fda3ef0f-d88f-4be6-abfc-b3d5bb170cc2" />
+<img width="1920" height="950" alt="Captura de pantalla (212)" src="https://github.com/user-attachments/assets/93c10f20-c50c-4f7f-acbc-324f325dbf40" />
+<img width="1920" height="950" alt="Captura de pantalla (213)" src="https://github.com/user-attachments/assets/103b4c1f-3c43-47d7-a19f-2ee00e2dfef9" />
 
-### 🚧 Site under construction
-The styling is currently being updated. Thank you for your patience.
