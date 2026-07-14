@@ -7,6 +7,7 @@ export interface Client {
 }
 
 export type State = "pending" | "completed" | "cancelled";
+export type Filter = State | "All";
 
 export interface Turno {
     id: number;
